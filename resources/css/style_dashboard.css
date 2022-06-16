@@ -1,0 +1,21 @@
+.navbar.default-layout-navbar {
+    background: linear-gradient(85deg, #392c70, #6a005b);    
+}
+
+.navbar.default-layout-navbar .navbar-menu-wrapper .navbar-toggler {
+    color: white;
+}
+
+.tableFixHead          { overflow: auto; height: 400px; }
+.tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
+.tableFixHead tbody th { position: sticky; left: 0; }
+
+/* Just common table stuff. Really. */
+table  { border-collapse: collapse; width: 100%; }
+/* th, td { padding: 8px 16px; } */
+th     { background:#eee; }
+
+.settings-panel { 
+    right: -600px;
+    width: 600px; 
+}

@@ -1,0 +1,12 @@
+ /* Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+
+/* @import 'tailwindcss/base'; */
+/* @import 'tailwindcss/components'; */
+/* @import 'tailwindcss/utilities'; */
+
+
+/* @import 'bundle.addons.css'; */
+@import 'bundle.base.css';
+@import 'style.css';
+@import 'style_dashboard.css';
