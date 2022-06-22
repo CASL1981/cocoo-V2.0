@@ -47,12 +47,29 @@
         </a>
         <div class="collapse" id="page-creditos">
           <ul class="nav flex-column sub-menu">
-            @can('destination read')
+            @can('payment read')
               <li class="nav-item"><a class="nav-link" href="{{ route('basic.payment') }}">Condicón de Pago</a></li>
             @endcan
             @can('employee read')
               <li class="nav-item"> <a class="nav-link" href="{{ route('basic.destinations') }}">......</a></li>
             @endcan
+            @can('client read')
+              <li class="nav-item"> <a class="nav-link" href="#">......</a></li>
+            @endcan            
+          </ul>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#page-parametros" aria-expanded="false" aria-controls="page-parametros">
+          <i class="fas fa-cog menu-icon"></i>
+          <span class="menu-title">Parametros</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse" id="page-parametros">
+          <ul class="nav flex-column sub-menu">
+            @can('destination read')
+              <li class="nav-item"><a class="nav-link" href="{{ route('basic.classifications') }}">Clasificaciones</a></li>
+            @endcan            
             @can('client read')
               <li class="nav-item"> <a class="nav-link" href="#">......</a></li>
             @endcan            

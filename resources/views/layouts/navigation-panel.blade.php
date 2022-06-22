@@ -46,6 +46,7 @@
       <div class="collapse" id="page-modules">
         <ul class="nav flex-column sub-menu">          
           <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.basics') }}">Basicos</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.orders') }}">Ordenes Compra</a></li>
           
           {{-- @can('role read')
             <li class="nav-item"> <a class="nav-link" href="{{ route('dashboard.roles') }}">Roles</a></li>              

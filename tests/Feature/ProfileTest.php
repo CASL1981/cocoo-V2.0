@@ -4,11 +4,14 @@ namespace Tests\Feature;
 
 use App\Models\Profile;
 use App\Models\User;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Livewire\Livewire;
 use Tests\TestCase;
 
 class ProfileTest extends TestCase
 {
+    use DatabaseTransactions;
+
     /** @test */
     public function it_creates_a_profile_for_a_user_using_a_factory()
     {
@@ -62,14 +65,14 @@ class ProfileTest extends TestCase
     {
         $profile = Profile::factory()
             ->forUser($user = User::factory()->create())
-            ->withIdentification($bio = '123456789')
+            ->withIdentification($identification = '123456789')
             ->create();
 
         $this->assertInstanceOf(Profile::class, $profile);
 
         $this->assertEquals(
-            $bio,
-            $profile->bio,
+            $identification,
+            $profile->identification,
         );
     }
     // -------------------
@@ -188,5 +191,35 @@ class ProfileTest extends TestCase
     //     ->test('profile')
     //     ->call('logout')
     //     ->assertRedirect('/');
+    // }
+
+    /**
+    * @test
+    * @dataProvider validationRules
+    **/
+    // public function test_validation_rules($field, $value, $rule)
+    // {
+    //     $user = User::factory()->create();
+    //     $anotherUser = User::factory()->create(['email' => 'duplicate@email.com'])
+
+    //     Livewire::actingAs($user)
+    //         ->test(ProfileForm::class, ['user' => $user])
+    //         ->set($field, $value)
+    //         ->call('save')
+    //         ->assertHasErrors([$field => $rule]);
+    // }
+
+    // public function validationRules()
+    // {
+    //     return [
+    //         'name is null' => ['user.name', null, 'required'],
+    //         'name is too long' => ['user.name', str_repeat('*', 201), 'max'],
+    //         'email is null' => ['user.email', null, 'required'],
+    //         'email is invalid' => ['user.email', 'this is not an email', 'email'],
+    //         'email is not unique' => ['user.email', 'duplicate@email.com', 'unique'],
+    //         'bio is null' => ['user.bio', null, 'required'],
+    //         'bio is too short' => ['user.bio', str_repeat('*', 8), 'min'],
+    //         'bio is too long' => ['user.bio', str_repeat('*', 1001), 'max'],
+    //     ];
     // }
 }

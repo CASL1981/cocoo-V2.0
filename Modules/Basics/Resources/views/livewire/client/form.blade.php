@@ -79,7 +79,7 @@
                 <div class="form-group col-md-2">
                     <x-form.label for="type">Tipo Tercero</x-form.label>                    
                     <x-form.select wire:model="type" 
-                    :options="['Vendedor' => 'Vendedor', 'Cliente' => 'Cliente', 'Otro' => 'Otro']"></x-form.select>
+                    :options="['Proveedor' => 'Proveedor', 'Cliente' => 'Cliente', 'Otro' => 'Otro']"></x-form.select>
                     <x-form.input-error for="type"></x-form.input-error>
                 </div>
             </div>

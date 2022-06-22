@@ -21,16 +21,7 @@ class Profiles extends Component
         $this->email = $user->email;
         $this->userId = $user->id;
         
-        $perfil = Profile::where('user_id',$this->userId)->first();
-        $this->identification = $perfil->identification;
-        $this->position = $perfil->position;
-        $this->profession = $perfil->profession;
-        $this->bio = $perfil->bio;
-        $this->address = $perfil->address;
-        $this->phone = $perfil->phone;
-        $this->facebook = $perfil->facebook;
-        $this->twitter = $perfil->twitter;
-        $this->instagram = $perfil->instagram;
+        $perfil = Profile::where('user_id',$this->userId)->first();        
 
     }
 
@@ -74,7 +65,7 @@ class Profiles extends Component
 
     public function edit()
     {        
-        $record = Profile::where('user_id',$this->userId)->get();
+        $record = Profile::where('user_id',$this->userId)->first();
         
     	$this->identification = $record->identification;
     	$this->position = $record->position;
@@ -95,9 +86,7 @@ class Profiles extends Component
 
         if ($this->userId) {
     		$record = Profile::where('user_id',$this->userId)->first();
-    		// $record = Profile::findOrFail($this->userId);
-            // dd($record);
-    		// $record = Profile::find($record);
+    		
             $record->update($validate);
             
     		$this->emit('alert', ['type' => 'success', 'message' => 'Perfil actualizado']);

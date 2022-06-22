@@ -84,9 +84,8 @@
                   <h5 class="mb-0 mr-2 text-muted">Canada</h5>                  
                 </div>
               </div>
-              <div>
-                {{-- <button class="btn btn-primary" wire:click="$set('show', true)">Actualizar</button> --}}
-                <button class="btn btn-primary" id="perfilupdate" wire:click="$set('show', true)">Actualizar</button>
+              <div>                
+                <button class="btn btn-primary" id="perfilupdate" wire:click="edit()">Actualizar</button>
               </div>
             </div>
             <div class="mt-4 py-2 border-top border-bottom">
