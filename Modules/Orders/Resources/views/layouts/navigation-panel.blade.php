@@ -34,7 +34,7 @@
               <li class="nav-item"> <a class="nav-link" href="{{ route('order.typeprice') }}">Listas de Precios</a></li>
             @endcan
             @can('client read')
-              <li class="nav-item"> <a class="nav-link" href="{{ route('basic.clients') }}">Terceros</a></li>
+              <li class="nav-item"> <a class="nav-link" href="{{ route('order.prices') }}">Precio Productos</a></li>
             @endcan            
           </ul>
         </div>

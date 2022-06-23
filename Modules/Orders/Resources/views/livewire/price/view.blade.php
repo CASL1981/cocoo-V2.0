@@ -1,25 +1,20 @@
 <div class="row">
     <div class="col-12 grid-margin">
       <x-otros.view-card :exportable="$exportable" :audit="$audit">
-        <x-slot name="title">Productos</x-slot>
+        <x-slot name="title">Precios</x-slot>
         <x-slot name="button">
           <div class="btn-group float-right" role="group" aria-label="Basic example">
-            @can('product delete')
-              <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('destroyProduct')" title="Eliminar Registro"
+            @can('price delete')
+              <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('destroyPrice')" title="Eliminar Registro"
               @if ($bulkDisabled) disabled @endif><i class="fa fa-trash text-eith"></i>
               </button>
-            @endcan
-            @can('product toggle')
-                <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('toggleProduct')" title="Activar o Desactivar Item"
-                @if ($bulkDisabled) disabled @endif><i class="fa fa-exclamation text-with"></i>
-                </button>                
-            @endcan
-            @can('product update')
+            @endcan            
+            @can('price update')
               <button class="btn btn-sm btn-primary" wire:click="edit()" title="Modificar Registro"
               @if ($bulkDisabled) disabled @endif><i class="fa fa-edit text-eith"></i>
               </button>
             @endcan
-            @can('product create')
+            @can('price create')
             <button class="btn btn-sm btn-primary" wire:click="$set('show', true)" title="Adicionar Registro">
                 <i class="fa fa-plus text-with"></i>
             </button>
@@ -27,7 +22,7 @@
           </div>
         </x-slot>
         <x-table.table :audit="$audit">
-          <x-slot name="head" model="$payments">
+          <x-slot name="head">
             <th class="p-2" width="40px">
               <div class="form-check form-check-flat form-check-primary" >
                   <label class="form-check-label text-danger" style="width:10">
@@ -36,21 +31,15 @@
               </div>                      
             </th>
             <x-table.th weight="80px" field="id" width="80px">#</x-table.th>            
-            <x-table.th field="name">Descripción</x-table.th>
-            <x-table.th field="tax" class="text-center">Impuesto</x-table.th>
-            <x-table.th field="status" class="text-center">Estatus</x-table.th>
+            <x-table.th field="order_product_id">ProductoId</x-table.th>
+            <x-table.th field="order_product_id">Nombre Producto</x-table.th>
             <x-table.th field="basic_client_id">Proveedor</x-table.th>
-            <x-table.th field="">Nombre Proveedor</x-table.th>
-            <x-table.th field="tax_percentage" class="text-center">% Impuesto</x-table.th>
-            <x-table.th field="brand" class="text-center">Marca</x-table.th>
-            <x-table.th field="measure_unit" class="text-center">Unidad Medida</x-table.th>
-            <x-table.th field="basic_classification_id" class="text-center">Categoria</x-table.th>
-            <x-table.th field="image" class="text-center">Imagen</x-table.th>
+            <x-table.th field="basic_client_id">Nombre Proveedor</x-table.th>
+            <x-table.th field="order_type_price_id">Lista Precio</x-table.th>
+            <x-table.th field="date" class="text-center">Vigencia</x-table.th>
+            <x-table.th field="value" class="text-center">Valor</x-table.th>            
           </x-slot>
-          @forelse ($products as $key => $item)
-            {{-- @php
-                dd($item);
-            @endphp --}}
+          @forelse ($prices as $key => $item)            
             <tr>
               <td class="p-1" width="40px">                  
                 <div class="form-check form-check-flat form-check-primary">
@@ -64,16 +53,13 @@
                 </div>
               </td>
               <x-table.td width="80px">{{ $item->id }}</x-table.td>              
-              <x-table.td>{{ $item->name }}</x-table.td>
-              <x-table.td class="text-center">{{ $item->tax ? 'Si' : 'No' }}</x-table.td>
-              <x-table.td class="text-{{ $item->status_color }}">{{ $item->status ? 'Activo' : 'Inacivo' }}</x-table.td>
-              <x-table.td>{{ $item->clients->identification ?? '' }}</x-table.td>
+              <x-table.td>{{ $item->order_product_id }}</x-table.td>
+              <x-table.td>{{ $item->products->name ?? '' }}</x-table.td>              
+              <x-table.td>{{ $item->clients->identification}}</x-table.td>
               <x-table.td>{{ $item->clients->client_name ?? '' }}</x-table.td>
-              <x-table.td class="text-center">{{ $item->tax_percentage }}</x-table.td>
-              <x-table.td>{{ $item->brand }}</x-table.td>
-              <x-table.td>{{ $item->measure_unit }}</x-table.td>
-              <x-table.td>{{ $item->classifications->name }}</x-table.td>
-              <x-table.td>{{ $item->image }}</x-table.td>
+              <x-table.td>{{ $item->typeprices->name ?? '' }}</x-table.td>              
+              <x-table.td class="text-center">{{ $item->date }}</x-table.td>
+              <x-table.td class="text-center">{{ number_format($item->value,2) }}</x-table.td>
             </tr>
           @empty
           <tr>
@@ -82,10 +68,10 @@
             </x-table.td>              
           </tr>
           @endforelse
-        @include('orders::livewire.product.form')
+        {{-- @include('orders::livewire.price.form') --}}
         </x-table.table>
         <x-slot name="pagination">
-          {!! $products->links() !!}
+          {!! $prices->links() !!}
         </x-slot>
       </x-otros.view-card>
     </div>
@@ -96,18 +82,18 @@
   @endpush
   @push('scripts')
   <script>
-    window.livewire.on('destroyProduct', (id) => {
+    window.livewire.on('destroyPrice', (id) => {
           Swal.fire({
               title: 'Estas segro?',
-              text: "¡Deseas Eliminar este Producto!",
+              text: "¡Deseas Eliminar este Item!",
               icon: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#3085d6',
               cancelButtonColor: '#d33',
-              confirmButtonText: 'Si, Eliminala!'
+              confirmButtonText: 'Si, Eliminalo!'
               }).then((result) => {
               if (result.isConfirmed) {
-                  Livewire.emit('deleteProduct')
+                  Livewire.emit('deleteItem')
               }});
           });
   </script>

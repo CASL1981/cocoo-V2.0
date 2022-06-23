@@ -4,8 +4,9 @@ namespace Modules\Orders\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Orders\Entities\Price;
 
-class OrdersDatabaseSeeder extends Seeder
+class PriceTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,8 +17,6 @@ class OrdersDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        $this->call(ProductTableSeeder::class);
-        $this->call(TypePriceTableSeeder::class);
-        $this->call(PriceTableSeeder::class);
+        Price::factory(40)->create();
     }
 }

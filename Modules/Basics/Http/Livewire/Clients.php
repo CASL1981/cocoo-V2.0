@@ -44,7 +44,7 @@ class Clients extends Component
             'entry_date' => 'nullable|date',            
             'email' => ['nullable', 'email', 'max:100', Rule::unique('basic_clients')->ignore($this->selected_id)],            
             'gender' => ['nullable', 'max:1', Rule::in(['M', 'F', 'O'])],
-            'type' => ['nullable', 'max:10', Rule::in(['Vendedor', 'Cliente', 'Otro'])],
+            'type' => ['nullable', 'max:10', Rule::in(['Proveedor', 'Cliente', 'Otro'])],
             'birth_date' => 'nullable|date',
             'limit' => 'nullable',
             'vendedor_id' => 'nullable',

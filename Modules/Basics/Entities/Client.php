@@ -44,6 +44,7 @@ class Client extends Model
         ->search('first_name', $keyWord)
         ->search('last_name', $keyWord)
         ->search('client_name', $keyWord)
+        ->search('type', $keyWord)
         ->orderBy($sortField, $sortDirection); 
     }
 }

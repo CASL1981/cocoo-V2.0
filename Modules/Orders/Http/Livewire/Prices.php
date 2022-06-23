@@ -3,22 +3,26 @@
 namespace Modules\Orders\Http\Livewire;
 
 use App\Traits\TableLivewire;
-use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Modules\Basics\Entities\Classification;
 use Modules\Basics\Entities\Client;
+use Modules\Orders\Entities\Price;
 use Modules\Orders\Entities\Product;
+use Modules\Orders\Entities\TypePrice;
 
-class Products extends Component
+class Prices extends Component
 {
+    // public function render()
+    // {
+    //     return view('orders::livewire.price.index');
+    // }
+
     use WithPagination;
     use TableLivewire;
 
-    public $name, $tax, $status, $basic_client_id, $tax_percentage, $brand, $measure_unit;
-    public $basic_classification_id, $image;
+    public $order_product_id, $basic_client_id, $order_type_price_id, $date, $value;    
 
-    public $providers, $categories;
+    public $providers, $typeprices, $products;
     
     protected $listeners = ['showaudit','deleteProduct', 'toggleProduct'];
 
@@ -27,24 +31,24 @@ class Products extends Component
         $this->providers = Client::where('type', 'Proveedor')->where('status', true)
                         ->pluck('client_name', 'id')->toArray();
 
-        $this->categories = Classification::where('impute', true)
+        $this->typeprices = TypePrice::where('status', true)
                         ->pluck('name', 'id')->toArray();
 
-        $this->model = 'Modules\Orders\Entities\Product';
-        $this->exportable ='App\Exports\ProductsExport';
+        $this->products = Product::where('status', true)
+                        ->pluck('name', 'id')->toArray();
+
+        $this->model = 'Modules\Orders\Entities\Price';
+        $this->exportable ='App\Exports\PriceExport';
     }
 
     protected function rules() 
     {
-        return [        
-            'name' => ['required', 'max:100', Rule::unique('order_products')->ignore($this->selected_id)],
-            'tax' => ['nullable', Rule::in(['0', '1'])],
+        return [            
+            'order_product_id' => ['required'],
             'basic_client_id' => ['required'],
-            'brand' => 'nullable|min:2|max:100',
-            'tax_percentage' => 'nullable',
-            'measure_unit' => 'nullable|min:2|max:100',
-            'basic_classification_id' => ['required'],
-            'image' => 'nullable|image:jpg,png|max:2048',
+            'order_type_price_id' => ['required'],
+            'date' => 'nullable|date',
+            'value' => 'required|numeric',            
         ];
     }
     
@@ -52,12 +56,12 @@ class Products extends Component
     {
         $this->bulkDisabled = count($this->selectedModel) < 1;
 
-        $products = new Product();
+        $prices = new Price();
 
-        $products = $products->QueryTable($this->keyWord, $this->sortField, $this->sortDirection)
-                    ->paginate(20);
-        
-        return view('orders::livewire.product.view', compact('products'));
+        $prices = $prices->QueryTable($this->keyWord, $this->sortField, $this->sortDirection)
+                    ->paginate(20);        
+        // dd($prices);
+        return view('orders::livewire.price.view', compact('prices'));
         
     }
 

@@ -18,9 +18,9 @@ Route::group(['middleware' => 'auth'], function(){
         Route::view('products', 'orders::livewire.product.index')
         ->name('order.products')->middleware('can_view:product');
         Route::view('typeprice', 'orders::livewire.typeprice.index')
-        ->name('order.typeprice');
-        // Route::view('clients', 'basics::livewire.client.index')
-        // ->name('basic.clients')->middleware('can_view:client');
+        ->name('order.typeprice')->middleware('can_view:typeprice');
+        Route::view('price', 'orders::livewire.price.index')
+        ->name('order.prices')->middleware('can_view:price');
         // Route::view('payment', 'basics::livewire.payment.index')
         // ->name('basic.payment')->middleware('can_view:payment');
         // Route::view('classifications', 'basics::livewire.classification.index')
