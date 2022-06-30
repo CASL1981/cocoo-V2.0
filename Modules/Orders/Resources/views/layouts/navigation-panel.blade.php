@@ -41,21 +41,21 @@
       </li>      
       <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#page-creditos" aria-expanded="false" aria-controls="page-creditos">
-          <i class="fas fa-puzzle-piece menu-icon"></i>
-          <span class="menu-title">Creditos</span>
+          <i class="far fa-handshake menu-icon"></i>
+          <span class="menu-title">Ordenes</span>
           <i class="menu-arrow"></i>
         </a>
         <div class="collapse" id="page-creditos">
           <ul class="nav flex-column sub-menu">
-            @can('payment read')
-              <li class="nav-item"><a class="nav-link" href="{{ route('basic.payment') }}">Condicón de Pago</a></li>
+            @can('operation read')
+              <li class="nav-item"><a class="nav-link" href="{{ route('order.operation') }}">Orden de Compra</a></li>
             @endcan
-            @can('employee read')
-              <li class="nav-item"> <a class="nav-link" href="{{ route('basic.destinations') }}">......</a></li>
+            @can('services read')
+              <li class="nav-item"> <a class="nav-link" href="#">Orden de Servicio</a></li>
             @endcan
-            @can('client read')
+            {{-- @can('client read')
               <li class="nav-item"> <a class="nav-link" href="#">......</a></li>
-            @endcan            
+            @endcan --}}
           </ul>
         </div>
       </li>

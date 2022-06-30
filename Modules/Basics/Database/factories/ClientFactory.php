@@ -37,9 +37,9 @@ class ClientFactory extends Factory
 			'birth_date' => Carbon::now(),			
 			'limit' => 1000000,
 			'vendedor_id' => 1,
-			'typeprice_id' => $this->faker->numberBetween(1, 20),
+			'typeprice_id' => $this->faker->numberBetween(21, 24),
 			'shoppingcontact' => 'Rango',
-			'conditionpayment_id' => $this->faker->numberBetween(1, 20),
+			'conditionpayment_id' => $this->faker->numberBetween(1, 6),
         ];
     }
 }

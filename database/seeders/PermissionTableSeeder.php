@@ -26,6 +26,7 @@ class PermissionTableSeeder extends Seeder
             'product',
             'typeprice',
             'price',
+            'operation',
         ];
 
         //CRUD
@@ -34,7 +35,9 @@ class PermissionTableSeeder extends Seeder
             'read',
             'update',
             'delete',
-            'toggle'
+            'toggle',
+            'process',
+            'reverse'
         ];
 
         

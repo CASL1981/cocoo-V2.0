@@ -12,11 +12,6 @@ use Modules\Orders\Entities\TypePrice;
 
 class Prices extends Component
 {
-    // public function render()
-    // {
-    //     return view('orders::livewire.price.index');
-    // }
-
     use WithPagination;
     use TableLivewire;
 

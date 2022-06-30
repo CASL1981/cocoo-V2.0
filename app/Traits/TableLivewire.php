@@ -49,15 +49,15 @@ trait TableLivewire
 
     public function closed()
     {
-        $this->cancel();
+        $this->resetInput();
         $this->show = false;
     }
     
     private function resetInput()
-    {		
+    {	
         $this->resetErrorBag();
         $this->resetValidation();        
-        $this->resetExcept(['model', 'exportable', 'keyWord']);
+        $this->resetExcept(['model', 'exportable', 'keyWord', 'permissionModel', 'messageModel', 'model']);
     }
     
     public function updatedSelectAll($value)
@@ -65,6 +65,12 @@ trait TableLivewire
         $value ? $this->selectedModel = $this->model::pluck('id') : $this->selectedModel = [];
     }
     
+    public function updatedSelectedModel($value)
+    {
+        $this->bulkDisabled = count($this->selectedModel) < 1;
+        // dd($this->bulkDisabled);
+    }
+
     public function export($ext)
     {        
         abort_if(!in_array($ext, ['csv', 'xlsx', 'pdf']), Response::HTTP_NOT_FOUND);
@@ -79,7 +85,9 @@ trait TableLivewire
     public function auditoria()
     {        
         if ($this->selected_id) {
-            $this->audit = $this->model::with(['creator', 'editor'])->find($this->selected_id)->toArray();                        
+            $this->audit = $this->model::with(['creator', 'editor', 'destroyer'])->withTrashed()
+                        ->find($this->selected_id)->toArray();
+                        
             $this->showauditor = true;
         } else {
             $this->emit('alert', ['type' => 'warning', 'message' => 'Selecciona un registros']);

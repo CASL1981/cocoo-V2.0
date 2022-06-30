@@ -46,7 +46,7 @@ $maxWidth = [
         <div class="modal-content">
             <div class="modal-header p-3" style="background-color: rgb(205, 93, 221); color:#fff;">
                 <h5 class="modal-title" id="exampleModalLabel">{{ $title }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" wire:click="closed()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
