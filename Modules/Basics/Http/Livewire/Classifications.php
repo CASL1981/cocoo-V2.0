@@ -2,6 +2,7 @@
 
 namespace Modules\Basics\Http\Livewire;
 
+use App\Traits\CRUDLivewireTrait;
 use App\Traits\TableLivewire;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -12,13 +13,18 @@ class Classifications extends Component
 {
     use WithPagination;
     use TableLivewire;
+    use CRUDLivewireTrait;
 
     public $code, $level, $parent, $name, $impute;
     
-    protected $listeners = ['showaudit','deleteClassification'];
+    protected $listeners = ['showaudit','deleteItem'];
 
-    public function mount()
+    public function hydrate()
     {                   
+        $this->permissionModel = 'classification';
+        
+        $this->messageModel = 'Clasificación';
+
         $this->model = 'Modules\Basics\Entities\Classification';
         $this->exportable ='App\Exports\ClassificationsExport';
     }
@@ -46,20 +52,6 @@ class Classifications extends Component
         
     }
 
-    
-    public function store()
-    {   
-        can('classification create');
-
-        $validate = $this->validate();    	
-        
-        Classification::create($validate);
-        
-        $this->resetInput();        
-    	$this->emit('alert', ['type' => 'success', 'message' => 'Clasificación creada']);
-        
-    }
-
     public function edit()
     {   
         can('classification update'); 
@@ -75,22 +67,7 @@ class Classifications extends Component
         $this->show = true;
     }
 
-    public function update()
-    {
-        can('classification update'); 
-
-        $validate = $this->validate();
-
-        if ($this->selected_id) {
-    		$record = Classification::find($this->selected_id);
-            $record->update($validate);
-
-            $this->resetInput();            
-    		$this->emit('alert', ['type' => 'success', 'message' => 'Tipo de pagó actualizado']);
-        }
-    }
-
-    public function deleteClassification()
+    public function deleteItem()
     {
         can('classification delete');
 

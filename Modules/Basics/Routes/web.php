@@ -28,5 +28,7 @@ Route::group(['middleware' => 'auth'], function(){
         ->name('basic.payment')->middleware('can_view:payment');
         Route::view('classifications', 'basics::livewire.classification.index')
         ->name('basic.classifications');
+        Route::view('typeprice', 'basics::livewire.typeprice.index')
+        ->name('basic.typeprice')->middleware('can_view:typeprice');
     });
 });

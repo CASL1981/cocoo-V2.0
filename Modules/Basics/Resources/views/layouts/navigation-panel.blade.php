@@ -42,7 +42,7 @@
       <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#page-creditos" aria-expanded="false" aria-controls="page-creditos">
           <i class="fas fa-puzzle-piece menu-icon"></i>
-          <span class="menu-title">Creditos</span>
+          <span class="menu-title">Listas y Medios de Pago</span>
           <i class="menu-arrow"></i>
         </a>
         <div class="collapse" id="page-creditos">
@@ -50,12 +50,12 @@
             @can('payment read')
               <li class="nav-item"><a class="nav-link" href="{{ route('basic.payment') }}">Condicón de Pago</a></li>
             @endcan
-            @can('employee read')
-              <li class="nav-item"> <a class="nav-link" href="{{ route('basic.destinations') }}">......</a></li>
+            @can('typeprice read')
+              <li class="nav-item"> <a class="nav-link" href="{{ route('basic.typeprice') }}">Listas de Precios</a></li>
             @endcan
-            @can('client read')
+            {{-- @can('client read')
               <li class="nav-item"> <a class="nav-link" href="#">......</a></li>
-            @endcan            
+            @endcan --}}
           </ul>
         </div>
       </li>

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Basics\Entities\Client;
+use Modules\Basics\Entities\TypePrice;
 use Wildside\Userstamps\Userstamps;
 
 class Price extends Model
@@ -16,7 +17,7 @@ class Price extends Model
     use Userstamps;
     use SoftDeletes;
     
-    protected $fillable = ['order_product_id', 'basic_client_id', 'order_type_price_id', 'date', 'value'];
+    protected $fillable = ['order_product_id', 'order_product_name', 'basic_client_id', 'basic_type_price_id', 'date', 'value', 'status'];
     
     protected $table = 'order_prices';
     
@@ -25,6 +26,14 @@ class Price extends Model
         return \Modules\Orders\Database\factories\PriceFactory::new();
     }
 
+    public function getStatusColorAttribute()
+    {
+        return [
+            'Open' => 'success',
+            'Blocked' => 'warning',
+            'Cancelled' => 'danger',
+        ][$this->status] ?? 'info';
+    }
     
     protected $casts = [
         'created_at' => 'datetime:Y-m-d h:m:s',
@@ -34,8 +43,9 @@ class Price extends Model
 
     public function QueryTable($keyWord = null, $sortField, $sortDirection)
     {
-        return $this->with(['clients', 'products', 'typeprices'])
-        ->select('id','order_product_id', 'basic_client_id', 'order_type_price_id', 'date', 'value')
+        return $this->withTrashed()
+        ->with(['clients', 'products', 'typeprices'])
+        ->select('id','order_product_id', 'order_product_name', 'basic_client_id', 'basic_type_price_id', 'date', 'value', 'status')
         ->orWhereHas('clients', function($query) use ($keyWord){
             $query->where('client_name','like','%'.$keyWord.'%');
         })
@@ -60,6 +70,6 @@ class Price extends Model
 
     public function typeprices(): BelongsTo
     {
-        return $this->belongsTo(TypePrice::class, 'order_type_price_id', 'id');
+        return $this->belongsTo(TypePrice::class, 'basic_type_price_id', 'id');
     }
 }

@@ -1,5 +1,7 @@
 .navbar.default-layout-navbar {
-    background: linear-gradient(85deg, #392c70, #6a005b);    
+    /* background: linear-gradient(85deg, #ff0080, #7928ca); */
+    /* background: linear-gradient(85deg, #98ec2d, #17ad37); */
+    background-color: rgba(99,102,241,1);
 }
 
 .navbar.default-layout-navbar .navbar-menu-wrapper .navbar-toggler {

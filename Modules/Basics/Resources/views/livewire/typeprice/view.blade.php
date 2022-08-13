@@ -4,19 +4,29 @@
         <x-slot name="title">Lista de Precio</x-slot>
         <x-slot name="button">
           <div class="btn-group float-right" role="group" aria-label="Basic example">
-            @can('product delete')
+            @can('typeprice reverse')
+              <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('reverseItem')" title="Eliminar Registro"
+              @if ($bulkDisabled) disabled @endif><i class="fa fa-history text-eith"></i>
+              </button>
+            @endcan
+            @can('typeprice delete')
               <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('destroyTypePrice')" title="Eliminar Registro"
               @if ($bulkDisabled) disabled @endif><i class="fa fa-trash text-eith"></i>
               </button>
             @endcan
-            @can('product toggle')
-                <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('toggleTypePrice')" title="Activar o Desactivar Item"
+            @can('typeprice toggle')
+                <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('toggleItem')" title="Activar o Desactivar Item"
                 @if ($bulkDisabled) disabled @endif><i class="fa fa-exclamation text-with"></i>
                 </button>                
             @endcan
-            @can('product update')
+            @can('typeprice update')
               <button class="btn btn-sm btn-primary" wire:click="edit()" title="Modificar Registro"
               @if ($bulkDisabled) disabled @endif><i class="fa fa-edit text-eith"></i>
+              </button>
+            @endcan
+            @can('typeprice create')
+              <button class="btn btn-sm btn-primary" wire:click="doubleItem()" title="Duplicar Registro"
+              @if ($bulkDisabled) disabled @endif><i class="fa fa-share-alt-square text-eith"></i>
               </button>
             @endcan
             @can('product create')
@@ -44,8 +54,8 @@
             <x-table.th field="minimum">Minimo</x-table.th>
             <x-table.th field="maximum" class="text-center">Maximo</x-table.th>            
           </x-slot>
-          @forelse ($typeprices as $key => $item)            
-            <tr>
+          @forelse ($typeprices as $key => $item)           
+            <tr class="{{ $item->status === 'Cancelled' ? 'text-danger' : '' }}">
               <td class="p-1" width="40px">                  
                 <div class="form-check form-check-flat form-check-primary">
                 <label class="form-check-label">                    
@@ -57,14 +67,14 @@
                 <i class="input-helper"></i></label>
                 </div>
               </td>
-              <x-table.td width="80px">{{ $item->id }}</x-table.td>              
-              <x-table.td>{{ $item->name }}</x-table.td>
-              <x-table.td>{{ $item->increment }}</x-table.td>
-              <x-table.td class="text-center">{{ $item->tax ? 'Si' : 'No' }}</x-table.td>
-              <x-table.td class="text-{{ $item->status_color }}">{{ $item->status ? 'Activo' : 'Inacivo' }}</x-table.td>
-              <x-table.td>{{ $item->type }}</x-table.td>
-              <x-table.td>{{ $item->minimun }}</x-table.td>
-              <x-table.td>{{ $item->maximum }}</x-table.td>              
+              <td class="text-nowrap" width="80px">{{ $item->id }}</td>              
+              <td class="text-nowrap">{{ $item->name }}</td>
+              <td class="text-nowrap text-center">{{ $item->increment }}</td>
+              <td class="text-nowrap text-center">{{ $item->tax ? 'Si' : 'No' }}</td>
+              <td class="text-nowrap text-center text-{{ $item->status_color }}">{{ $item->status }}</td>
+              <td class="text-nowrap">{{ $item->type }}</td>
+              <td class="text-nowrap text-center">{{ $item->minimum }}</td>
+              <td class="text-nowrap text-center">{{ $item->maximum }}</td>              
             </tr>
           @empty
           <tr>
@@ -73,7 +83,7 @@
             </x-table.td>              
           </tr>
           @endforelse
-        @include('orders::livewire.typeprice.form')
+        @include('basics::livewire.typeprice.form')
         </x-table.table>
         <x-slot name="pagination">
           {!! $typeprices->links() !!}
@@ -98,7 +108,7 @@
               confirmButtonText: 'Si, Eliminala!'
               }).then((result) => {
               if (result.isConfirmed) {
-                  Livewire.emit('deleteTypePrice')
+                  Livewire.emit('deleteItem')
               }});
           });
   </script>

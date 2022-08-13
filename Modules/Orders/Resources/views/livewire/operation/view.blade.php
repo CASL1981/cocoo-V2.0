@@ -14,6 +14,11 @@
               @if ($bulkDisabled) disabled @endif><i class="fa fa-save text-eith"></i>
               </button>
             @endcan
+            @can('product process')
+              <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('detailOrder')" title="Adicionar Registros a la Orden"
+              @if ($bulkDisabled) disabled @endif><i class="fa fa-list-alt text-eith"></i>
+              </button>
+            @endcan
             @can('product delete')
               <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('destroyItem')" title="Eliminar Registro"
               @if ($bulkDisabled) disabled @endif><i class="fa fa-trash text-eith"></i>
@@ -48,14 +53,14 @@
             <x-table.th weight="80px" field="id" width="80px">#</x-table.th>            
             <x-table.th field="date">Fecha</x-table.th>
             <x-table.th field="basic_client_id">Proveedor</x-table.th>
-            <x-table.th field="basic_client_id">Nombre Proveedor</x-table.th>
-            <x-table.th field="status" class="text-center">Estatus</x-table.th>
-            <x-table.th field="basic_payment_id">Condición Pago</x-table.th>
+            <x-table.th field="basic_client_name">Nombre Proveedor</x-table.th>
+            <x-table.th field="status" class="text-center">Estado</x-table.th>
+            <x-table.th field="basic_payment_name">Condición Pago</x-table.th>
             <x-table.th field="observation">Observaciones</x-table.th>
-            <x-table.th field="order_type_price_id">Lista Precio</x-table.th>
+            <x-table.th field="basic_type_price_id">Lista Precio</x-table.th>
             <x-table.th field="biller" class="text-center">Revisado</x-table.th>
             <x-table.th field="responsible" class="text-center">Responsable</x-table.th>
-            <x-table.th field="basic_classification_id" class="text-center">Categoria</x-table.th>
+            <x-table.th field="basic_classification_name" class="text-center">Categoria</x-table.th>
             <x-table.th field="brute" class="text-center">Valor Bruto</x-table.th>
             <x-table.th field="discount" class="text-center">Descuento</x-table.th>
             <x-table.th field="subtotal" class="text-center">Subtotal</x-table.th>
@@ -63,7 +68,7 @@
             <x-table.th field="total" class="text-center">Total</x-table.th>
           </x-slot>
           @forelse ($operations as $key => $item)            
-            <tr class="{{ $item->status === 'Eliminado' ? 'text-danger' : '' }}">
+            <tr class="{{ $item->status === 'Cancelled' ? 'text-danger' : '' }}">
               <td class="p-1" width="40px">                  
                 <div class="form-check form-check-flat form-check-primary">
                 <label class="form-check-label">                    
@@ -78,19 +83,19 @@
               <td class="text-nowrap" weigth="80px">{{ $item->id }}</td>
               <td class="text-nowrap">{{ $item->date }}</td>
               <td class="text-nowrap">{{ $item->clients->identification }}</td>
-              <td class="text-nowrap">{{ $item->clients->client_name }}</td>
+              <td class="text-nowrap">{{ $item->basic_client_name }}</td>
               <td class="text-nowrap text-{{ $item->status_color }}">{{ $item->status }}</td>
-              <td class="text-nowrap">{{ $item->payments->name }}</td>
+              <td class="text-nowrap">{{ $item->basic_payment_name }}</td>
               <td class="text-nowrap" title="{{$item->observation}}">{{ Str::limit($item->observation,40) }}</td>
-              <td class="text-nowrap">{{ $item->typeprices->name }}</td>
+              <td class="text-nowrap">{{ $item->basic_type_price_name }}</td>
               <td class="text-nowrap">{{ $item->biller }}</td>
               <td class="text-nowrap">{{ $item->responsible }}</td>
-              <td class="text-nowrap">{{ $item->classifications->name }}</td>
-              <td class="text-nowrap">{{ $item->brute }}</td>
-              <td class="text-nowrap">{{ $item->discount }}</td>
-              <td class="text-nowrap">{{ $item->subtotal }}</td>
-              <td class="text-nowrap">{{ $item->tax_sale }}</td>
-              <td class="text-nowrap">{{ $item->total }}</td>            
+              <td class="text-nowrap">{{ $item->basic_classification_name }}</td>
+              <td class="text-nowrap text-right">{{ number_format($item->brute, 0) }}</td>
+              <td class="text-nowrap text-right">{{ number_format($item->discount, 0) }}</td>
+              <td class="text-nowrap text-right">{{ number_format($item->subtotal, 0) }}</td>
+              <td class="text-nowrap text-right">{{ number_format($item->tax_sale, 0) }}</td>
+              <td class="text-nowrap text-right">{{ number_format($item->total, 0) }}</td>
             </tr>
           @empty
           <tr>

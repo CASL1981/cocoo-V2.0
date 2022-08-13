@@ -13,12 +13,12 @@ class CreateTypePricesTable extends Migration
      */
     public function up()
     {
-        Schema::create('order_type_prices', function (Blueprint $table) {
+        Schema::create('basic_type_prices', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100)->unique();
-            $table->boolean('increment')->comment('Porcentaje de incremento de la lista');
+            $table->string('name', 100);
+            $table->integer('increment')->nullable()->comment('Porcentaje de incremento de la lista');
             $table->boolean('tax')->default(false);
-            $table->boolean('status')->default(true);
+            $table->string('status', 20)->default('Open');
             $table->string('type', 10)->nullable()->comment('Opciones fijo o varible');
             $table->integer('minimum')->nullable()->comment('precio maximo');            
             $table->integer('maximum')->nullable()->comment('precio maximo');

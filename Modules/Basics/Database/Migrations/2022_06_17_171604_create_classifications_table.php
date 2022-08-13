@@ -16,7 +16,7 @@ class CreateClassificationsTable extends Migration
     {
         Schema::create('basic_classifications', function (Blueprint $table) {
             $table->id();
-            $table->string('code', 10)->unique()->comment('Codigo de la clasificación');
+            $table->string('code', 10)->comment('Codigo de la clasificación');
             $table->smallInteger('level')->nullable()->comment('Nivel de la clasificación');
             $table->string('parent', 10)->nullable()->comment('Codigo padre de la clasificación');
             $table->string('name', 100)->comment('Nombre de la condición de pago');

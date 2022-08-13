@@ -15,6 +15,11 @@
               </button>
             @endcan
             @can('classification create')
+              <button class="btn btn-sm btn-primary" wire:click="doubleItem()" title="Duplicar Registro"
+              @if ($bulkDisabled) disabled @endif><i class="fa fa-share-alt-square text-eith"></i>
+              </button>
+            @endcan
+            @can('classification create')
             <button class="btn btn-sm btn-primary" wire:click="$set('show', true)" title="Adicionar Registro">
                 <i class="fa fa-plus text-with"></i>
             </button>
@@ -89,7 +94,7 @@
               confirmButtonText: 'Si, Eliminala!'
               }).then((result) => {
               if (result.isConfirmed) {
-                  Livewire.emit('deleteClassification')
+                  Livewire.emit('deleteItem')
               }});
           });
   </script>

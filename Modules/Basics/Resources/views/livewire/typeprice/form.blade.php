@@ -7,34 +7,34 @@
             <div class="row"> 
                 <div class="form-group col-md-6">
                     <x-form.label for="name">Descripción</x-form.label>
-                    <x-form.input wire:model="name" required maxlength="100"></x-form.input>
+                    <x-form.input wire:model.defer="name" required maxlength="100"></x-form.input>
                     <x-form.input-error for="name"></x-form.input-error>
                 </div>
                 <div class="form-group col-md-2">
                     <x-form.label for="increment">Incremento</x-form.label>
-                    <x-form.input wire:model="increment" type="number"></x-form.input>
+                    <x-form.input wire:model.defer="increment" type="number"></x-form.input>
                     <x-form.input-error for="increment"></x-form.input-error>
                 </div>
                 <div class="form-group col-md-2">
                     <x-form.label for="tax">Impuesto</x-form.label>                    
-                    <x-form.select wire:model="tax" :options="['1' => 'Si', '0' => 'No']"></x-form.select>
+                    <x-form.select wire:model.defer="tax" :options="['1' => 'Si', '0' => 'No']"></x-form.select>
                     <x-form.input-error for="tax"></x-form.input-error>
                 </div>
                 <div class="form-group col-md-2">
                     <x-form.label for="type">Tipo</x-form.label>                    
-                    <x-form.select wire:model="type" :options="['FIJO' => 'FIJO', 'VARIABLE' => 'VARIABLE']"></x-form.select>
+                    <x-form.select wire:model.defer="type" :options="['FIJO' => 'FIJO', 'VARIABLE' => 'VARIABLE']"></x-form.select>
                     <x-form.input-error for="type"></x-form.input-error>
                 </div>                
             </div>
             <div class="row">                 
                 <div class="form-group col-md-2">
                     <x-form.label for="minimum">Minimo</x-form.label>
-                    <x-form.input wire:model="minimum" type="number"></x-form.input>
+                    <x-form.input wire:model.defer="minimum" type="number"></x-form.input>
                     <x-form.input-error for="minimum"></x-form.input-error>
                 </div>
                 <div class="form-group col-md-2">
                     <x-form.label for="maximum">Maximo</x-form.label>
-                    <x-form.input wire:model="maximum" type="number"></x-form.input>
+                    <x-form.input wire:model.defer="maximum" type="number"></x-form.input>
                     <x-form.input-error for="maximum"></x-form.input-error>
                 </div>
             </div>            

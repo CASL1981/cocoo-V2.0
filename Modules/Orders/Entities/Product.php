@@ -28,8 +28,9 @@ class Product extends Model
     public function getStatusColorAttribute()
     {
         return [
-            '1' => 'success',
-            '0' => 'danger',
+            'Open' => 'success',
+            'Blocked' => 'warning',
+            'Cancelled' => 'danger',
         ][$this->status] ?? 'info';
     }
 
@@ -41,7 +42,8 @@ class Product extends Model
 
     public function QueryTable($keyWord = null, $sortField, $sortDirection)
     {
-        return $this->with(['clients', 'classifications'])
+        return $this->withTrashed()
+        ->with(['clients', 'classifications'])
         ->select('id','name', 'tax', 'status', 'basic_client_id','tax_percentage',
                              'brand', 'measure_unit', 'basic_classification_id', 'image')
         ->orWhereHas('clients', function($query) use ($keyWord){

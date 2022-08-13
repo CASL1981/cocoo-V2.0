@@ -17,7 +17,7 @@ class CreatePaymentsTable extends Migration
             $table->id();
             $table->string('name', 100)->comment('Nombre de la condición de pago');
             $table->smallInteger('quotas')->nullable()->comment('Numero de cuotas');
-            $table->string('typeinterval', 1)->nullable()->comment('Tipo de intervalos, Diario, Semanal, mensual');
+            $table->string('typeinterval', 1)->nullable()->comment('Tipo de intervalos, Diario, Semanal, Mensual, Quincenal');
             $table->smallInteger('interval')->nullable()->comment('intervalos de días de la condición de pago');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();            

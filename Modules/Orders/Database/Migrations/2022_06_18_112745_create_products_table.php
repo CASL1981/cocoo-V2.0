@@ -15,9 +15,9 @@ class CreateProductsTable extends Migration
     {
         Schema::create('order_products', function (Blueprint $table) {
             $table->id();            
-            $table->string('name', 100)->unique();
+            $table->string('name', 100);
             $table->boolean('tax')->default(false);
-            $table->boolean('status')->default(true);
+            $table->string('status', 20)->default('Open');
             $table->foreignId('basic_client_id')->nullable()->constrained();
             $table->smallInteger('tax_percentage')->nullable();
             $table->string('brand', 100)->nullable();

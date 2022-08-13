@@ -22,7 +22,6 @@ class ProductFactory extends Factory
         return [            
 			'name' => $this->faker->name,
 			'tax' => true,
-            'status' => true,
             'basic_client_id' => $this->faker->numberBetween(1, 5),
 			'tax_percentage' => $this->faker->randomElement([19, 5]),
             'brand' => $this->faker->randomElement(['PAPER MATE', 'NORMA', 'FABER CASTELL', 'OTRO']),

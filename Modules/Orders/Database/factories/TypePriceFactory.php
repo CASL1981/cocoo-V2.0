@@ -23,7 +23,6 @@ class TypePriceFactory extends Factory
             'name' => $this->faker->name,
 			'increment' => $this->faker->numberBetween(1, 100),
 			'tax' => true,
-            'status' => true,
             'type' => $this->faker->randomElement(['FIJO', 'VARIABLE']),
 			'minimum' => $this->faker->numberBetween(1, 100),
 			'maximum' => $this->faker->numberBetween(1, 100),            

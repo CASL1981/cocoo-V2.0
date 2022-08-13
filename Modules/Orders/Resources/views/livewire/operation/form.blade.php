@@ -22,8 +22,8 @@
                 </div>
                 <div class="form-group col-md-3">
                     <x-form.label for="order_type_price_id">Lista Precio</x-form.label>                    
-                    <x-form.select wire:model="order_type_price_id" :options="$typeprices"></x-form.select>
-                    <x-form.input-error for="order_type_price_id"></x-form.input-error>
+                    <x-form.select wire:model="basic_type_price_id" :options="$typeprices"></x-form.select>
+                    <x-form.input-error for="order_type_price_id"></x-form.input-error>                    
                 </div>
             </div>
             <div class="row">                 

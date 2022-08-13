@@ -5,45 +5,41 @@
     <x-form.form>
         <x-slot name="form">
             <div class="row"> 
-                <div class="form-group col-md-4">
-                    <x-form.label for="name">Descripción</x-form.label>
-                    <x-form.input wire:model="name" required maxlength="100"></x-form.input>
-                    <x-form.input-error for="name"></x-form.input-error>
+                <div class="form-group col-md-6">
+                    <x-form.label for="order_product_id">Producto</x-form.label>                    
+                    <x-form.select wire:model="order_product_id" :options="$products"></x-form.select>
+                    <x-form.input-error for="order_product_id"></x-form.input-error>
                 </div>
-                <div class="form-group col-md-2">
-                    <x-form.label for="tax">Impuesto</x-form.label>                    
-                    <x-form.select wire:model="tax" 
-                    :options="['1' => 'Si', '0' => 'No']"></x-form.select>
-                    <x-form.input-error for="tax"></x-form.input-error>
-                </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <x-form.label for="basic_client_id">Proveedor</x-form.label>                    
                     <x-form.select wire:model="basic_client_id" :options="$providers"></x-form.select>
                     <x-form.input-error for="basic_client_id"></x-form.input-error>
                 </div>
-                <div class="form-group col-md-2">
-                    <x-form.label for="tax_percentage">% Impuesto</x-form.label>
-                    <x-form.input wire:model="tax_percentage" type="number"></x-form.input>
-                    <x-form.input-error for="tax_percentage"></x-form.input-error>
+                <div class="form-group col-md-3">
+                    <x-form.label for="basic_type_price_id">Lista Precio</x-form.label>                    
+                    <x-form.select wire:model="basic_type_price_id" :options="$typeprices"></x-form.select>
+                    <x-form.input-error for="basic_type_price_id"></x-form.input-error>
                 </div>
             </div>
             <div class="row">                 
-                <div class="form-group col-md-4">
-                    <x-form.label for="brand">Marca</x-form.label>
-                    <x-form.input wire:model="brand" maxlength="100"></x-form.input>
-                    <x-form.input-error for="brand"></x-form.input-error>
+                <div class="form-group col-md-3">
+                    <x-form.label for="date">Fecha</x-form.label>
+                    <x-form.input wire:model="date" type="date"></x-form.input>
+                    <x-form.input-error for="date"></x-form.input-error>
                 </div>
-                <div class="form-group col-md-4">
-                    <x-form.label for="measure_unit">Unidad Medida</x-form.label>
-                    <x-form.input wire:model="measure_unit" maxlength="100"></x-form.input>
-                    <x-form.input-error for="measure_unit"></x-form.input-error>
+                <div class="form-group col-md-3">
+                    <x-form.label for="value">Valor</x-form.label>
+                    <x-form.input wire:model="value" required></x-form.input>
+                    <x-form.input-error for="value"></x-form.input-error>
+                </div>                
+            </div>
+            {{-- <div class="row">
+                <div class="form-group col-md-12">
+                    <x-form.label for="observation">Observaciones</x-form.label>
+                    <textarea class="form-control" id="exampleTextarea1" rows="4" wire:model="observation"></textarea>
+                    <x-form.input-error for="observation"></x-form.input-error>
                 </div>
-                <div class="form-group col-md-4">
-                    <x-form.label for="basic_classification_id">Categoria</x-form.label>                    
-                    <x-form.select wire:model="basic_classification_id" :options="$categories"></x-form.select>
-                    <x-form.input-error for="basic_classification_id"></x-form.input-error>
-                </div>
-            </div>            
+            </div> --}}
         </x-slot>
     </x-form.form>
     <x-slot name="actions">

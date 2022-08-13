@@ -60,7 +60,7 @@ class ProductTableSeeder extends Seeder
             'basic_classification_id' => 2,
         ]);
         Product::factory()->create([
-            'name' => 'TOLLAS MANO FLIA PRECOR NAT UNIDAD',
+            'name' => 'TOALLAS MANO FLIA PRECOR NAT UNIDAD',
             'basic_client_id' => 93,
             'tax_percentage' => 19,
             'brand' => 'FAMILIA',

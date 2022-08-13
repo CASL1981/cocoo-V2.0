@@ -10,6 +10,11 @@
               </button>
             @endcan
             @can('payment create')
+              <button class="btn btn-sm btn-primary" wire:click="doubleItem()" title="Duplicar Registro"
+              @if ($bulkDisabled) disabled @endif><i class="fa fa-share-alt-square text-eith"></i>
+              </button>
+            @endcan
+            @can('payment create')
             <button class="btn btn-sm btn-primary" wire:click="$set('show', true)">
                 <i class="fa fa-plus text-with"></i>
             </button>

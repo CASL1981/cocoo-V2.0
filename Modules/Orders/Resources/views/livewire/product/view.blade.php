@@ -3,20 +3,20 @@
       <x-otros.view-card :exportable="$exportable" :audit="$audit">
         <x-slot name="title">Productos</x-slot>
         <x-slot name="button">
-          <div class="btn-group float-right" role="group" aria-label="Basic example">
-            @can('product delete')
-              <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('destroyProduct')" title="Eliminar Registro"
-              @if ($bulkDisabled) disabled @endif><i class="fa fa-trash text-eith"></i>
-              </button>
-            @endcan
+          <div class="btn-group float-right" role="group" aria-label="Basic example">            
             @can('product toggle')
-                <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('toggleProduct')" title="Activar o Desactivar Item"
+                <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('toggleItem')" title="Activar o Desactivar Item"
                 @if ($bulkDisabled) disabled @endif><i class="fa fa-exclamation text-with"></i>
                 </button>                
             @endcan
             @can('product update')
               <button class="btn btn-sm btn-primary" wire:click="edit()" title="Modificar Registro"
               @if ($bulkDisabled) disabled @endif><i class="fa fa-edit text-eith"></i>
+              </button>
+            @endcan
+            @can('product create')
+              <button class="btn btn-sm btn-primary" wire:click="doubleItem()" title="Duplicar Registro"
+              @if ($bulkDisabled) disabled @endif><i class="fa fa-share-alt-square text-eith"></i>
               </button>
             @endcan
             @can('product create')
@@ -51,7 +51,7 @@
             {{-- @php
                 dd($item);
             @endphp --}}
-            <tr>
+            <tr class="{{ $item->status === 'Cancelled' ? 'text-danger' : '' }}">
               <td class="p-1" width="40px">                  
                 <div class="form-check form-check-flat form-check-primary">
                 <label class="form-check-label">                    
@@ -63,17 +63,17 @@
                 <i class="input-helper"></i></label>
                 </div>
               </td>
-              <x-table.td width="80px">{{ $item->id }}</x-table.td>              
-              <x-table.td>{{ $item->name }}</x-table.td>
-              <x-table.td class="text-center">{{ $item->tax ? 'Si' : 'No' }}</x-table.td>
-              <x-table.td class="text-{{ $item->status_color }}">{{ $item->status ? 'Activo' : 'Inacivo' }}</x-table.td>
-              <x-table.td>{{ $item->clients->identification ?? '' }}</x-table.td>
-              <x-table.td>{{ $item->clients->client_name ?? '' }}</x-table.td>
-              <x-table.td class="text-center">{{ $item->tax_percentage }}</x-table.td>
-              <x-table.td>{{ $item->brand }}</x-table.td>
-              <x-table.td>{{ $item->measure_unit }}</x-table.td>
-              <x-table.td>{{ $item->classifications->name }}</x-table.td>
-              <x-table.td>{{ $item->image }}</x-table.td>
+              <td class="text-nowrap"  width="80px">{{ $item->id }}</td>              
+              <td class="text-nowrap" >{{ $item->name }}</td>
+              <td class="text-nowrap text-center">{{ $item->tax ? 'Si' : 'No' }}</td>
+              <td class="text-nowrap text-{{ $item->status_color }}">{{ $item->status }}</td>
+              <td class="text-nowrap" >{{ $item->clients->identification ?? '' }}</td>
+              <td class="text-nowrap" >{{ $item->clients->client_name ?? '' }}</td>
+              <td class="text-nowrap text-center">{{ $item->tax_percentage }}</td>
+              <td class="text-nowrap" >{{ $item->brand }}</td>
+              <td class="text-nowrap" >{{ $item->measure_unit }}</td>
+              <td class="text-nowrap" >{{ $item->classifications->name }}</td>
+              <td class="text-nowrap" >{{ $item->image }}</td>
             </tr>
           @empty
           <tr>
@@ -107,7 +107,7 @@
               confirmButtonText: 'Si, Eliminala!'
               }).then((result) => {
               if (result.isConfirmed) {
-                  Livewire.emit('deleteProduct')
+                  Livewire.emit('deleteItem')
               }});
           });
   </script>

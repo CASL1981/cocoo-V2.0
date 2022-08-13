@@ -1,9 +1,9 @@
-@extends('orders::layouts.master')
+@extends('basics::layouts.master')
 
 @section('content')
     <div class="row grid-margin">        
         <div class="col-12">
-            <livewire:orders::type-prices />            
+            <livewire:basics::type-prices />            
         </div>
     </div>
 @endsection

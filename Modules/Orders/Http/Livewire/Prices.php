@@ -2,35 +2,38 @@
 
 namespace Modules\Orders\Http\Livewire;
 
+use App\Traits\CRUDLivewireTrait;
 use App\Traits\TableLivewire;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Modules\Basics\Entities\Client;
+use Modules\Basics\Entities\TypePrice;
 use Modules\Orders\Entities\Price;
 use Modules\Orders\Entities\Product;
-use Modules\Orders\Entities\TypePrice;
 
 class Prices extends Component
 {
     use WithPagination;
     use TableLivewire;
+    use CRUDLivewireTrait;
 
-    public $order_product_id, $basic_client_id, $order_type_price_id, $date, $value;    
+    public $order_product_id, $basic_client_id, $basic_type_price_id, $date, $value;    
 
     public $providers, $typeprices, $products;
     
-    protected $listeners = ['showaudit','deleteProduct', 'toggleProduct'];
+    protected $listeners = ['showaudit','deleteItem', 'toggleProduct', 'processItem', 'reverseItem'];
 
-    public function mount()
+    public function hydrate()
     {   
-        $this->providers = Client::where('type', 'Proveedor')->where('status', true)
-                        ->pluck('client_name', 'id')->toArray();
+        $this->providers = Client::where('type', 'Proveedor')->where('status', true)->pluck('client_name', 'id')->toArray();
+        
+        $this->typeprices = TypePrice::where('status', 'Open')->pluck('name', 'id')->toArray();
+        
+        $this->products = Product::where('status', 'Open')->pluck('name', 'id')->toArray();
 
-        $this->typeprices = TypePrice::where('status', true)
-                        ->pluck('name', 'id')->toArray();
-
-        $this->products = Product::where('status', true)
-                        ->pluck('name', 'id')->toArray();
+        $this->permissionModel = 'price';
+        
+        $this->messageModel = 'Precio';
 
         $this->model = 'Modules\Orders\Entities\Price';
         $this->exportable ='App\Exports\PriceExport';
@@ -41,105 +44,74 @@ class Prices extends Component
         return [            
             'order_product_id' => ['required'],
             'basic_client_id' => ['required'],
-            'order_type_price_id' => ['required'],
+            'basic_type_price_id' => ['required'],
             'date' => 'nullable|date',
             'value' => 'required|numeric',            
         ];
-    }
-    
+    }  
+
     public function render()
     {
         $this->bulkDisabled = count($this->selectedModel) < 1;
 
         $prices = new Price();
 
-        $prices = $prices->QueryTable($this->keyWord, $this->sortField, $this->sortDirection)
-                    ->paginate(20);        
-        // dd($prices);
-        return view('orders::livewire.price.view', compact('prices'));
+        $prices = $prices->QueryTable($this->keyWord, $this->sortField, $this->sortDirection)->paginate(20);        
         
-    }
-
-    
-    public function store()
-    {   
-        can('product create');
-
-        $validate = $this->validate();    	
-        
-        Product::create($validate);
-        
-        $this->resetInput();        
-    	$this->emit('alert', ['type' => 'success', 'message' => 'Producto creado']);
-        
+        return view('orders::livewire.price.view', compact('prices'));        
     }
 
     public function edit()
     {   
-        can('product update'); 
-
-        $record = Product::findOrFail($this->selected_id);           
+        can('price update'); 
+         
+        $record = Price::findOrFail($this->selected_id);           
         
-        $this->name = $record->name;
-        $this->tax = $record->tax;
+        $this->order_product_id = $record->order_product_id;
         $this->basic_client_id = $record->basic_client_id;
-        $this->brand = $record->brand;        
-        $this->tax_percentage = $record->tax_percentage;
-        $this->measure_unit = $record->measure_unit;
-        $this->basic_classification_id = $record->basic_classification_id;
+        $this->basic_type_price_id = $record->basic_type_price_id;
+        $this->date = $record->date;        
+        $this->value = $record->value;        
 
         $this->show = true;
     }
 
-    public function update()
-    {
-        can('product update'); 
+    public function store()
+    {   
+        can('price create');
 
         $validate = $this->validate();
 
+        $validate = $this->addFillableValidation($validate);
+        
+        $this->model::create($validate);
+        
+        $this->resetInput();        
+    	$this->emit('alert', ['type' => 'success', 'message' => $this->messageModel . ' creada']);
+        
+    }
+
+    public function update()
+    {
+        can('price update'); 
+
+        $validate = $this->validate();
+
+        $validate = $this->addFillableValidation($validate);
+
         if ($this->selected_id) {
-    		$record = Product::find($this->selected_id);
+    		$record = $this->model::find($this->selected_id);
             $record->update($validate);
 
-            $this->resetInput();            
-    		$this->emit('alert', ['type' => 'success', 'message' => 'Producto actualizado']);
+            $this->closed();
+    		$this->emit('alert', ['type' => 'success', 'message' => $this->messageModel . ' actualizada']);
         }
     }
 
-    public function deleteProduct()
+    public function addFillableValidation($validate)
     {
-        can('product delete');
-
-        if ($this->selected_id ) {
-            $product = Product::find($this->selected_id);
-            
-            $product->delete();
-            $this->emit('alert', ['type' => 'success', 'message' => 'Producto Eliminado']);            
-        }
-    }
-
-    public function toggleProduct()
-    {
-        can('product toggle');        
-
-        if (count($this->selectedModel)) {
-            //consultamos todos los status y consultamos los modelos de los productos seleccionado
-            $status = Product::whereIn('id', $this->selectedModel)->get('status')->toArray();
-            $record = Product::whereIn('id', $this->selectedModel);            
-            
-            if($status[0]['status']) {
-                $record->update([ 'status' => false ]); //actualizamos los modelos
-                
-                $this->selectedModel = []; //limpiamos todos los productos seleccionados
-                $this->selectAll = false;
-            } else {
-                $record->update([ 'status' => true ]);
-                
-                $this->selectedModel = [];
-                $this->selectAll = false;
-            }
-        } else {
-            $this->emit('alert', ['type' => 'warning', 'message' => 'Selecciona un Producto']);
-        }
+        $product_name = Product::whereId($this->order_product_id)->first();
+        
+        return $validate = array_merge($validate, ['order_product_name' => $product_name->name]);
     }
 }

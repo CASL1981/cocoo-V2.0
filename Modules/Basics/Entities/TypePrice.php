@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Orders\Entities;
+namespace Modules\Basics\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +15,7 @@ class TypePrice extends Model
 
     protected $fillable = ['name', 'increment', 'tax', 'status', 'type', 'minimum', 'maximum'];
 
-    protected $table = 'order_type_prices';
+    protected $table = 'basic_type_prices';
     
     protected static function newFactory()
     {
@@ -25,8 +25,9 @@ class TypePrice extends Model
     public function getStatusColorAttribute()
     {
         return [
-            '1' => 'success',
-            '0' => 'danger',
+            'Open' => 'success',
+            'Blocked' => 'warning',
+            'Cancelled' => 'danger',
         ][$this->status] ?? 'info';
     }
 
@@ -38,7 +39,8 @@ class TypePrice extends Model
 
     public function QueryTable($keyWord = null, $sortField, $sortDirection)
     {
-        return $this->select('id','name', 'increment', 'tax', 'status', 'type','minimum', 'maximum')        
+        return $this->withTrashed()
+        ->select('id','name', 'increment', 'tax', 'status', 'type','minimum', 'maximum')        
         ->search('name', $keyWord)
         ->search('status', $keyWord)
         ->orderBy($sortField, $sortDirection); 

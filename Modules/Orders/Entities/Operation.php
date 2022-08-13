@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Basics\Entities\Classification;
 use Modules\Basics\Entities\Client;
 use Modules\Basics\Entities\Payment;
+use Modules\Basics\Entities\TypePrice;
 use Wildside\Userstamps\Userstamps;
 
 class Operation extends Model
@@ -17,9 +18,9 @@ class Operation extends Model
     use Userstamps;
     use SoftDeletes;
 
-    protected $fillable = ['date', 'status', 'basic_client_id', 'basic_payment_id', 'observation', 'order_type_price_id', 
+    protected $fillable = ['date', 'status', 'basic_client_id', 'basic_payment_id', 'observation', 'basic_type_price_id', 
                         'biller', 'responsible', 'basic_classification_id', 'brute', 'discount', 'subtotal', 'tax_sale', 'total',
-                        'created_by', 'updated_by', 'deleted_by'];
+                        'basic_client_name', 'basic_payment_name', 'basic_classification_name', 'basic_type_price_name', 'created_by', 'updated_by', 'deleted_by'];
 
     protected $table = 'order_operations';
     
@@ -31,9 +32,9 @@ class Operation extends Model
     public function getStatusColorAttribute()
     {
         return [
-            'Activo' => 'success',
-            'Inactivo' => 'warning',
-            'Eliminado' => 'danger',
+            'Open' => 'success',
+            'Blocked' => 'warning',
+            'Cancelled' => 'danger',
         ][$this->status] ?? 'info';
     }
 
@@ -46,18 +47,16 @@ class Operation extends Model
     public function QueryTable($keyWord = null, $sortField, $sortDirection)
     {
         return $this->withTrashed()
-        ->with(['clients', 'classifications', 'payments', 'typeprices'])
+        ->with(['clients'])
         ->select('id','date', 'status', 'basic_client_id','basic_payment_id', 'observation',
-                             'order_type_price_id', 'biller', 'responsible', 'basic_classification_id',
-                             'brute', 'discount', 'subtotal', 'tax_sale', 'total')
-        ->orWhereHas('clients', function($query) use ($keyWord){
-            $query->where('client_name','like','%'.$keyWord.'%');
-        })
-        ->orWhereHas('classifications', function($query) use ($keyWord){
-            $query->where('name','like','%'.$keyWord.'%');
-        })
+                             'basic_type_price_id', 'biller', 'responsible', 'basic_classification_id',
+                             'basic_client_name', 'basic_payment_name', 'basic_classification_name', 
+                             'basic_type_price_name', 'brute', 'discount', 'subtotal', 'tax_sale', 'total')
         ->search('status', $keyWord)
-        ->search('observation', $keyWord)        
+        ->search('observation', $keyWord)
+        ->search('basic_client_name', $keyWord)
+        ->search('basic_payment_name', $keyWord)
+        ->search('basic_classification_name', $keyWord)
         ->orderBy($sortField, $sortDirection); 
     }
 
@@ -77,6 +76,6 @@ class Operation extends Model
     }
     public function typeprices(): BelongsTo
     {
-        return $this->belongsTo(TypePrice::class, 'order_type_price_id', 'id');
+        return $this->belongsTo(TypePrice::class, 'basic_type_price_id', 'id');
     }
 }

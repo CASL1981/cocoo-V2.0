@@ -50,9 +50,11 @@ class UserSeeder extends Seeder
             'read',
             'update',
             'delete',
-            'toggle'
+            'toggle',
+            'reverse',
+            'process',
         ];
-
+        
         foreach(Role::all() as $rol){
             foreach($permissions as $per){
                 $rol->name =='administrador' ? $rol->name = 'usuario' : $rol->name;

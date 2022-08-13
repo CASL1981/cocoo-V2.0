@@ -8,6 +8,8 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Modules\Basics\Entities\Client;
 use Modules\Basics\Entities\Employee;
+use Modules\Basics\Entities\Payment;
+use Modules\Basics\Entities\TypePrice;
 
 class Clients extends Component
 {
@@ -17,14 +19,18 @@ class Clients extends Component
     public $identification, $first_name, $last_name, $client_name, $status, $type_document, $address, $phone; 
     public $cel_phone, $entry_date, $email, $gender, $type, $birth_date, $limit, $vendedor_id, $typeprice_id;
     public $shoppingcontact, $conditionpayment_id;
-    public $vendedores;    
+    public $vendedores, $payments, $typeprices;
 
     protected $listeners = ['toggleClient', 'showaudit'];
     
-    public function mount()
+    public function hydrate()
     {
         $this->vendedores = Employee::where('vendedor', true)->where('status', true)
                         ->pluck('first_name', 'identification')->toArray();
+
+        $this->payments = Payment::pluck('name', 'id')->toArray();
+
+        $this->typeprices = TypePrice::where('status', 'Open')->pluck('name', 'id')->toArray();        
                         
         $this->model = 'Modules\Basics\Entities\Client';
         $this->exportable ='App\Exports\ClientsExport';

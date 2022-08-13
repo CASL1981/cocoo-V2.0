@@ -86,7 +86,7 @@
         
         toastr[param['type']](param['message']);
 
-    });
+    }); 
   </script> 
 </body>
 </html>

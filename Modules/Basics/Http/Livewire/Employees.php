@@ -6,6 +6,7 @@ use App\Traits\TableLivewire;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Modules\Basics\Entities\Destination;
 use Modules\Basics\Entities\Employee;
 
 class Employees extends Component
@@ -16,10 +17,13 @@ class Employees extends Component
     public $identification, $first_name, $last_name, $status, $type_document, $address, $phone; 
     public $cel_phone, $entry_date, $email, $gender, $birth_date, $location_id, $photo_path, $vendedor;
 
+    public $destinations;
     protected $listeners = ['toggleEmployee', 'showaudit'];       
 
-    public function mount()
-    {                   
+    public function hydrate()
+    {
+        $this->destinations = Destination::pluck('name', 'costcenter')->toArray();
+                        
         $this->model = 'Modules\Basics\Entities\Employee';
         $this->exportable ='App\Exports\EmployeesExport';
     }
