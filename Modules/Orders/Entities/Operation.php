@@ -23,7 +23,13 @@ class Operation extends Model
                         'basic_client_name', 'basic_payment_name', 'basic_classification_name', 'basic_type_price_name', 'created_by', 'updated_by', 'deleted_by'];
 
     protected $table = 'order_operations';
-    
+        
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d h:m:s',
+        'updated_at' => 'datetime:d-m-Y h:m:s',
+        'deleted_at' => 'datetime:d-m-Y h:m:s',
+    ];
+
     protected static function newFactory()
     {
         return \Modules\Orders\Database\factories\OperationFactory::new();
@@ -37,12 +43,6 @@ class Operation extends Model
             'Cancelled' => 'danger',
         ][$this->status] ?? 'info';
     }
-
-    protected $casts = [
-        'created_at' => 'datetime:Y-m-d h:m:s',
-        'updated_at' => 'datetime:d-m-Y h:m:s',
-        'deleted_at' => 'datetime:d-m-Y h:m:s',
-    ];
 
     public function QueryTable($keyWord = null, $sortField, $sortDirection)
     {

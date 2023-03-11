@@ -20,6 +20,8 @@ class DetailOperations extends Component
     public $discount, $quantity, $basic_destination_id, $draft_quantity, $subtotal, $taxiva, $total;
 
     public $suma_quantity, $suma_value, $suma_discount, $value_bruto;
+    
+    public $selected_id, $tax, $itemtotal, $price, $tax_sale_percentage;
 
     
     public $orderProducts = [];// array de detalle de productos

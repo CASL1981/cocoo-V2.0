@@ -26,34 +26,34 @@
     @stack('styles') 
 </head>
 
-<body class="sidebar-absolute sidebar-hidden">
+<body class="sidebar-icon-only">
   <div class="container-scroller">
     <!-- partial:../../partials/_navbar.html -->
     @include('layouts.navigation')    
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
-    <!-- layouts theme setting panel -->
-    @include('layouts.theme-setting-panel')  
-    <!-- layouts todo list and chats -->
-    @include('layouts.todo-list-and-chats')
+      <!-- layouts theme setting panel -->
+      @include('layouts.theme-setting-panel')  
+      <!-- layouts todo list and chats -->
+      @include('layouts.todo-list-and-chats')
       <!-- partial -->
-    <!-- navigation panel left -->
-    @include('layouts.navigation-panel')
+      <!-- navigation panel left -->
+      @include('layouts.navigation-panel')
       <!-- partial -->
-    <div class="main-panel">
-      <div class="content-wrapper">
-        {{ $slot }}  
-      </div>
-      <!-- content-wrapper ends -->
-      <!-- partial:../../partials/_footer.html -->
-      <footer class="footer">
-        <div class="d-sm-flex justify-content-center justify-content-sm-between">
-          <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2018 <a href="https://www.urbanui.com/" target="_blank">Urbanui</a>. All rights reserved.</span>
-          <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="far fa-heart text-danger"></i></span>
+      <div class="main-panel">
+        <div class="content-wrapper">
+          {{ $slot }}  
         </div>
-      </footer>
-      <!-- partial -->
-    </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2018 <a href="https://www.urbanui.com/" target="_blank">Urbanui</a>. All rights reserved.</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="far fa-heart text-danger"></i></span>
+          </div>
+        </footer>
+        <!-- partial -->
+      </div>
       <!-- main-panel ends -->
     </div>
     <!-- page-body-wrapper ends -->
@@ -64,8 +64,8 @@
   <script src="{{ asset('vendors/js/vendor.bundle.addons.js') }}"></script>
   <!-- endinject -->
   <!-- inject:js -->  
-  {{-- <script src="{{ asset('js/off-canvas.js') }}"></script> --}}
-  {{-- <script src="{{ asset('js/hoverable-collapse.js') }}"></script> --}}
+  {{-- <script src="{{ asset('js/off-canvas.js') }}"></script> --}}  
+  <script src="{{ asset('js/hoverable-collapse.js') }}"></script>
   <script src="{{ asset('js/misc.js') }}"></script>
   <script src="{{ asset('js/settings.js') }}"></script>
   <script src="{{ asset('js/file-upload.js') }}"></script>
@@ -80,13 +80,13 @@
   {{--  end liviewir and turbolinks --}}
   
   <script src="{{ asset('js/app.js') }}"></script>
-
+  
   @stack('scripts')
   <script>
     window.livewire.on('alert', param => {
-        toastr.options = { 
-          "closeButton" : true,          
-          "progressBar" : true
+      toastr.options = { 
+        "closeButton" : true,          
+        "progressBar" : true
         }
         
         toastr[param['type']](param['message']);

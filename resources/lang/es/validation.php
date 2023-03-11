@@ -146,6 +146,32 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'name' => 'Nombre',
+        'document' => 'Documento',
+        'document_name' => 'Nombre del Documento',
+        'number' => 'Numero',
+        'firstname' => 'Nombres',
+        'first_name' => 'Nombres',
+        'lastname' => 'Apellidos',
+        'last_name' => 'Apellidos',
+        'identification' => 'Identificación',
+        'type_document' => 'Tipo Documento',
+        'address' => 'Dirección',
+        'phone' => 'Teléfono',
+        'entry_date' => 'Fecha Ingreso',
+        'gender' => 'Genero',
+        'birth_date' => 'Fecha Nacimiento',
+        'location_id' => 'Ubicación',
+        'product_name' => 'Nombre Articulo',
+        'quantity' => 'Cantidad',
+        'price' => 'Precio',
+        'discount' => 'Descuento',
+        'discount_percentage' => 'Porcentage Descuento',
+        'tax_sale' => 'Valor Impuesto',
+        'tax_sale_percentage' => 'Porcentaje Impuesto',
+        'measure_unitd' => 'Unidad de Medida',
+        'brand' => 'Marca',
+    ],
 
 ];

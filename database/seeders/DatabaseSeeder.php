@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         Storage::makeDirectory('profile_photo');
                 
         
-        User::factory(10)->create()->each(function($u){
+        User::factory(3)->create()->each(function($u){
             Profile::create(['user_id' => $u->id]);
         });
 

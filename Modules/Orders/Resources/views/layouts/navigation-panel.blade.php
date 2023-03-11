@@ -16,7 +16,7 @@
       <li class="nav-item">
         <a class="nav-link" href="{{ route('dashboard.orders') }}">
           <i class="fa fa-home menu-icon"></i>
-          <span class="menu-title">Dashboard Ordenes Compra</span>
+          <span class="menu-title">Dashboard Ordenes</span>
         </a>
       </li>
       <li class="nav-item">
@@ -45,8 +45,8 @@
         <div class="collapse" id="page-creditos">
           <ul class="nav flex-column sub-menu">
             @can('operation read')
-              <li class="nav-item"><a class="nav-link" href="{{ route('order.operation') }}">Orden de Compra</a></li>
-              {{-- <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.basics') }}">Orden de Compra</a></li> --}}
+              <li class="nav-item"><a class="nav-link" href="{{ route('order.operation') }}">Compra o Servicio</a></li>
+              <li class="nav-item"><a class="nav-link" href="{{ route('order.edit.detail.operation') }}">Detalle Orden Compra</a></li>
             @endcan
             @can('services read')
               <li class="nav-item"> <a class="nav-link" href="#">Orden de Servicio</a></li>

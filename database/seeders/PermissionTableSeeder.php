@@ -27,6 +27,8 @@ class PermissionTableSeeder extends Seeder
             'typeprice',
             'price',
             'operation',
+            'sequence',
+            'detailoperation',
         ];
 
         //CRUD

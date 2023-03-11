@@ -11,8 +11,9 @@ use Modules\Basics\Entities\Client;
 use Modules\Basics\Entities\Employee;
 use Modules\Basics\Entities\Payment;
 use Modules\Basics\Entities\TypePrice;
-use Modules\Orders\Entities\DetailOperation;
 use Modules\Orders\Entities\Operation;
+use Modules\Orders\Http\Requests\RequestOperation;
+use Modules\Orders\Services\OperationsServices;
 
 class Operations extends Component
 {
@@ -27,7 +28,7 @@ class Operations extends Component
 
     public $providers, $typeprices, $payments, $categories, $employees;
     
-    protected $listeners = ['showaudit','deleteItem', 'toggleItem', 'processItem', 'reverseItem', 'detailOrder'];
+    protected $listeners = ['showaudit','deleteItem', 'toggleItem', 'processItem', 'reverseItem', 'detailOrder', 'pdfOrder'];
 
     public function hydrate()
     {   
@@ -48,25 +49,6 @@ class Operations extends Component
         $this->model = 'Modules\Orders\Entities\Operation';
         $this->exportable ='App\Exports\OperationExport';
     }
-
-    protected function rules() 
-    {        
-        return [            
-            'date' => 'required|date',
-            'basic_client_id' => ['required'],
-            'basic_payment_id' => ['required'],
-            'observation' => 'nullable|max:255',
-            'basic_type_price_id' => ['required'],
-            'biller' => 'required|numeric',
-            'responsible' => 'required|numeric',
-            'basic_classification_id' => ['nullable'],
-            'brute' => 'nullable|numeric',
-            'discount' => 'nullable|numeric',
-            'subtotal' => 'nullable|numeric',
-            'tax_sale' => 'nullable|numeric',
-            'total' => 'nullable|numeric',
-        ];
-    }
     
     public function render()
     {    
@@ -79,7 +61,7 @@ class Operations extends Component
         
     }    
 
-       public function edit()
+    public function edit()
     {   
         can('operation update'); 
 
@@ -132,9 +114,12 @@ class Operations extends Component
     {   
         can('operation create');
 
-        $validate = $this->validate();
+        $requestOperation = new RequestOperation();
+        $operationServices = new OperationsServices();
 
-        $validate = $this->addFillableValidation($validate);
+        $validate = $this->validate($requestOperation->rules());
+
+        $validate = $operationServices->addFillableValidation($validate, $this->basic_client_id, $this->basic_payment_id, $this->basic_type_price_id, $this->basic_classification_id);
         
         $this->model::create($validate);
         
@@ -147,9 +132,12 @@ class Operations extends Component
     {
         can('operation update'); 
 
-        $validate = $this->validate();
+        $requestOperation = new RequestOperation();
+        $operationServices = new OperationsServices();
 
-        $validate = $this->addFillableValidation($validate);
+        $validate = $this->validate($requestOperation->rules());
+
+        $validate = $operationServices->addFillableValidation($validate, $this->basic_client_id, $this->basic_payment_id, $this->basic_type_price_id, $this->basic_classification_id);
 
         if ($this->selected_id) {
     		$record = $this->model::find($this->selected_id);
@@ -160,54 +148,35 @@ class Operations extends Component
         }
     }
 
-    public function addFillableValidation($validate)
-    {
-        $client_name = Client::whereId($this->basic_client_id)->first();
-        $payment_name = Payment::whereId($this->basic_payment_id)->first();
-        $typeprice_name = TypePrice::whereId($this->basic_type_price_id)->first();
-        $classification_name = Classification::whereId($this->basic_classification_id)->first();
-        
-        return $validate = array_merge($validate, [
-            'basic_client_name' => $client_name->client_name,
-            'basic_payment_name' => $payment_name->name,
-            'basic_type_price_name' => $typeprice_name->name,
-            'basic_classification_name' => $classification_name->name,
-        ]);
-    }
-
     public function processItem()
     {
         can('operation create');
 
-        $operation = Operation::find($this->selected_id);
-        $status = Operation::withTrashed()->whereIn('id', $this->selectedModel)->get('status')->toArray();
-        
-        if($operation && $status[0]['status'] === 'Open') {
-            $operation->update([ 'status' => 'Completed' ]); //actualizamos el estado de los modelos
-            DetailOperation::where('order_operation_id',$this->selected_id)->update([ 'status' => 'Completed' ]); //actualizamos el estado de los registros del detalle de ordenes
-            $this->resetInput();
-            $this->emit('alert', ['type' => 'success', 'message' => $this->messageModel . ' Cmpletada']);
-        } else {
-            $this->resetInput();
-            $this->emit('alert', ['type' => 'warning', 'message' => $this->messageModel . ' no esta abierta o en proceso, no se puede Procesar']);
-        }        
+        $operationServices = new OperationsServices();
+
+        $validate = $operationServices->validateProcessOrder($this->selected_id, $this->selectedModel);
+
+        if ($validate) {  
+            $this->resetInput();      
+            return $this->emit('alert', ['type' => 'success', 'message' => $this->messageModel . ' Completada']);
+        }
+
+        return $this->emit('alert', ['type' => 'warning', 'message' => $this->messageModel . ' no esta abierta o en proceso, no se puede Procesar']);                     
     }
 
     public function reverseItem()
     {
         can($this->permissionModel . ' reverse');
-        
-        $product = $this->model::withTrashed()->find($this->selected_id);
-        
-        if($product->deleted_by || $product->status == 'Completed') {
-            $product->update([ 'deleted_by' => NULL, 'status' => 'Open' ]); //actualizamos el estado de los modelos
-            $product->restore(); //reversamos la eliminación con softdelete
-            DetailOperation::where('order_operation_id',$this->selected_id)->update([ 'status' => 'Open' ]); //actualizamos el estado de los registros del detalle de ordenes
-            $this->resetInput();
-            $this->emit('alert', ['type' => 'success', 'message' => $this->messageModel . ' Activa']);            
-        } else {
-            $this->resetInput();
-            $this->emit('alert', ['type' => 'warning', 'message' => $this->messageModel . ' no esta Anulado o Procesada']);
-        }        
+
+        $operationServices = new OperationsServices();
+
+        $validate = $operationServices->validateReverseOrder($this->selected_id);
+
+        if ($validate) {  
+            $this->resetInput();      
+            return $this->emit('alert', ['type' => 'success', 'message' => $this->messageModel . ' Activa']);
+        }
+
+        return $this->emit('alert', ['type' => 'warning', 'message' => $this->messageModel . ' no esta Anulado o Procesada']);        
     }
 }

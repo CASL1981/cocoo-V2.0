@@ -67,6 +67,17 @@ class Destinations extends Component
         $this->maximun = $record->maximun;
 
         $this->show = true;
-    }     
-
+    }
+    
+    // Modificamos la funacion del Trait TableLivewire
+    public function auditoria()
+    {        
+        if ($this->selected_id) {
+            $this->audit = $this->model::with(['creator', 'editor'])->find($this->selected_id)->toArray();                        
+            $this->showauditor = true;
+        } else {
+            $this->emit('alert', ['type' => 'warning', 'message' => 'Selecciona un registros']);
+        }
+        
+    }
 }

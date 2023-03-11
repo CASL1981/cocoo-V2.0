@@ -5,6 +5,9 @@ namespace Modules\Orders\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\App;
+use Modules\Orders\Entities\DetailOperation;
+use Modules\Orders\Entities\Operation;
 
 class OrderController extends Controller
 {
@@ -79,5 +82,29 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function pdf($Operation)
+    {        
+        $order = Operation::where('id', $Operation)->get()->toArray();
+        
+        $detailOrder = DetailOperation::where('order_operation_id', $Operation)->get()->toArray();
+
+        $paginas = $this->getPaginas(count($detailOrder));
+
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('orders::Pdf.operation', compact('order', 'detailOrder', 'paginas'));
+        $pdf->setPaper('letter');        
+        return $pdf->stream();
+
+    }
+
+    public function getPaginas($detailOrder):int
+    {
+        $quantityRow = $detailOrder / 16;
+        
+        $parteDecimal = $quantityRow - floor($quantityRow);
+        
+        return $parteDecimal > 0 ? $quantityRow + (1 - $parteDecimal) : $quantityRow;
     }
 }

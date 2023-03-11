@@ -40,11 +40,9 @@ class Payments extends Component
     
     public function render()
     {
-        $this->bulkDisabled = count($this->selectedModel) < 1;
-
         $payments = new Payment();
 
-        $payments = $payments->QueryTable($this->keyWord, $this->sortField, $this->sortDirection)->paginate(10);        
+        $payments = $payments->QueryTable($this->keyWord, $this->sortField, $this->sortDirection)->paginate(10);
 
         return view('basics::livewire.payment.view', compact('payments'));
     }
@@ -62,19 +60,16 @@ class Payments extends Component
 
         $this->show = true;
     }
-
-    // public function update()
-    // {
-    //     can('payment update'); 
-
-    //     $validate = $this->validate();
-
-    //     if ($this->selected_id) {
-    // 		$record = Payment::find($this->selected_id);
-    //         $record->update($validate);
-
-    //         $this->resetInput();            
-    // 		$this->emit('alert', ['type' => 'success', 'message' => 'Tipo de pagó actualizado']);
-    //     }
-    // }
+        
+    // Modificamos la funacion del Trait TableLivewire
+    public function auditoria()
+    {        
+        if ($this->selected_id) {
+            $this->audit = $this->model::with(['creator', 'editor'])->find($this->selected_id)->toArray();                        
+            $this->showauditor = true;
+        } else {
+            $this->emit('alert', ['type' => 'warning', 'message' => 'Selecciona un registros']);
+        }
+        
+    }
 }

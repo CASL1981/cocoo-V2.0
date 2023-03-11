@@ -35,7 +35,7 @@ class Products extends Component
         $this->messageModel = 'Producto';
 
         $this->model = 'Modules\Orders\Entities\Product';
-        $this->exportable ='App\Exports\ProductsExport';
+        $this->exportable ='App\Exports\ProductExport';
     }
 
     protected function rules() 

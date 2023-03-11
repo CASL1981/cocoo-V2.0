@@ -4,39 +4,43 @@
         <x-slot name="title">Ordenes de Compra</x-slot>
         <x-slot name="button">
           <div class="btn-group float-right" role="group" aria-label="Basic example">
-            @can('product reverse')
-              <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('reverseItem')" title="Eliminar Registro"
-              @if ($bulkDisabled) disabled @endif><i class="fa fa-history text-eith"></i>
-              </button>
+            
+              
+            <a href="{{route('order.pdf', $selected_id)}}" target=”_blank” title="Exportar a PDF"
+            class="btn btn-sm btn-primary {{ $bulkDisabled ? 'disabled' : '' }}"><i class="fa fa-file-pdf text-with"></i></a>
+            @can('operation reverse')
+            <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('reverseItem')" title="Reversar Registro"
+            @if ($bulkDisabled) disabled @endif><i class="fa fa-history text-with"></i>
+            </button>
             @endcan
-            @can('product process')
-              <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('processItem')" title="Procesar Registro"
-              @if ($bulkDisabled) disabled @endif><i class="fa fa-save text-eith"></i>
-              </button>
+            @can('operation process')
+            <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('processItem')" title="Procesar Registro"
+            @if ($bulkDisabled) disabled @endif><i class="fa fa-save text-with"></i>
+            </button>
             @endcan
-            @can('product process')
-              <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('detailOrder')" title="Adicionar Registros a la Orden"
-              @if ($bulkDisabled) disabled @endif><i class="fa fa-list-alt text-eith"></i>
-              </button>
+            @can('operation process')
+            <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('detailOrder')" title="Adicionar Registros a la Orden"
+            @if ($bulkDisabled) disabled @endif><i class="fa fa-list-alt text-with"></i>
+            </button>
             @endcan
-            @can('product delete')
-              <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('destroyItem')" title="Eliminar Registro"
-              @if ($bulkDisabled) disabled @endif><i class="fa fa-trash text-eith"></i>
-              </button>
+            @can('operation delete')
+            <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('destroyItem')" title="Eliminar Registro"
+            @if ($bulkDisabled) disabled @endif><i class="fa fa-trash text-with"></i>
+            </button>
             @endcan
-            @can('product toggle')
-                <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('toggleItem')" title="Activar o Desactivar Item"
-                @if ($bulkDisabled) disabled @endif><i class="fa fa-exclamation text-with"></i>
-                </button>                
+            @can('operation toggle')
+            <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('toggleItem')" title="Activar o Desactivar Item"
+            @if ($bulkDisabled) disabled @endif><i class="fa fa-exclamation text-with"></i>
+            </button>                
             @endcan
             @can('product update')
-              <button class="btn btn-sm btn-primary" wire:click="edit()" title="Modificar Registro"
-              @if ($bulkDisabled) disabled @endif><i class="fa fa-edit text-eith"></i>
-              </button>
-            @endcan
+            <button class="btn btn-sm btn-primary" wire:click="edit()" title="Modificar Registro"
+            @if ($bulkDisabled) disabled @endif><i class="fa fa-edit text-with"></i>
+            </button>
+            @endcan  
             @can('product create')
             <button class="btn btn-sm btn-primary" wire:click="$set('show', true)" title="Adicionar Registro">
-                <i class="fa fa-plus text-with"></i>
+            <i class="fa fa-plus text-with"></i>
             </button>
             @endcan
           </div>
@@ -111,26 +115,26 @@
         </x-slot>
       </x-otros.view-card>
     </div>
-  </div>
+</div>
   
-  @push('styles')
-  
-  @endpush
-  @push('scripts')
-  <script>
-    window.livewire.on('destroyItem', (id) => {
-          Swal.fire({
-              title: 'Estas segro?',
-              text: "¡Deseas Eliminar este Item!",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Si, Eliminala!'
-              }).then((result) => {
-              if (result.isConfirmed) {
-                  Livewire.emit('deleteItem')
-              }});
-          });
-  </script>
-  @endpush
+@push('styles')
+
+@endpush
+@push('scripts')
+<script>
+  window.livewire.on('destroyItem', (id) => {
+        Swal.fire({
+            title: 'Estas segro?',
+            text: "¡Deseas Eliminar este Item!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, Eliminala!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                Livewire.emit('deleteItem')
+            }});
+        });
+</script>
+@endpush

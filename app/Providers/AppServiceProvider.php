@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Model;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,6 +34,8 @@ class AppServiceProvider extends ServiceProvider
         Builder::macro('search', function($field, $string){
             return $string ? $this->orWhere($field, 'like', '%'.$string.'%') : $this;
         });
+
+        Model::preventLazyLoading(! app()->isProduction());
 
     }
 }

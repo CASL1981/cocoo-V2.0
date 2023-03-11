@@ -10,11 +10,14 @@ use Modules\Basics\Entities\Client;
 use Modules\Basics\Entities\Employee;
 use Modules\Basics\Entities\Payment;
 use Modules\Basics\Entities\TypePrice;
+use App\Traits\CRUDLivewireTrait;
+use Modules\Basics\Http\Requests\RequestClient;
 
 class Clients extends Component
 {
     use WithPagination;
     use TableLivewire;
+    use CRUDLivewireTrait;
 
     public $identification, $first_name, $last_name, $client_name, $status, $type_document, $address, $phone; 
     public $cel_phone, $entry_date, $email, $gender, $type, $birth_date, $limit, $vendedor_id, $typeprice_id;
@@ -30,40 +33,18 @@ class Clients extends Component
 
         $this->payments = Payment::pluck('name', 'id')->toArray();
 
-        $this->typeprices = TypePrice::where('status', 'Open')->pluck('name', 'id')->toArray();        
+        $this->typeprices = TypePrice::where('status', 'Open')->pluck('name', 'id')->toArray(); 
+        
+        $this->permissionModel = 'client';
+        
+        $this->messageModel = 'Terceros';
                         
         $this->model = 'Modules\Basics\Entities\Client';
         $this->exportable ='App\Exports\ClientsExport';
-    }
-
-    protected function rules() 
-    {
-        return [
-            'identification' => ['required', 'numeric', Rule::unique('basic_clients')->ignore($this->selected_id)],
-            'first_name' => 'nullable|string|max:100|min:4',
-            'last_name' => 'nullable|string|max:100|min:4',
-            'client_name' => 'nullable|string|max:100|min:4',
-            'type_document' => 'nullable|max:3',
-            'address' => 'nullable|max:192',
-            'phone' => 'nullable|digits:10',
-            'cel_phone' => 'nullable|digits:10',
-            'entry_date' => 'nullable|date',            
-            'email' => ['nullable', 'email', 'max:100', Rule::unique('basic_clients')->ignore($this->selected_id)],            
-            'gender' => ['nullable', 'max:1', Rule::in(['M', 'F', 'O'])],
-            'type' => ['nullable', 'max:10', Rule::in(['Proveedor', 'Cliente', 'Otro'])],
-            'birth_date' => 'nullable|date',
-            'limit' => 'nullable',
-            'vendedor_id' => 'nullable',
-            'typeprice_id' => 'nullable',
-            'shoppingcontact' => 'nullable|max:100',
-            'conditionpayment_id' => 'nullable'
-        ];
-    }            
+    }          
 
     public function render()
     {
-        $this->bulkDisabled = count($this->selectedModel) < 1;
-
         $clients = new Client();
 
         $clients = $clients->QueryTable($this->keyWord, $this->sortField, $this->sortDirection)->paginate(20);
@@ -75,7 +56,9 @@ class Clients extends Component
     {   
         can('client create');
 
-        $validate = $this->validate();    	
+        $requestClient = new RequestClient();        
+
+        $validate = $this->validate($requestClient->rules());     	
         
         Client::create($validate);        
         
@@ -116,10 +99,14 @@ class Clients extends Component
     {
         can('client update'); 
 
-        $validate = $this->validate();
-
         if ($this->selected_id) {
+            //Consultamos el tercero seleccionado
     		$record = Client::find($this->selected_id);
+
+            $requestClient = new RequestClient();        
+            //validamos el request
+            $validate = $this->validate($requestClient->rules($record)); 
+            //actualizamos el registro seleccionado
             $record->update($validate);
 
             $this->resetInput();            
@@ -151,5 +138,16 @@ class Clients extends Component
             $this->emit('alert', ['type' => 'warning', 'message' => 'Selecciona un Tercero']);
         }
     }  
-   
+       
+    // Modificamos la funacion del Trait TableLivewire
+    public function auditoria()
+    {        
+        if ($this->selected_id) {
+            $this->audit = $this->model::with(['creator', 'editor'])->find($this->selected_id)->toArray();                        
+            $this->showauditor = true;
+        } else {
+            $this->emit('alert', ['type' => 'warning', 'message' => 'Selecciona un registros']);
+        }
+        
+    }
 }

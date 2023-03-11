@@ -3,7 +3,7 @@
 @section('content')
     <div class="row grid-margin">        
         <div class="col-12">
-            <livewire:orders::operations />            
+            <livewire:orders::operations />
         </div>
     </div>
 @endsection

@@ -26,7 +26,7 @@
     @stack('styles') 
 </head>
 
-<body class="sidebar-absolute sidebar-hidden">
+<body class="sidebar-icon-only">
   <div class="container-scroller">
     <!-- partial:../../partials/_navbar.html -->
     @include('layouts.navigation')    
@@ -66,7 +66,7 @@
   <!-- endinject -->
   <!-- inject:js -->  
   {{-- <script src="{{ asset('js/off-canvas.js') }}"></script> --}}
-  {{-- <script src="{{ asset('js/hoverable-collapse.js') }}"></script> --}}
+  <script src="{{ asset('js/hoverable-collapse.js') }}"></script>
   <script src="{{ asset('js/misc.js') }}"></script>
   <script src="{{ asset('js/settings.js') }}"></script>
   <script src="{{ asset('js/file-upload.js') }}"></script>

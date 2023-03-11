@@ -29,8 +29,7 @@ trait TableLivewire
         : 'asc';
         
         $this->sortField = $field;
-    }
-    
+    }    
     
     public function updatingKeyWord()
     {
@@ -65,11 +64,14 @@ trait TableLivewire
         $value ? $this->selectedModel = $this->model::pluck('id') : $this->selectedModel = [];
     }
     
-    public function updatedSelectedModel($value)
+    public function updatedSelectedModel()
     {
-        $this->bulkDisabled = count($this->selectedModel) < 1;
-        // dd($this->bulkDisabled);
+        $this->bulkDisabled = count($this->selectedModel) < 1;        
     }
+    /**
+     * @param mixed $ext extención del archivo
+     * 
+     */
 
     public function export($ext)
     {        

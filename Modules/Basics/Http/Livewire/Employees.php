@@ -3,16 +3,18 @@
 namespace Modules\Basics\Http\Livewire;
 
 use App\Traits\TableLivewire;
-use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Modules\Basics\Entities\Destination;
 use Modules\Basics\Entities\Employee;
+use App\Traits\CRUDLivewireTrait;
+use Modules\Basics\Http\Requests\RequestEmployee;
 
 class Employees extends Component
 {
     use WithPagination;
     use TableLivewire;
+    use CRUDLivewireTrait;
 
     public $identification, $first_name, $last_name, $status, $type_document, $address, $phone; 
     public $cel_phone, $entry_date, $email, $gender, $birth_date, $location_id, $photo_path, $vendedor;
@@ -23,35 +25,17 @@ class Employees extends Component
     public function hydrate()
     {
         $this->destinations = Destination::pluck('name', 'costcenter')->toArray();
+
+        $this->permissionModel = 'employee';
+        
+        $this->messageModel = 'Empleado';    
                         
         $this->model = 'Modules\Basics\Entities\Employee';
         $this->exportable ='App\Exports\EmployeesExport';
-    }
-    
-    protected function rules() 
-    {
-        return [
-            'identification' => ['required', 'numeric', Rule::unique('basic_employees')->ignore($this->selected_id)],
-            'first_name' => 'required|string|max:100|min:4',
-            'last_name' => 'required|string|max:100|min:4',
-            'type_document' => 'required|max:2',
-            'address' => 'nullable|max:192',
-            'phone' => 'nullable|digits:10',
-            'cel_phone' => 'nullable|digits:10',
-            'entry_date' => 'nullable|date',
-            'email' => ['nullable', 'email', 'max:100', Rule::unique('basic_employees')->ignore($this->selected_id)],
-            'vendedor' => 'nullable',            
-            'gender' => ['nullable', 'max:1', Rule::in(['M', 'F', 'O'])],
-            'birth_date' => 'nullable|date',
-            'location_id' => 'nullable',
-            'photo_path' => 'nullable'
-        ];
-    }            
+    }        
 
     public function render()
     {
-        $this->bulkDisabled = count($this->selectedModel) < 1;
-
         $employees = new Employee();
 
         $employees = $employees->QueryTable($this->keyWord, $this->sortField, $this->sortDirection)->paginate(20);
@@ -63,7 +47,9 @@ class Employees extends Component
     {   
         can('employee create');
 
-        $validate = $this->validate();    	
+        $requestEmployee = new RequestEmployee();        
+
+        $validate = $this->validate($requestEmployee->rules());        
         
         Employee::create($validate);        
         
@@ -99,10 +85,15 @@ class Employees extends Component
     {
         can('employee update');
 
-        $validate = $this->validate();
-
         if ($this->selected_id) {
+            //Consultamos el tercero seleccionado
     		$record = Employee::find($this->selected_id);
+            
+            //validamos el request
+            $requestEmployee = new RequestEmployee();        
+            $validate = $this->validate($requestEmployee->rules($record));
+
+            //actualizamos el registro seleccionado
             $record->update($validate);
 
             $this->resetInput();            
@@ -133,5 +124,17 @@ class Employees extends Component
         } else {
             $this->emit('alert', ['type' => 'warning', 'message' => 'Selecciona un Usuario']);
         }
+    }
+    
+    // Modificamos la funacion del Trait TableLivewire
+    public function auditoria()
+    {        
+        if ($this->selected_id) {
+            $this->audit = $this->model::with(['creator', 'editor'])->find($this->selected_id)->toArray();                        
+            $this->showauditor = true;
+        } else {
+            $this->emit('alert', ['type' => 'warning', 'message' => 'Selecciona un registros']);
+        }
+        
     }
 }

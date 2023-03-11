@@ -30,5 +30,7 @@ Route::group(['middleware' => 'auth'], function(){
         ->name('basic.classifications');
         Route::view('typeprice', 'basics::livewire.typeprice.index')
         ->name('basic.typeprice')->middleware('can_view:typeprice');
+        Route::view('sequence', 'basics::livewire.sequence.index')
+        ->name('basic.sequence')->middleware('can_view:sequence');
     });
 });
