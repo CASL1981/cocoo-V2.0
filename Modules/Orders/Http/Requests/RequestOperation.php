@@ -13,12 +13,14 @@ class RequestOperation extends FormRequest
      */
     public function rules()
     {
-        return [            
+        return [
             'date' => 'required|date',
-            'basic_client_id' => ['required'],
-            'basic_payment_id' => ['required'],
+            'basic_client_id' => 'required',
+            'basic_payment_id' => 'required',
+            'basic_payment_interval' => 'nullable',
             'observation' => 'nullable|max:255',
-            'basic_type_price_id' => ['required'],
+            'delivery_time' => 'nullable|max:50',
+            'basic_type_price_id' => 'required',
             'biller' => 'required|numeric',
             'responsible' => 'required|numeric',
             'basic_classification_id' => ['nullable'],

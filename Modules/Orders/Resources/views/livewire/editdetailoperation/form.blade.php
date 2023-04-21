@@ -4,52 +4,52 @@
     </x-slot>
     <x-form.form>
         <x-slot name="form">
-            <div class="row"> 
+            <div class="row">
                 <div class="form-group col-md-4">
-                    <x-form.label for="product_name">Producto</x-form.label>                    
+                    <x-form.label for="product_name">Producto</x-form.label>
                     <x-form.input wire:model.defer.defer="product_name" type="text" required maxlength="100"></x-form.input>
                     <x-form.input-error for="product_name"></x-form.input-error>
                 </div>
                 <div class="form-group col-md-2">
                     <x-form.label for="quantity">Cantidad</x-form.label>
-                    <x-form.input wire:model.defer="quantity" type="number"></x-form.input>
+                    <x-form.input wire:model.defer="quantity" type="number" disabled></x-form.input>
                     <x-form.input-error for="quantity"></x-form.input-error>
                 </div>
                 <div class="form-group col-md-2">
                     <x-form.label for="price">Precio</x-form.label>
-                    <x-form.input wire:model.defer="price" type="number"></x-form.input>
+                    <x-form.input wire:model.defer="price" type="number" disabled></x-form.input>
                     <x-form.input-error for="price"></x-form.input-error>
                 </div>
                 <div class="form-group col-md-2">
-                    <x-form.label for="discount">Descuento</x-form.label>                    
-                    <x-form.input wire:model.defer="discount" type="text"></x-form.input>
+                    <x-form.label for="discount">Descuento</x-form.label>
+                    <x-form.input wire:model.defer="discount" type="text" disabled></x-form.input>
                     <x-form.input-error for="discount"></x-form.input-error>
                 </div>
                 <div class="form-group col-md-2">
-                    <x-form.label for="discount_percentage">Porce. Desc.</x-form.label>                    
-                    <x-form.input wire:model.defer="discount_percentage" type="number"></x-form.input>
+                    <x-form.label for="discount_percentage">Porce. Desc.</x-form.label>
+                    <x-form.input wire:model.defer="discount_percentage" type="number" disabled></x-form.input>
                     <x-form.input-error for="discount_percentage"></x-form.input-error>
                 </div>
             </div>
-            <div class="row">                 
+            <div class="row">
                 <div class="form-group col-md-2">
                     <x-form.label for="subtotal">Subtotal</x-form.label>
-                    <x-form.input wire:model.defer="subtotal" type="number"></x-form.input>
+                    <x-form.input wire:model.defer="subtotal" type="number" disabled></x-form.input>
                     <x-form.input-error for="subtotal"></x-form.input-error>
                 </div>
                 <div class="form-group col-md-2">
                     <x-form.label for="tax_sale">Valor Impuesto</x-form.label>
-                    <x-form.input wire:model.defer="tax_sale" type="number"></x-form.input>
+                    <x-form.input wire:model.defer="tax_sale" type="number" disabled></x-form.input>
                     <x-form.input-error for="tax_sale"></x-form.input-error>
                 </div>
                 <div class="form-group col-md-2">
                     <x-form.label for="tax_sale_percentage">Porcentaje Impuesto</x-form.label>
-                    <x-form.input wire:model.defer="tax_sale_percentage" type="number"></x-form.input>
+                    <x-form.input wire:model.defer="tax_sale_percentage" type="number" disabled></x-form.input>
                     <x-form.input-error for="tax_sale_percentage"></x-form.input-error>
                 </div>
                 <div class="form-group col-md-2">
                     <x-form.label for="total">Total</x-form.label>
-                    <x-form.input wire:model.defer="total" type="number"></x-form.input>
+                    <x-form.input wire:model.defer="total" type="number" disabled></x-form.input>
                     <x-form.input-error for="total"></x-form.input-error>
                 </div>
                 <div class="form-group col-md-2">

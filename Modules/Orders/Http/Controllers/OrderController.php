@@ -87,6 +87,8 @@ class OrderController extends Controller
     public function pdf($Operation)
     {        
         $order = Operation::where('id', $Operation)->get()->toArray();
+
+        // dd($order);
         
         $detailOrder = DetailOperation::where('order_operation_id', $Operation)->get()->toArray();
 

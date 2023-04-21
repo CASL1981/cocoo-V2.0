@@ -5,9 +5,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Carbon\Carbon;
 use Modules\Basics\Entities\Classification;
 use Modules\Basics\Entities\Client;
-use Modules\Basics\Entities\Employee;
 use Modules\Basics\Entities\Payment;
-use Modules\Orders\Entities\TypePrice;
+use Modules\Basics\Entities\TypePrice;
 
 class OperationFactory extends Factory
 {
@@ -31,18 +30,21 @@ class OperationFactory extends Factory
             'basic_client_name' => Client::whereId($client)->first()->client_name,
             'basic_payment_id' => $payment = $this->faker->numberBetween(1, 6),
             'basic_payment_name' => Payment::whereId($payment)->first()->name,
+            'basic_payment_interval' => '30 DÍAS',
             'observation' => $this->faker->text(200),
-			'order_type_price_id' => $typeprice = $this->faker->numberBetween(21, 24),
-			'order_type_price_name' => TypePrice::whereId($typeprice)->first()->name,
+			'basic_type_price_id' => $typeprice = $this->faker->numberBetween(21, 24),
+			'basic_type_price_name' => TypePrice::whereId($typeprice)->first()->name,
             'biller' => 56054319,
             'responsible' => 7383633,
             'basic_classification_id' => $classification = $this->faker->numberBetween(1, 4),
-            'basic_classification_name' => Classification::whereId($classification)->first()->name, 
+            'basic_classification_name' => Classification::whereId($classification)->first()->name,
 			'brute' => 0,
 			'discount' => 0,
 			'subtotal' => 0,
 			'tax_sale' => 0,
 			'total' => 0,
+            'month' => Carbon::now()->month,
+            'year' => Carbon::now()->year,
         ];
     }
 }

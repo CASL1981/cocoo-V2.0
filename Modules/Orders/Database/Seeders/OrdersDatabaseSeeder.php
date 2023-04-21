@@ -17,7 +17,7 @@ class OrdersDatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->call(ProductTableSeeder::class);
-        $this->call(TypePriceTableSeeder::class);
+        // $this->call(TypePriceTableSeeder::class);
         $this->call(PriceTableSeeder::class);
         $this->call(OperationTableSeeder::class);
     }

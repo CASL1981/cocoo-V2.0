@@ -82,9 +82,10 @@ class Prices extends Component
 
         $validate = $this->validate();
 
+        
         $validate = $this->addFillableValidation($validate);
         
-        $this->model::create($validate);
+        Price::create($validate);        
         
         $this->resetInput();        
     	$this->emit('alert', ['type' => 'success', 'message' => $this->messageModel . ' creada']);

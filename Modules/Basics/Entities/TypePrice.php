@@ -16,11 +16,11 @@ class TypePrice extends Model
     protected $fillable = ['name', 'increment', 'tax', 'status', 'type', 'minimum', 'maximum'];
 
     protected $table = 'basic_type_prices';
-    
+
     protected static function newFactory()
     {
-        return \Modules\Orders\Database\factories\TypePriceFactory::new();
-    }   
+        return \Modules\Basics\Database\factories\TypePriceFactory::new();
+    }
 
     public function getStatusColorAttribute()
     {
@@ -40,9 +40,9 @@ class TypePrice extends Model
     public function QueryTable($keyWord = null, $sortField, $sortDirection)
     {
         return $this->withTrashed()
-        ->select('id','name', 'increment', 'tax', 'status', 'type','minimum', 'maximum')        
+        ->select('id','name', 'increment', 'tax', 'status', 'type','minimum', 'maximum')
         ->search('name', $keyWord)
         ->search('status', $keyWord)
-        ->orderBy($sortField, $sortDirection); 
+        ->orderBy($sortField, $sortDirection);
     }
 }

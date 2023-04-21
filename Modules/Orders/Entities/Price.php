@@ -11,16 +11,18 @@ use Modules\Basics\Entities\TypePrice;
 use Wildside\Userstamps\Userstamps;
 
 class Price extends Model
-{    
-    
+{
+
     use HasFactory;
     use Userstamps;
     use SoftDeletes;
-    
-    protected $fillable = ['order_product_id', 'order_product_name', 'basic_client_id', 'basic_type_price_id', 'date', 'value', 'status'];
-    
+
+
+    protected $fillable = ['order_product_id', 'order_product_name',
+    'basic_client_id', 'basic_type_price_id', 'date', 'value', 'status'];
+
     protected $table = 'order_prices';
-    
+
     protected static function newFactory()
     {
         return \Modules\Orders\Database\factories\PriceFactory::new();
@@ -34,7 +36,7 @@ class Price extends Model
             'Cancelled' => 'danger',
         ][$this->status] ?? 'info';
     }
-    
+
     protected $casts = [
         'created_at' => 'datetime:Y-m-d h:m:s',
         'updated_at' => 'datetime:d-m-Y h:m:s',
@@ -55,7 +57,7 @@ class Price extends Model
         ->orWhereHas('typeprices', function($query) use ($keyWord){
             $query->where('name','like','%'.$keyWord.'%');
         })
-        ->orderBy($sortField, $sortDirection); 
+        ->orderBy($sortField, $sortDirection);
     }
 
     public function clients(): BelongsTo

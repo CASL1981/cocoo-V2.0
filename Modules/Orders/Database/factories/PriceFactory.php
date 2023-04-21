@@ -25,8 +25,8 @@ class PriceFactory extends Factory
             'order_product_id' => $product = $this->faker->numberBetween(41, 49),
             'order_product_name' => Product::whereId($product)->first()->name,
             'basic_client_id' => $this->faker->numberBetween(93, 95),
-			'order_type_price_id' => $this->faker->numberBetween(21, 24),
-            'date' => Carbon::now()->addWeek(2),			
+			'basic_type_price_id' => $this->faker->numberBetween(21, 24),
+            'date' => Carbon::now()->addWeek(2),
             'value' => $this->faker->randomNumber(4,true)
         ];
     }

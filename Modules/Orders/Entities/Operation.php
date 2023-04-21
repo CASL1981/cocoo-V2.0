@@ -18,12 +18,13 @@ class Operation extends Model
     use Userstamps;
     use SoftDeletes;
 
-    protected $fillable = ['date', 'status', 'basic_client_id', 'basic_payment_id', 'observation', 'basic_type_price_id', 
-                        'biller', 'responsible', 'basic_classification_id', 'brute', 'discount', 'subtotal', 'tax_sale', 'total',
-                        'basic_client_name', 'basic_payment_name', 'basic_classification_name', 'basic_type_price_name', 'created_by', 'updated_by', 'deleted_by'];
+    protected $fillable = ['date', 'status', 'basic_client_id', 'basic_payment_id', 'basic_payment_interval', 'observation', 'basic_type_price_id',
+                        'biller', 'responsible', 'delivery_time', 'basic_classification_id', 'brute', 'discount', 'subtotal', 'tax_sale', 'total',
+                        'basic_client_name', 'basic_payment_name', 'basic_classification_name', 'basic_type_price_name', 'created_by', 'updated_by',
+                        'deleted_by', 'recibido', 'month', 'year'];
 
     protected $table = 'order_operations';
-        
+
     protected $casts = [
         'created_at' => 'datetime:Y-m-d h:m:s',
         'updated_at' => 'datetime:d-m-Y h:m:s',
@@ -33,7 +34,7 @@ class Operation extends Model
     protected static function newFactory()
     {
         return \Modules\Orders\Database\factories\OperationFactory::new();
-    }    
+    }
 
     public function getStatusColorAttribute()
     {
@@ -48,16 +49,16 @@ class Operation extends Model
     {
         return $this->withTrashed()
         ->with(['clients'])
-        ->select('id','date', 'status', 'basic_client_id','basic_payment_id', 'observation',
-                             'basic_type_price_id', 'biller', 'responsible', 'basic_classification_id',
-                             'basic_client_name', 'basic_payment_name', 'basic_classification_name', 
-                             'basic_type_price_name', 'brute', 'discount', 'subtotal', 'tax_sale', 'total')
+        ->select('id','date', 'status', 'basic_client_id','basic_payment_id','basic_payment_interval', 'observation', 'delivery_time',
+                'basic_type_price_id', 'biller', 'responsible', 'basic_classification_id',
+                'basic_client_name', 'basic_payment_name', 'basic_classification_name', 'recibido',
+                'basic_type_price_name', 'brute', 'discount', 'subtotal', 'tax_sale', 'total')
         ->search('status', $keyWord)
         ->search('observation', $keyWord)
         ->search('basic_client_name', $keyWord)
         ->search('basic_payment_name', $keyWord)
         ->search('basic_classification_name', $keyWord)
-        ->orderBy($sortField, $sortDirection); 
+        ->orderBy($sortField, $sortDirection);
     }
 
     public function clients(): BelongsTo

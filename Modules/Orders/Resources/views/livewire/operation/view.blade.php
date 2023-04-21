@@ -4,8 +4,8 @@
         <x-slot name="title">Ordenes de Compra</x-slot>
         <x-slot name="button">
           <div class="btn-group float-right" role="group" aria-label="Basic example">
-            
-              
+
+
             <a href="{{route('order.pdf', $selected_id)}}" target=”_blank” title="Exportar a PDF"
             class="btn btn-sm btn-primary {{ $bulkDisabled ? 'disabled' : '' }}"><i class="fa fa-file-pdf text-with"></i></a>
             @can('operation reverse')
@@ -31,13 +31,18 @@
             @can('operation toggle')
             <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('toggleItem')" title="Activar o Desactivar Item"
             @if ($bulkDisabled) disabled @endif><i class="fa fa-exclamation text-with"></i>
-            </button>                
+            </button>
             @endcan
             @can('product update')
-            <button class="btn btn-sm btn-primary" wire:click="edit()" title="Modificar Registro"
+            <button class="btn btn-sm btn-primary" wire:click="receive()" title="Recibir Orden"
+            @if ($bulkDisabled) disabled @endif><i class="fa fa-check text-with"></i>
+            </button>
+            @endcan
+            @can('product update')
+            <button class="btn btn-sm btn-primary" wire:click="edit()" title="Recibir Order"
             @if ($bulkDisabled) disabled @endif><i class="fa fa-edit text-with"></i>
             </button>
-            @endcan  
+            @endcan
             @can('product create')
             <button class="btn btn-sm btn-primary" wire:click="$set('show', true)" title="Adicionar Registro">
             <i class="fa fa-plus text-with"></i>
@@ -52,14 +57,16 @@
                   <label class="form-check-label text-danger" style="width:10">
                   <input type="checkbox" class="form-check-input" wire:model="selectAll">
                   <i class="input-helper"></i></label>
-              </div>                      
+              </div>
             </th>
-            <x-table.th weight="80px" field="id" width="80px">#</x-table.th>            
+            <x-table.th weight="80px" field="id" width="80px">#</x-table.th>
             <x-table.th field="date">Fecha</x-table.th>
             <x-table.th field="basic_client_id">Proveedor</x-table.th>
             <x-table.th field="basic_client_name">Nombre Proveedor</x-table.th>
             <x-table.th field="status" class="text-center">Estado</x-table.th>
             <x-table.th field="basic_payment_name">Condición Pago</x-table.th>
+            <x-table.th field="basic_payment_interval">Plazo</x-table.th>
+            <x-table.th field="basic_payment_interval">Tiempo Entrega</x-table.th>
             <x-table.th field="observation">Observaciones</x-table.th>
             <x-table.th field="basic_type_price_id">Lista Precio</x-table.th>
             <x-table.th field="biller" class="text-center">Revisado</x-table.th>
@@ -71,14 +78,14 @@
             <x-table.th field="tax_sale" class="text-center">Impuesto</x-table.th>
             <x-table.th field="total" class="text-center">Total</x-table.th>
           </x-slot>
-          @forelse ($operations as $key => $item)            
-            <tr class="{{ $item->status === 'Cancelled' ? 'text-danger' : '' }}">
-              <td class="p-1" width="40px">                  
+          @forelse ($operations as $key => $item)
+            <tr class="{{ $item->status === 'Cancelled' ? 'text-danger' : '' }} {{ $item->recibido ? 'text-success' : '' }}">
+              <td class="p-1" width="40px">
                 <div class="form-check form-check-flat form-check-primary">
-                <label class="form-check-label">                    
-                    <input type="checkbox" class="form-check-input" 
-                    wire:model="selectedModel" 
-                    value="{{$item->id}}" 
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input"
+                    wire:model="selectedModel"
+                    value="{{$item->id}}"
                     wire:click="$set('selected_id',{{$item->id}})"
                     >
                 <i class="input-helper"></i></label>
@@ -90,6 +97,8 @@
               <td class="text-nowrap">{{ $item->basic_client_name }}</td>
               <td class="text-nowrap text-{{ $item->status_color }}">{{ $item->status }}</td>
               <td class="text-nowrap">{{ $item->basic_payment_name }}</td>
+              <td class="text-nowrap">{{ $item->basic_payment_interval }}</td>
+              <td class="text-nowrap">{{ $item->delivery_time }}</td>
               <td class="text-nowrap" title="{{$item->observation}}">{{ Str::limit($item->observation,40) }}</td>
               <td class="text-nowrap">{{ $item->basic_type_price_name }}</td>
               <td class="text-nowrap">{{ $item->biller }}</td>
@@ -105,7 +114,7 @@
           <tr>
             <x-table.td colspan="7">
               <x-otros.error-search></x-otros.error-search>
-            </x-table.td>              
+            </x-table.td>
           </tr>
           @endforelse
         @include('orders::livewire.operation.form')
@@ -116,7 +125,7 @@
       </x-otros.view-card>
     </div>
 </div>
-  
+
 @push('styles')
 
 @endpush

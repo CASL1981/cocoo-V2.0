@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
     {
         Storage::deleteDirectory('profile_photo');
         Storage::makeDirectory('profile_photo');
-                
-        
+
+
         User::factory(3)->create()->each(function($u){
             Profile::create(['user_id' => $u->id]);
         });

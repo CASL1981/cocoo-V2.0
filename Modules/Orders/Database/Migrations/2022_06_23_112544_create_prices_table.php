@@ -21,7 +21,7 @@ class CreatePricesTable extends Migration
             $table->foreignId('basic_type_price_id')->nullable()->constrained();            
             $table->date('date')->nullable()->comment('fecha de vigencia de las lista de precio');
             $table->string('status', 20)->default('Open');
-            $table->double('value', 8, 2)->comment('Valor del articulo');
+            $table->double('value', 12, 2)->comment('Valor del articulo');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->unsignedBigInteger('deleted_by')->nullable();

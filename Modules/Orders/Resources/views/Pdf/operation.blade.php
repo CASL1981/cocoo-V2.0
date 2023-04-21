@@ -34,15 +34,15 @@
         <br>
     </header>
     <footer>
-        <table>            
+        <table>
             <tr>
                 <td style="width: 100px" class="textleft">Condiciones de pago:</td>
-                <td style="width: 100px" class="textleft">ANTICIPO</td>
-                
+                <td style="width: 100px" class="textleft">{{ $order[0]['basic_payment_name'] }}</td>
+
                 <td style="width: 90px"></td>
                 <td style="width: 70px" class="textleft">Plazo:</td>
-                <td style="width: 190px" class="textleft">CREDITO A 30 DÍAS</td>                
-            </tr>            
+                <td style="width: 190px" class="textleft">{{ $order[0]['basic_payment_interval'] }}</td>
+            </tr>
         </table>
         <br>
         <table>
@@ -54,7 +54,7 @@
                 <td style="width: 40px"></td>
                 <td style="width: 260px; padding: 5px; border: 1px solid black;" class="negrita">
                     <span>Tiempo de Entrega</span><br>
-                    <span>INMEDIATA</span>
+                    <span>{{ $order[0]['delivery_time'] }}</span>
                 </td>
             </tr>
           </table>
@@ -79,7 +79,7 @@
             <span>E-MAIL: administrativo@coodescor.org.co</span><br><br>
             <span>Carrera 28ª No. 23-03 Montería - Córdoba Tel: 791 8080 Telefax: (4) 791 8181 - Ventas (4) 791 3030</span>
           </div>
-    </footer>        
+    </footer>
     <!-- Tablde Ingresos Y Retiros -->
     @for ($i = 1; $i <= $paginas; $i++)
         <table>
@@ -88,7 +88,7 @@
                 <th class="bordecompleto" style="width: 70px">Nit</th>
                 <th class="bordecompleto" style="width: 70px">Fecha</th>
                 <th class="bordecompleto" style="width: 80px">No. de la O. de C.</th>
-                <th class="bordecompleto" style="width: 70px">Pagina</th>                
+                <th class="bordecompleto" style="width: 70px">Pagina</th>
             </tr>
             <tr>
                 <td class="bordecompleto">{{ $order[0]['basic_client_name'] }}</td>
@@ -96,12 +96,12 @@
                 <td class="bordecompleto">{{ $order[0]['date'] }}</td>
                 <td class="bordecompleto">{{ $order[0]['id'] }}</td>
                 <td class="bordecompleto">Página {{ $i }} de {{ $paginas }}</td>
-            </tr>           
+            </tr>
         </table>
         <br>
         <div style="font-size: 11px;">
             <span>C.U: Centro de utilidad para el cual COODESCOR realiza el pedido. Favor realizar una factura por cada CU</span>
-        </div>                
+        </div>
         <br>
         <div style="font-size: 11px;">
             <span>Objeto: Sirvase suministrar los siguientes elementos que a continuación se detallan</span>
@@ -118,9 +118,9 @@
                 <td class="bordecompleto" style="width: 70px">Valor Total</td>
             </tr>
         </table>
-        @if ($paginas == 1)        
+        @if ($paginas == 1)
             <main>
-                <table>            
+                <table>
                     @foreach ($detailOrder as $item)
                     <tr>
                         <td style="width: 50px; padding-top: 9px">{{ $item['basic_destination_id'] }}</td>
@@ -130,7 +130,7 @@
                         <td style="width: 70px; padding-top: 9px">{{ $item['brand'] }}</td>
                         <td style="width: 70px; padding-top: 9px" class="textright">{{ number_format($item['price'], 0) }}</td>
                         <td style="width: 70px; padding-top: 9px" class="textright">{{ number_format($item['subtotal'], 0) }}</td>
-                    </tr>                
+                    </tr>
                     @endforeach
                 </table>
                 <div>
@@ -162,13 +162,13 @@
                 </div>
             </main>
         @endif
-        @if ($paginas > 1 )            
+        @if ($paginas > 1 )
             @if ($i <> 2 || $paginas > 2)
-            <main style="page-break-after: always;">            
+            <main style="page-break-after: always;">
                 @php
                     $final = false;
                 @endphp
-                <table>                    
+                <table>
                     @foreach ($detailOrder as $item)
                     @if ($i == 1 && $loop->iteration <= 16)
                         <tr>
@@ -187,8 +187,8 @@
                         @endif
                     @endif
                     @endforeach
-                    @if ($i > 1)                    
-                    @foreach ($detailOrder as $item)                        
+                    @if ($i > 1)
+                    @foreach ($detailOrder as $item)
                         @if ($paginas > 1 && $loop->iteration > (16 * ($i - 1)) && $loop->iteration <= (16 * ($i)))
                             <tr>
                                 <td style="width: 50px; padding-top: 9px">{{ $item['basic_destination_id'] }}</td>
@@ -205,13 +205,13 @@
                         @endif
                     @endforeach
                     @endif
-                </table>                
+                </table>
             </main>
-            @endif            
+            @endif
             @if ($i == $paginas)
             <main style="page-break-after: never;">
                 <table>
-                    @foreach ($detailOrder as $item)                        
+                    @foreach ($detailOrder as $item)
                         @if ($loop->iteration > (16 * ($i - 1)) && $loop->iteration <= (16 * ($i)))
                             <tr>
                                 <td style="width: 50px; padding-top: 9px">{{ $item['basic_destination_id'] }}</td>
@@ -228,7 +228,7 @@
                         @endif
                     @endforeach
                 </table>
-                @if ($final)                        
+                @if ($final)
                     <div>
                         <table>
                             <tr style="padding: 5px;">
@@ -256,11 +256,11 @@
                             </tr>
                         </table>
                     </div>
-                @endif    
-                
+                @endif
+
             </main>
             @endif
-        @endif        
+        @endif
     @endfor
 </body>
 </html>
