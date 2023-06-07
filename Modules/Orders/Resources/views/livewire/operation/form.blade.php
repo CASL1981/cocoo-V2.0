@@ -5,43 +5,46 @@
     <x-form.form>
         <x-slot name="form">
             <div class="row">
-                <div class="form-group col-md-3">
-                    <x-form.label for="basic_client_id">Proveedor</x-form.label>
-                    <x-form.select wire:model="basic_client_id" wire:blur="searchprovider()" :options="$providers"></x-form.select>
-                    <x-form.input-error for="basic_client_id"></x-form.input-error>
+                <div class="form-group col-md-2">
+                    <x-form.label for="document">Documento</x-form.label>
+                    <x-form.select wire:model="document" :options="$documents"></x-form.select>
+                    <x-form.input-error for="document"></x-form.input-error>
                 </div>
                 <div class="form-group col-md-2">
                     <x-form.label for="date">Fecha</x-form.label>
                     <x-form.input wire:model.defer="date" required type="date"></x-form.input>
                     <x-form.input-error for="date"></x-form.input-error>
                 </div>
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-8">
+                    <x-form.label for="basic_client_id">Proveedor</x-form.label>
+                    <x-form.select wire:model="basic_client_id" wire:blur="searchprovider()" :options="$providers"></x-form.select>
+                    <x-form.input-error for="basic_client_id"></x-form.input-error>
+                </div>
+            </div>
+            <hr style="border-top: 1px solid rgba(22, 74, 217, 0.881)">
+            <div class="row">
+                <div class="form-group col-md-3">
                     <x-form.label for="basic_payment_id">Plazo</x-form.label>
                     <x-form.select wire:model.defer="basic_payment_id" :options="$payments"></x-form.select>
                     <x-form.input-error for="basic_payment_id"></x-form.input-error>
                 </div>
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-3">
                     <x-form.label for="basic_payment_interval">Plazo</x-form.label>
                     <x-form.input wire:model.defer="basic_payment_interval" maxlength="50"></x-form.input>
                     <x-form.input-error for="basic_payment_interval"></x-form.input-error>
                 </div>
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-3">
                     <x-form.label for="delivery_time">Tiempo Entrega</x-form.label>
                     <x-form.input wire:model.defer="delivery_time" maxlength="50"></x-form.input>
                     <x-form.input-error for="delivery_time"></x-form.input-error>
                 </div>
-                <div class="form-group col-md-1">
-                    <x-form.label for="basic_payment_id">Recibido</x-form.label>
-                    <x-form.select wire:model.defer="basic_payment_id" :options="['0' => 'No', '1' => 'Si']"></x-form.select>
-                    <x-form.input-error for="basic_payment_id"></x-form.input-error>
-                </div>
-            </div>
-            <div class="row">
                 <div class="form-group col-md-3">
                     <x-form.label for="order_type_price_id">Lista Precio</x-form.label>
                     <x-form.select wire:model.defer="basic_type_price_id" :options="$typeprices"></x-form.select>
                     <x-form.input-error for="order_type_price_id"></x-form.input-error>
                 </div>
+            </div>
+            <div class="row">
                 <div class="form-group col-md-3">
                     <x-form.label for="biller">Id. Aprobado</x-form.label>
                     <x-form.select wire:model.defer="biller" required :options="$employees"></x-form.select>

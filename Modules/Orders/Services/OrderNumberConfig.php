@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\OrderNumber;
+namespace Modules\Orders\Services;
 
 class OrderNumberConfig
 {

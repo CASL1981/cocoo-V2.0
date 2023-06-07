@@ -21,7 +21,7 @@ class Operation extends Model
     protected $fillable = ['date', 'status', 'basic_client_id', 'basic_payment_id', 'basic_payment_interval', 'observation', 'basic_type_price_id',
                         'biller', 'responsible', 'delivery_time', 'basic_classification_id', 'brute', 'discount', 'subtotal', 'tax_sale', 'total',
                         'basic_client_name', 'basic_payment_name', 'basic_classification_name', 'basic_type_price_name', 'created_by', 'updated_by',
-                        'deleted_by', 'recibido', 'month', 'year'];
+                        'deleted_by', 'recibido', 'month', 'year', 'document','number',];
 
     protected $table = 'order_operations';
 
@@ -49,7 +49,7 @@ class Operation extends Model
     {
         return $this->withTrashed()
         ->with(['clients'])
-        ->select('id','date', 'status', 'basic_client_id','basic_payment_id','basic_payment_interval', 'observation', 'delivery_time',
+        ->select('id','document','number','date', 'status', 'basic_client_id','basic_payment_id','basic_payment_interval', 'observation', 'delivery_time',
                 'basic_type_price_id', 'biller', 'responsible', 'basic_classification_id',
                 'basic_client_name', 'basic_payment_name', 'basic_classification_name', 'recibido',
                 'basic_type_price_name', 'brute', 'discount', 'subtotal', 'tax_sale', 'total')
@@ -60,6 +60,19 @@ class Operation extends Model
         ->search('basic_classification_name', $keyWord)
         ->orderBy($sortField, $sortDirection);
     }
+
+    //Mutator
+    /**
+     * Set the operatrion's Month.
+     *
+     * @return void
+     */
+    public function setMonthAttribute($value)
+    {
+        $this->attributes['month'] = $value;
+    }
+
+    //Relations
 
     public function clients(): BelongsTo
     {

@@ -25,6 +25,8 @@ class OperationFactory extends Factory
     public function definition()
     {
         return [
+            'document' => 'OC',
+            'number' => 3578,
             'date' => Carbon::now(),
             'basic_client_id' => $client = $this->faker->numberBetween(93, 95),
             'basic_client_name' => Client::whereId($client)->first()->client_name,

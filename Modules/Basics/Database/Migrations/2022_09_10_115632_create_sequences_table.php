@@ -17,7 +17,9 @@ class CreateSequencesTable extends Migration
             $table->id();
             $table->string('document', 3);
             $table->string('document_name', 100);
+            $table->string('modelo', 100);
             $table->integer('number');
+            $table->string('status', 20)->default('Open');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();

@@ -11,12 +11,12 @@ class Client extends Model
     use HasFactory;
     use Userstamps;
 
-    protected $fillable = ['identification', 'first_name', 'last_name', 'client_name','status', 'type_document', 
+    protected $fillable = ['identification', 'first_name', 'last_name', 'client_name','status', 'type_document',
                         'address', 'phone', 'cel_phone', 'entry_date', 'email', 'gender', 'type', 'birth_date', 'limit',
                         'vendedor_id', 'typeprice_id', 'shoppingcontact', 'conditionpayment_id', 'created_by', 'updated_by'];
 
     protected $table = 'basic_clients';
-    
+
     protected static function newFactory()
     {
         return \Modules\Basics\Database\factories\ClientFactory::new();
@@ -30,6 +30,16 @@ class Client extends Model
         ][$this->status] ?? 'info';
     }
 
+    /**
+    * Set the cliente cliente_name.
+    *
+    * @param string $value
+    */
+    public function setClientNameAttribute($value): void
+    {
+        $this->attributes['client_name'] = $value == '' ? $this->first_name . ' ' . $this->last_name : $value;
+    }
+
     protected $casts = [
         'created_at' => 'datetime:Y-m-d h:m:s',
         'updated_at' => 'datetime:d-m-Y h:m:s',
@@ -37,7 +47,7 @@ class Client extends Model
 
     public function QueryTable($keyWord = null, $sortField, $sortDirection)
     {
-        return $this->select('id','identification', 'first_name', 'last_name', 'client_name','status', 'type_document', 
+        return $this->select('id','identification', 'first_name', 'last_name', 'client_name','status', 'type_document',
                             'address', 'phone', 'cel_phone', 'entry_date', 'email', 'gender', 'type', 'birth_date', 'limit',
                             'vendedor_id', 'typeprice_id', 'shoppingcontact', 'conditionpayment_id')
         ->search('identification', $keyWord)
@@ -45,6 +55,6 @@ class Client extends Model
         ->search('last_name', $keyWord)
         ->search('client_name', $keyWord)
         ->search('type', $keyWord)
-        ->orderBy($sortField, $sortDirection); 
+        ->orderBy($sortField, $sortDirection);
     }
 }

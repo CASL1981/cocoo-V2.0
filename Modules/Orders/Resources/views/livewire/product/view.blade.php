@@ -3,14 +3,19 @@
       <x-otros.view-card :exportable="$exportable" :audit="$audit">
         <x-slot name="title">Productos</x-slot>
         <x-slot name="button">
-          <div class="btn-group float-right" role="group" aria-label="Basic example">            
+          <div class="btn-group float-right" role="group" aria-label="Basic example">
             @can('product toggle')
                 <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('toggleItem')" title="Activar o Desactivar Item"
                 @if ($bulkDisabled) disabled @endif><i class="fa fa-exclamation text-with"></i>
-                </button>                
+                </button>
             @endcan
             @can('product update')
-              <button class="btn btn-sm btn-primary" wire:click="edit()" title="Modificar Registro"
+              <button class="btn btn-sm btn-primary" wire:click="editImage" title="Modificar Registro"
+              @if ($bulkDisabled) disabled @endif><i class="fa fa-file-image text-eith"></i>
+              </button>
+            @endcan
+            @can('product update')
+              <button class="btn btn-sm btn-primary" wire:click="edit()" title="Adicionar Imagen"
               @if ($bulkDisabled) disabled @endif><i class="fa fa-edit text-eith"></i>
               </button>
             @endcan
@@ -33,9 +38,9 @@
                   <label class="form-check-label text-danger" style="width:10">
                   <input type="checkbox" class="form-check-input" wire:model="selectAll">
                   <i class="input-helper"></i></label>
-              </div>                      
+              </div>
             </th>
-            <x-table.th weight="80px" field="id" width="80px">#</x-table.th>            
+            <x-table.th weight="80px" field="id" width="80px">#</x-table.th>
             <x-table.th field="name">Descripción</x-table.th>
             <x-table.th field="tax" class="text-center">Impuesto</x-table.th>
             <x-table.th field="status" class="text-center">Estatus</x-table.th>
@@ -52,18 +57,18 @@
                 dd($item);
             @endphp --}}
             <tr class="{{ $item->status === 'Cancelled' ? 'text-danger' : '' }}">
-              <td class="p-1" width="40px">                  
+              <td class="p-1" width="40px">
                 <div class="form-check form-check-flat form-check-primary">
-                <label class="form-check-label">                    
-                    <input type="checkbox" class="form-check-input" 
-                    wire:model="selectedModel" 
-                    value="{{$item->id}}" 
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input"
+                    wire:model="selectedModel"
+                    value="{{$item->id}}"
                     wire:click="$set('selected_id',{{$item->id}})"
                     >
                 <i class="input-helper"></i></label>
                 </div>
               </td>
-              <td class="text-nowrap"  width="80px">{{ $item->id }}</td>              
+              <td class="text-nowrap"  width="80px">{{ $item->id }}</td>
               <td class="text-nowrap" >{{ $item->name }}</td>
               <td class="text-nowrap text-center">{{ $item->tax ? 'Si' : 'No' }}</td>
               <td class="text-nowrap text-{{ $item->status_color }}">{{ $item->status }}</td>
@@ -79,10 +84,11 @@
           <tr>
             <x-table.td colspan="7">
               <x-otros.error-search></x-otros.error-search>
-            </x-table.td>              
+            </x-table.td>
           </tr>
           @endforelse
         @include('orders::livewire.product.form')
+        @include('orders::livewire.product.uploadImage')
         </x-table.table>
         <x-slot name="pagination">
           {!! $products->links() !!}
@@ -90,9 +96,9 @@
       </x-otros.view-card>
     </div>
   </div>
-  
+
   @push('styles')
-  
+
   @endpush
   @push('scripts')
   <script>

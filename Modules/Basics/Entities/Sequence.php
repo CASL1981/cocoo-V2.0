@@ -13,23 +13,23 @@ class Sequence extends Model
 
     protected $table = 'basic_sequences';
 
-    protected $fillable = ['document', 'document_name', 'number'];
-    
+    protected $fillable = ['document', 'document_name', 'number', 'modelo', 'status'];
+
     protected static function newFactory()
     {
         return \Modules\Basics\Database\factories\SequenceFactory::new();
     }
-    
+
     protected $casts = [
         'created_at' => 'datetime:Y-m-d h:m:s',
         'updated_at' => 'datetime:d-m-Y h:m:s',
     ];
-    
+
     public function QueryTable($keyWord = null, $sortField, $sortDirection)
     {
-        return $this->select('id','document_name', 'document', 'number')
+        return $this->select('id','document_name', 'document', 'modelo', 'number', 'status')
         ->search('document_name', $keyWord)
         ->search('document', $keyWord)
-        ->orderBy($sortField, $sortDirection); 
+        ->orderBy($sortField, $sortDirection);
     }
 }

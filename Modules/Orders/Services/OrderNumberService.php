@@ -1,20 +1,23 @@
 <?php
 
-namespace App\Services\OrderNumber;
+namespace Modules\Orders\Services;
 
-use App\Models\Setting;
+use Modules\Basics\Entities\Sequence;
 
 class OrderNumberService
 {
     private $setting;
     private $lockedSetting;
 
-    public function __construct(OrderNumberConfig $config)
+    private $document;
+
+    public function __construct()
     {
-        if ($config->isDisabled()) {
-            return null;
-        }
-        $this->setting = Setting::query();
+        // if ($config->isDisabled()) {
+        //     return null;
+        // }
+        // $this->document = $document;
+        $this->setting = Sequence::query();
         $this->lockedSetting = $this->setting->lockForUpdate()->first();
     }
 
@@ -34,12 +37,12 @@ class OrderNumberService
 
     public function nextOrderNumber()
     {
-        return $this->setting->first()->Order_number;
+        return $this->setting->where('document', 'OC')->first()->number;
     }
 
     private function increaseOrderNumber()
     {
-        $this->lockedSetting->Order_number++;
+        $this->lockedSetting->number++;
         return $this->lockedSetting->save();
     }
 }

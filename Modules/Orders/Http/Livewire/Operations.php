@@ -10,10 +10,12 @@ use Modules\Basics\Entities\Classification;
 use Modules\Basics\Entities\Client;
 use Modules\Basics\Entities\Employee;
 use Modules\Basics\Entities\Payment;
+use Modules\Basics\Entities\Sequence;
 use Modules\Basics\Entities\TypePrice;
 use Modules\Orders\Entities\Operation;
 use Modules\Orders\Http\Requests\RequestOperation;
 use Modules\Orders\Services\OperationsServices;
+use Modules\Orders\Services\OrderNumberService;
 
 class Operations extends Component
 {
@@ -23,9 +25,9 @@ class Operations extends Component
 
     public $date, $status, $basic_client_id, $basic_payment_id, $basic_payment_interval, $observation, $basic_type_price_id;
 
-    public $biller, $responsible, $basic_classification_id, $brute, $discount, $subtotal, $tax_sale, $total;
+    public $biller, $responsible, $basic_classification_id, $brute, $discount, $subtotal, $tax_sale, $total, $document, $number;
 
-    public $providers, $typeprices, $payments, $categories, $employees;
+    public $providers, $typeprices, $payments, $categories, $employees, $documents;
 
     public $delivery_time = "INMEDIATA";
 
@@ -33,6 +35,8 @@ class Operations extends Component
 
     public function hydrate()
     {
+        $this->documents = Sequence::where('modelo', 'operation')->where('status', 'Open')->pluck('document', 'id')->toArray();
+
         $this->providers = Client::where('type', 'Proveedor')->where('status', true)->pluck('client_name', 'id')->toArray();
 
         $this->typeprices = TypePrice::where('status', 'Open')->pluck('name', 'id')->toArray();;
@@ -80,6 +84,8 @@ class Operations extends Component
             return $this->emit('alert', ['type' => 'warning', 'message' => 'Orden Inactiva']);
         }
 
+        $this->document = $record->document;
+        $this->number = $record->number;
         $this->date = $record->date;
         $this->basic_client_id = $record->basic_client_id;
         $this->basic_payment_id = $record->basic_payment_id;
@@ -126,14 +132,17 @@ class Operations extends Component
     {
         can('operation create');
 
-        $requestOperation = new RequestOperation();
-        $operationServices = new OperationsServices();
+        $validate = $this->validate(app(RequestOperation::class)->rules());
 
-        $validate = $this->validate($requestOperation->rules());
+        $validate = app(OperationsServices::class)->addFillableValidation($validate, $this);
 
-        $validate = $operationServices->addFillableValidation($validate, $this->basic_client_id, $this->basic_payment_id, $this->basic_type_price_id, $this->basic_classification_id);
+        $validate = array_merge($validate, [
+            'number' => app(OrderNumberService::class)->nextOrderNumber(),
+        ]);
 
         $this->model::create($validate);
+
+        app(OrderNumberService::class)->setNextOrderNumber();
 
         $this->resetInput();
     	$this->emit('alert', ['type' => 'success', 'message' => $this->messageModel . ' creada']);
@@ -143,9 +152,10 @@ class Operations extends Component
     public function update()
     {
         can('operation update');
-
+        //consultamos el estado de la orden
         $status = Operation::withTrashed()->where('id', $this->selected_id)->get('status')->toArray();
 
+        //validamos eque la orden no este completada
         if($status[0]['status'] === 'Completed')
         {
             return $this->emit('alert', ['type' => 'warning', 'message' => 'Orden no se encuentra abierta']);
@@ -155,7 +165,8 @@ class Operations extends Component
         $operationServices = new OperationsServices();
 
         $validate = $this->validate($requestOperation->rules());
-        $validate = $operationServices->addFillableValidation($validate, $this->basic_client_id, $this->basic_payment_id, $this->basic_type_price_id, $this->basic_classification_id);
+
+        $validate = $operationServices->addFillableValidation($validate, $this);
 
         if ($this->selected_id) {
     		$record = $this->model::find($this->selected_id);
@@ -183,10 +194,10 @@ class Operations extends Component
         // consultamos el modelo a actualizar
         if ($this->selected_id) {
     		$record = $this->model::find($this->selected_id);
-            $record->update([ 'recibido' => 1]); //actualizamos el recibido de la orden
+            $record->update([ 'recibido' => !$record->recibido]); //actualizamos el recibido de la orden
 
             $this->closed();
-    		$this->emit('alert', ['type' => 'success', 'message' => $this->messageModel . ' recibida']);
+    		$this->emit('alert', ['type' => 'success', 'message' => $this->messageModel . ' actulizada']);
         }
     }
 

@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-8 grid-margin">
+    <div class="col-12 grid-margin">
       <x-otros.view-card :exportable="$exportable" :audit="$audit">
         <x-slot name="title">Conecutivos</x-slot>
         <x-slot name="button">
@@ -9,8 +9,13 @@
               @if ($bulkDisabled) disabled @endif><i class="fa fa-trash text-eith"></i>
               </button>
             @endcan
+            @can('operation toggle')
+            <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('toggleItem')" title="Activar o Desactivar Item"
+            @if ($bulkDisabled) disabled @endif><i class="fa fa-exclamation text-with"></i>
+            </button>
+            @endcan
             @can('sequence update')
-              <button class="btn btn-sm btn-primary" wire:click="edit()" 
+              <button class="btn btn-sm btn-primary" wire:click="edit()"
               @if ($bulkDisabled) disabled @endif><i class="fa fa-edit text-eith"></i>
               </button>
             @endcan
@@ -33,36 +38,40 @@
                   <label class="form-check-label text-danger" style="width:10">
                   <input type="checkbox" class="form-check-input" wire:model="selectAll">
                   <i class="input-helper"></i></label>
-              </div>                      
+              </div>
             </th>
-            <x-table.th field="id" >#</x-table.th>            
+            <x-table.th field="id" >#</x-table.th>
             <x-table.th width="80px" field="document">Documento</x-table.th>
             <x-table.th field="document_name" class="text-center">Nombre</x-table.th>
-            <x-table.th width="80px" field="number" class="text-center">Numero</x-table.th>            
+            <x-table.th field="modelo" class="text-center">Modelo</x-table.th>
+            <x-table.th width="80px" field="number" class="text-center">Numero</x-table.th>
+            <x-table.th field="status" class="text-center">Estado</x-table.th>
           </x-slot>
           @forelse ($sequences as $key => $item)
-            <tr>
-              <td class="p-1" width="40px">                  
+            <tr class="{{ $item->status === 'Cancelled' ? 'text-danger' : '' }} {{ $item->recibido ? 'text-success' : '' }}">
+              <td class="p-1" width="40px">
                 <div class="form-check form-check-flat form-check-primary">
-                <label class="form-check-label">                    
-                    <input type="checkbox" class="form-check-input" 
-                    wire:model="selectedModel" 
-                    value="{{$item->id}}" 
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input"
+                    wire:model="selectedModel"
+                    value="{{$item->id}}"
                     wire:click="$set('selected_id',{{$item->id}})"
                     >
                 <i class="input-helper"></i></label>
                 </div>
               </td>
-              <x-table.td width="80px">{{ $loop->iteration }}</x-table.td>              
-              <x-table.td width="80px">{{ $item->document }}</x-table.td>
-              <x-table.td >{{ $item->document_name }}</x-table.td>              
-              <x-table.td width="80px" class="text-right">{{ $item->number }}</x-table.td>              
+              <td width="80px">{{ $loop->iteration }}</td>
+              <td width="80px">{{ $item->document }}</td>
+              <td >{{ $item->document_name }}</td>
+              <td >{{ $item->modelo }}</td>
+              <td width="80px" class="text-right">{{ $item->number }}</td>
+              <td class="text-center text-{{ $item->status_color }}">{{ $item->status }}</td>
             </tr>
           @empty
           <tr>
             <x-table.td colspan="7">
               <x-otros.error-search></x-otros.error-search>
-            </x-table.td>              
+            </x-table.td>
           </tr>
           @endforelse
         @include('basics::livewire.sequence.form')
@@ -73,9 +82,9 @@
       </x-otros.view-card>
     </div>
   </div>
-  
+
   @push('styles')
-  
+
   @endpush
   @push('scripts')
   <script>

@@ -11,7 +11,7 @@
 
     <!-- Fonts -->
     {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"> --}}
-    
+
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{ asset('css/font-awesome/all.min.css') }}">
 
@@ -23,17 +23,17 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="{{ asset('images/icon.jpg') }}" />
     @livewireStyles
-    @stack('styles') 
+    @stack('styles')
 </head>
 
 <body class="sidebar-icon-only">
   <div class="container-scroller">
     <!-- partial:../../partials/_navbar.html -->
-    @include('layouts.navigation')    
+    @include('layouts.navigation')
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <!-- layouts theme setting panel -->
-      @include('layouts.theme-setting-panel')  
+      @include('layouts.theme-setting-panel')
       <!-- layouts todo list and chats -->
       @include('layouts.todo-list-and-chats')
       <!-- partial -->
@@ -42,7 +42,7 @@
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
-          {{ $slot }}  
+          {{ $slot }}
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:../../partials/_footer.html -->
@@ -58,37 +58,37 @@
     </div>
     <!-- page-body-wrapper ends -->
   </div>
-  
+
   <!-- plugins:js -->
   <script src="{{ asset('vendors/js/vendor.bundle.base.js') }}"></script>
   <script src="{{ asset('vendors/js/vendor.bundle.addons.js') }}"></script>
   <!-- endinject -->
-  <!-- inject:js -->  
-  {{-- <script src="{{ asset('js/off-canvas.js') }}"></script> --}}  
+  <!-- inject:js -->
+  {{-- <script src="{{ asset('js/off-canvas.js') }}"></script> --}}
   <script src="{{ asset('js/hoverable-collapse.js') }}"></script>
   <script src="{{ asset('js/misc.js') }}"></script>
   <script src="{{ asset('js/settings.js') }}"></script>
-  <script src="{{ asset('js/file-upload.js') }}"></script>
+  {{-- <script src="{{ asset('js/dropzone.js') }}"></script> --}}
   <!-- endinject -->
   <!-- Custom js for this page-->
   <script src="{{ asset('js/dashboard.js') }}"></script>
-  
+
   {{-- liviewir and turbolinks --}}
   @livewireScripts
   {{-- <script type="module">import hotwiredTurbo from 'https://cdn.skypack.dev/@hotwired/turbo';</script> --}}
   <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js" data-turbolinks-eval="false" data-turbo-eval="false"></script>
   {{--  end liviewir and turbolinks --}}
-  
+
   <script src="{{ asset('js/app.js') }}"></script>
-  
+
   @stack('scripts')
   <script>
     window.livewire.on('alert', param => {
-      toastr.options = { 
-        "closeButton" : true,          
+      toastr.options = {
+        "closeButton" : true,
         "progressBar" : true
         }
-        
+
         toastr[param['type']](param['message']);
 
         // Display a warning toast, with no title
@@ -113,6 +113,6 @@
     window.livewire.on('CloseModal', param => {
         $(param['modalName']).modal('hide');
     });
-  </script> 
+  </script>
 </body>
 </html>

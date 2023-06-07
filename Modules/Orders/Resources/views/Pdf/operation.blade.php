@@ -92,9 +92,9 @@
             </tr>
             <tr>
                 <td class="bordecompleto">{{ $order[0]['basic_client_name'] }}</td>
-                <td class="bordecompleto">{{ $order[0]['id'] }}</td>
+                <td class="bordecompleto">{{ $order[0]['clients']['identification'] }}</td>
                 <td class="bordecompleto">{{ $order[0]['date'] }}</td>
-                <td class="bordecompleto">{{ $order[0]['id'] }}</td>
+                <td class="bordecompleto">{{ $order[0]['number'] }}</td>
                 <td class="bordecompleto">Página {{ $i }} de {{ $paginas }}</td>
             </tr>
         </table>

@@ -14,6 +14,7 @@ class RequestOperation extends FormRequest
     public function rules()
     {
         return [
+            'document' => 'required',
             'date' => 'required|date',
             'basic_client_id' => 'required',
             'basic_payment_id' => 'required',
@@ -23,7 +24,7 @@ class RequestOperation extends FormRequest
             'basic_type_price_id' => 'required',
             'biller' => 'required|numeric',
             'responsible' => 'required|numeric',
-            'basic_classification_id' => ['nullable'],
+            'basic_classification_id' => 'required',
             'brute' => 'nullable|numeric',
             'discount' => 'nullable|numeric',
             'subtotal' => 'nullable|numeric',

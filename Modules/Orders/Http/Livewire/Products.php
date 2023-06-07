@@ -20,27 +20,32 @@ class Products extends Component
     public $name, $tax, $status, $basic_client_id, $tax_percentage, $brand, $measure_unit;
     public $basic_classification_id, $image;
 
+    // variable open model adicionar imagen
+    public $show_image = false;
+
     public $providers, $categories;
-    
+
     protected $listeners = ['showaudit','deleteItem', 'toggleItem', 'reverseItem'];
 
     public function hydrate()
-    {   
+    {
         $this->providers = Client::where('type', 'Proveedor')->where('status', true)->pluck('client_name', 'id')->toArray();
 
         $this->categories = Classification::where('impute', true)->pluck('name', 'id')->toArray();
 
         $this->permissionModel = 'product';
-        
+
         $this->messageModel = 'Producto';
+
+        $this->selected_id = $this->selected_id;
 
         $this->model = 'Modules\Orders\Entities\Product';
         $this->exportable ='App\Exports\ProductExport';
     }
 
-    protected function rules() 
+    protected function rules()
     {
-        return [        
+        return [
             'name' => ['required', 'max:100', Rule::unique('order_products')->ignore($this->selected_id)],
             'tax' => ['nullable', Rule::in(['0', '1'])],
             'basic_client_id' => ['required'],
@@ -51,7 +56,7 @@ class Products extends Component
             'image' => 'nullable|image:jpg,png|max:2048',
         ];
     }
-    
+
     public function render()
     {
         $this->bulkDisabled = count($this->selectedModel) < 1;
@@ -60,24 +65,42 @@ class Products extends Component
 
         $products = $products->QueryTable($this->keyWord, $this->sortField, $this->sortDirection)
                     ->paginate(20);
-        
-        return view('orders::livewire.product.view', compact('products'));        
-    }
-    
-    public function edit()
-    {   
-        can('product update'); 
 
-        $record = Product::findOrFail($this->selected_id);           
-        
+        return view('orders::livewire.product.view', compact('products'));
+    }
+
+    public function edit()
+    {
+        can('product update');
+
+        $record = Product::findOrFail($this->selected_id);
+
         $this->name = $record->name;
         $this->tax = $record->tax;
         $this->basic_client_id = $record->basic_client_id;
-        $this->brand = $record->brand;        
+        $this->brand = $record->brand;
         $this->tax_percentage = $record->tax_percentage;
         $this->measure_unit = $record->measure_unit;
         $this->basic_classification_id = $record->basic_classification_id;
 
         $this->show = true;
+    }
+
+    public function editImage(): void
+    {
+        can('product update');
+
+        $record = Product::findOrFail($this->selected_id);
+
+        $this->selected_id = $record->id;
+
+        // $this->tax = $record->tax;
+        // $this->basic_client_id = $record->basic_client_id;
+        // $this->brand = $record->brand;
+        // $this->tax_percentage = $record->tax_percentage;
+        // $this->measure_unit = $record->measure_unit;
+        // $this->basic_classification_id = $record->basic_classification_id;
+
+        $this->show_image = true;
     }
 }

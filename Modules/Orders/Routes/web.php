@@ -11,12 +11,14 @@
 |
 */
 
+use Modules\Orders\Http\Controllers\OrderController;
+
 Route::group(['middleware' => 'auth'], function(){
-    Route::prefix('orders')->group(function() {        
+    Route::prefix('orders')->group(function() {
         Route::get('/', 'OrderController@index')->name('dashboard.orders');
         Route::get('/pdf/{id?}', 'OrderController@pdf')->name('order.pdf');
         Route::view('products', 'orders::livewire.product.index')
-        ->name('order.products')->middleware('can_view:product');        
+        ->name('order.products')->middleware('can_view:product');
         Route::view('price', 'orders::livewire.price.index')
         ->name('order.prices')->middleware('can_view:price');
         Route::view('operation', 'orders::livewire.operation.index')
@@ -25,5 +27,6 @@ Route::group(['middleware' => 'auth'], function(){
         ->name('order.detail.operation');
         Route::view('editdetailoperation', 'orders::livewire.editdetailoperation.index')
         ->name('order.edit.detail.operation');
+        Route::post('products/{product}/images', [OrderController::class, 'uploadImageProduct'])->name('order.product.images');
     });
 });

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\OrderNumber;
+namespace Modules\Orders\Services;
 
 use Modules\Orders\Entities\Operation;
 
@@ -17,7 +17,7 @@ class OrderNumberValidator
 
     public function validateOrderNumberIsNotLowerThenCurrentMax(Int $OrderNumber)
     {
-        $currentOrderNumber = optional(Operation::query()->orderByDesc('Order_number')->limit(1)->first())->Order_number;
+        $currentOrderNumber = optional(Operation::query()->orderByDesc('number')->limit(1)->first())->number;
         if ($OrderNumber > $currentOrderNumber) {
             return true;
         }

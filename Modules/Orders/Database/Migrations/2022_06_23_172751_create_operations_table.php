@@ -15,6 +15,8 @@ class CreateOperationsTable extends Migration
     {
         Schema::create('order_operations', function (Blueprint $table) {
             $table->id();
+            $table->string('document', 2)->comment('Tipo de documento');
+            $table->integer('number')->comment('Numero de orden por tipo documento');
             $table->date('date')->comment('fecha de la orden de compra');
             $table->foreignId('basic_client_id')->nullable()->constrained();
             $table->string('basic_client_name', 100)->nullable();

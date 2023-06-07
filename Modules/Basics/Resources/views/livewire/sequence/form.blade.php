@@ -3,23 +3,28 @@
         Consecutivos - Documentos
     </x-slot>
     <x-form.form>
-        <x-slot name="form">            
-            <div class="row">                 
+        <x-slot name="form">
+            <div class="row">
                 <div class="form-group col-md-2">
                     <x-form.label for="document">Documento</x-form.label>
                     <x-form.input wire:model.defer="document" maxlength="3"></x-form.input>
                     <x-form.input-error for="document"></x-form.input-error>
                 </div>
-                <div class="form-group col-md-8">
+                <div class="form-group col-md-6">
                     <x-form.label for="document_name">Nombre Documento</x-form.label>
                     <x-form.input wire:model.defer="document_name" maxlength="100"></x-form.input>
                     <x-form.input-error for="document_name"></x-form.input-error>
                 </div>
                 <div class="form-group col-md-2">
+                    <x-form.label for="modelo">Modelo</x-form.label>
+                    <x-form.input wire:model.defer="modelo" maxlength="100"></x-form.input>
+                    <x-form.input-error for="modelo"></x-form.input-error>
+                </div>
+                <div class="form-group col-md-2">
                     <x-form.label for="number">Numero</x-form.label>
                     <x-form.input wire:model.defer="number" type="number"></x-form.input>
                     <x-form.input-error for="number"></x-form.input-error>
-                </div>                
+                </div>
             </div>
         </x-slot>
     </x-form.form>

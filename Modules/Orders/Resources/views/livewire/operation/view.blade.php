@@ -39,7 +39,7 @@
             </button>
             @endcan
             @can('product update')
-            <button class="btn btn-sm btn-primary" wire:click="edit()" title="Recibir Order"
+            <button class="btn btn-sm btn-primary" wire:click="edit()" title="Editar Order"
             @if ($bulkDisabled) disabled @endif><i class="fa fa-edit text-with"></i>
             </button>
             @endcan
@@ -59,24 +59,25 @@
                   <i class="input-helper"></i></label>
               </div>
             </th>
-            <x-table.th weight="80px" field="id" width="80px">#</x-table.th>
-            <x-table.th field="date">Fecha</x-table.th>
-            <x-table.th field="basic_client_id">Proveedor</x-table.th>
-            <x-table.th field="basic_client_name">Nombre Proveedor</x-table.th>
-            <x-table.th field="status" class="text-center">Estado</x-table.th>
-            <x-table.th field="basic_payment_name">Condición Pago</x-table.th>
-            <x-table.th field="basic_payment_interval">Plazo</x-table.th>
-            <x-table.th field="basic_payment_interval">Tiempo Entrega</x-table.th>
-            <x-table.th field="observation">Observaciones</x-table.th>
-            <x-table.th field="basic_type_price_id">Lista Precio</x-table.th>
-            <x-table.th field="biller" class="text-center">Revisado</x-table.th>
-            <x-table.th field="responsible" class="text-center">Responsable</x-table.th>
-            <x-table.th field="basic_classification_name" class="text-center">Categoria</x-table.th>
-            <x-table.th field="brute" class="text-center">Valor Bruto</x-table.th>
-            <x-table.th field="discount" class="text-center">Descuento</x-table.th>
-            <x-table.th field="subtotal" class="text-center">Subtotal</x-table.th>
-            <x-table.th field="tax_sale" class="text-center">Impuesto</x-table.th>
-            <x-table.th field="total" class="text-center">Total</x-table.th>
+            <th weight="80px" field="document" width="80px">DC</th>
+            <th weight="80px" field="number" width="80px">#</th>
+            <th field="date">Fecha</th>
+            <th field="basic_client_id">Proveedor</th>
+            <th field="basic_client_name">Nombre Proveedor</th>
+            <th field="status" class="text-center">Estado</th>
+            <th field="basic_payment_name">Condición Pago</th>
+            <th field="basic_payment_interval">Plazo</th>
+            <th field="basic_payment_interval">Tiempo Entrega</th>
+            <th field="observation">Observaciones</th>
+            <th field="basic_type_price_id">Lista Precio</th>
+            <th field="biller" class="text-center">Revisado</th>
+            <th field="responsible" class="text-center">Responsable</th>
+            <th field="basic_classification_name" class="text-center">Categoria</th>
+            <th field="brute" class="text-center">Valor Bruto</th>
+            <th field="discount" class="text-center">Descuento</th>
+            <th field="subtotal" class="text-center">Subtotal</th>
+            <th field="tax_sale" class="text-center">Impuesto</th>
+            <th field="total" class="text-center">Total</th>
           </x-slot>
           @forelse ($operations as $key => $item)
             <tr class="{{ $item->status === 'Cancelled' ? 'text-danger' : '' }} {{ $item->recibido ? 'text-success' : '' }}">
@@ -91,7 +92,8 @@
                 <i class="input-helper"></i></label>
                 </div>
               </td>
-              <td class="text-nowrap" weigth="80px">{{ $item->id }}</td>
+              <td class="text-nowrap" weigth="80px">{{ $item->document }}</td>
+              <td class="text-nowrap" weigth="80px">{{ $item->number }}</td>
               <td class="text-nowrap">{{ $item->date }}</td>
               <td class="text-nowrap">{{ $item->clients->identification }}</td>
               <td class="text-nowrap">{{ $item->basic_client_name }}</td>
