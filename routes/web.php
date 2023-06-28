@@ -14,13 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth'])->name('dashboard');
+Route::view('/', 'auth.login');
 
 require __DIR__.'/auth.php';
 
@@ -30,7 +28,7 @@ Route::Group(['middleware' => 'auth'], function(){
     ->middleware('can_view:usuario');
     Route::view('dashboard/roles', 'livewire.role.index')->name('dashboard.roles')
     ->middleware('can_view:role');
-    Route::view('dashboard/profile', 'livewire.profile.index')->name('dashboard.profile');    
+    Route::view('dashboard/profile', 'livewire.profile.index')->name('dashboard.profile');
 });
 
 Route::get('/profile/edit', function () {

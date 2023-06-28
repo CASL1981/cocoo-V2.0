@@ -22,5 +22,6 @@ class BasicsDatabaseSeeder extends Seeder
         $this->call(ClientTableSeeder::class);
         $this->call(ClassificationTableSeeder::class);
         $this->call(TypePriceTableSeeder::class);
+        $this->call(SequenceTableSeeder::class);
     }
 }

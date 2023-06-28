@@ -27,7 +27,7 @@ class Operations extends Component
 
     public $biller, $responsible, $basic_classification_id, $brute, $discount, $subtotal, $tax_sale, $total, $document, $number;
 
-    public $providers, $typeprices, $payments, $categories, $employees, $documents;
+    public $providers, $typeprices, $payments, $categories, $billers, $responsibles, $documents;
 
     public $delivery_time = "INMEDIATA";
 
@@ -35,7 +35,7 @@ class Operations extends Component
 
     public function hydrate()
     {
-        $this->documents = Sequence::where('modelo', 'operation')->where('status', 'Open')->pluck('document', 'id')->toArray();
+        $this->documents = Sequence::where('modelo', 'operation')->where('status', 'Open')->pluck('document', 'document')->toArray();
 
         $this->providers = Client::where('type', 'Proveedor')->where('status', true)->pluck('client_name', 'id')->toArray();
 
@@ -44,8 +44,10 @@ class Operations extends Component
         $this->payments = Payment::pluck('name', 'id')->toArray();
 
         $this->categories = Classification::where('impute', true)->pluck('name', 'id')->toArray();
-
-        $this->employees = Employee::where('status', true)->pluck('first_name', 'identification')->toArray();
+        //empleados que aprueban las ordnes
+        $this->billers = Employee::where('status', true)->where('approve', true)->pluck('first_name', 'identification')->toArray();
+        //empleados qye realizan las ordenes
+        $this->responsibles = Employee::where('status', true)->where('approve', false)->pluck('first_name', 'identification')->toArray();
 
         $this->permissionModel = 'operation';
 
@@ -132,7 +134,9 @@ class Operations extends Component
     {
         can('operation create');
 
-        $validate = $this->validate(app(RequestOperation::class)->rules());
+        $requestOperation = new RequestOperation();
+
+        $validate = $this->validate($requestOperation->rules());
 
         $validate = app(OperationsServices::class)->addFillableValidation($validate, $this);
 

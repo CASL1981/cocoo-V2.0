@@ -16,8 +16,8 @@ class CreateEmployeesTable extends Migration
         Schema::create('basic_employees', function (Blueprint $table) {
             $table->id();
             $table->integer('identification')->unique();
-            $table->string('first_name', 100);            
-            $table->string('last_name', 100);            
+            $table->string('first_name', 100);
+            $table->string('last_name', 100);
             $table->boolean('status')->default(false);
             $table->string('type_document', 2)->nullable();
             $table->string('address', 192)->nullable();
@@ -27,8 +27,9 @@ class CreateEmployeesTable extends Migration
             $table->string('email')->nullable()->unique();
             $table->string('gender', 1)->nullable();
             $table->boolean('vendedor')->nullable()->comment('Identificamos el empleado como un vendedor');
-            $table->date('birth_date')->nullable();            
+            $table->date('birth_date')->nullable();
             $table->integer('location_id')->nullable();
+            $table->boolean('approve')->default(false)->comment('Empleado autorizado para aprobar ordenes');
             $table->string('photo_path', 2048)->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();

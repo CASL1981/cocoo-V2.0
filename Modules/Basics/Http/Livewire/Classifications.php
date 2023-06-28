@@ -16,51 +16,51 @@ class Classifications extends Component
     use CRUDLivewireTrait;
 
     public $code, $level, $parent, $name, $impute;
-    
+
     protected $listeners = ['showaudit','deleteItem'];
 
     public function hydrate()
-    {                   
+    {
         $this->permissionModel = 'classification';
-        
+
         $this->messageModel = 'Clasificación';
 
         $this->model = 'Modules\Basics\Entities\Classification';
         $this->exportable ='App\Exports\ClassificationsExport';
     }
 
-    protected function rules() 
+    protected function rules()
     {
-        return [        
+        return [
             'code' => ['required', 'max:10', Rule::unique('basic_classifications')->ignore($this->selected_id)],
-            'level' => 'nullable|numeric', 
+            'level' => 'nullable|numeric',
             'parent' => 'nullable|min:1|max:10',
             'name' => 'required|min:3|max:100',
-            'impute' => ['nullable', Rule::in(['0', '1'])],
+            'impute' => ['required', Rule::in(['0', '1'])],
         ];
     }
-    
+
     public function render()
     {
         $this->bulkDisabled = count($this->selectedModel) < 1;
 
         $classifications = new Classification();
 
-        $classifications = $classifications->QueryTable($this->keyWord, $this->sortField, $this->sortDirection)->paginate(20);        
+        $classifications = $classifications->QueryTable($this->keyWord, $this->sortField, $this->sortDirection)->paginate(20);
 
         return view('basics::livewire.classification.view', compact('classifications'));
-        
+
     }
 
     public function edit()
-    {   
-        can('classification update'); 
+    {
+        can('classification update');
 
-        $record = Classification::findOrFail($this->selected_id);           
-        
+        $record = Classification::findOrFail($this->selected_id);
+
         $this->code = $record->code;
         $this->level = $record->level;
-        $this->parent = $record->parent;        
+        $this->parent = $record->parent;
         $this->name = $record->name;
         $this->impute = $record->impute;
 
@@ -73,9 +73,9 @@ class Classifications extends Component
 
         if ($this->selected_id ) {
             $classification = Classification::find($this->selected_id);
-            
+
             $classification->delete();
-            $this->emit('alert', ['type' => 'success', 'message' => 'classification Eliminado']);            
+            $this->emit('alert', ['type' => 'success', 'message' => 'classification Eliminado']);
         }
     }
 }

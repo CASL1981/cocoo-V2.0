@@ -17,15 +17,17 @@ class SequenceTableSeeder extends Seeder
     {
         Model::unguard();
 
-        $sequence = new Sequence;        
+        $sequence = new Sequence;
         $sequence->document = 'OC';
         $sequence->document_name = 'ORDENES DE COMPRA';
-        $sequence->number = '2249';
+        $sequence->modelo = 'Operation';
+        $sequence->number = '3059';
         $sequence->save();
 
         $sequence = new Sequence;
         $sequence->document = 'OS';
         $sequence->document_name = 'ORDENES DE SERVICIO';
+        $sequence->modelo = 'Operation';
         $sequence->number = '1592';
         $sequence->save();
     }

@@ -16,8 +16,8 @@ class DetailOperation extends Model
     public $subTotalItem;
 
     protected $fillable = ['order_product_id', 'product_name', 'quantity', 'price', 'tax_sale', 'price', 'tax_sale_percentage', 'discount',
-    'discount_percentage','subtotal', 'total', 'measure_unitd', 'brand','received', 'status', 'order_operation_id', 'basic_destination_id',
-    'created_by', 'updated_by', 'deleted_by'];
+    'discount_percentage','subtotal', 'total', 'measure_unitd', 'brand','received', 'status', 'order_operation_id', 'order_operation_number',
+    'basic_destination_id', 'created_by', 'updated_by', 'deleted_by'];
 
     protected $table = 'order_detail_operations';
 
@@ -45,7 +45,7 @@ class DetailOperation extends Model
     {
         return $this->select('id', 'order_product_id', 'product_name', 'quantity', 'price', 'tax_sale', 'price', 'tax_sale_percentage', 'discount',
         'discount_percentage','subtotal', 'total', 'measure_unitd', 'brand', 'status', 'order_operation_id', 'basic_destination_id')
-        ->where('order_operation_id', $order)
+        ->where('order_operation_number', $order)
         ->search('status', $keyWord)
         ->search('product_name', $keyWord)
         ->search('basic_destination_id', $keyWord)

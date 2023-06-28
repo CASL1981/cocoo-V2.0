@@ -17,103 +17,63 @@ class ClientTableSeeder extends Seeder
     {
         Model::unguard();
 
-        Client::factory(80)->create();
+        // Client::factory(80)->create();
 
         Client::factory()->create([
-            'identification' => 78748131,
-            'first_name' => 'SAMIR HERNANDO',
-            'last_name' => 'MENDEZ PEREZ',
-            'client_name' => '',
-            'type_document' => 'CC',
-            'type' => 'Cliente'
-        ]);
-        Client::factory()->create([
-            'identification' => 800193912,
+            'identification' => 890300466,
             'first_name' => '',
             'last_name' => '',
-            'client_name' => 'ESE HOSPITAL SAN RAFAEL',
+            'client_name' => 'TECNOQUIMICA SA',
             'type_document' => 'NIT',
-            'type' => 'Cliente'
+            'type' => 'Proveedor'
         ]);
         Client::factory()->create([
-            'identification' => 800250634,
+            'identification' => 901101292,
             'first_name' => '',
             'last_name' => '',
-            'client_name' => 'MEDICINA INTEGRAL SA',
+            'client_name' => 'TECNOLOGIA PLUS SAS',
             'type_document' => 'NIT',
-            'type' => 'Cliente'
+            'type' => 'Proveedor'
         ]);
         Client::factory()->create([
-            'identification' => 812001793,
+            'identification' => 900419912,
             'first_name' => '',
             'last_name' => '',
-            'client_name' => 'IPS SALUMED LTDA',
+            'client_name' => 'GRUPO ESCOM SAS',
             'type_document' => 'NIT',
-            'type' => 'Cliente'
+            'type' => 'Proveedor'
         ]);
         Client::factory()->create([
-            'identification' => 812002284,
+            'identification' => 800249656,
             'first_name' => '',
             'last_name' => '',
-            'client_name' => 'IPS MEDICOR LTDA',
+            'client_name' => 'MUNDIAL DE MUEBLES PLUS SAS',
             'type_document' => 'NIT',
-            'type' => 'Cliente'
+            'type' => 'Proveedor'
         ]);
         Client::factory()->create([
-            'identification' => 812003851,
+            'identification' => 901356120,
             'first_name' => '',
             'last_name' => '',
-            'client_name' => 'ESE HOSPITAL SAN JUAN DE SAHAGUN',
+            'client_name' => 'SINERGIA INFORMATICA SAS',
             'type_document' => 'NIT',
-            'type' => 'Cliente'
+            'type' => 'Proveedor'
         ]);
         Client::factory()->create([
-            'identification' => 812004789,
+            'identification' => 900013663,
             'first_name' => '',
             'last_name' => '',
-            'client_name' => 'PEREZ Y PEREZ LTDA',
+            'client_name' => 'TRS PARTES SAS',
             'type_document' => 'NIT',
-            'type' => 'Cliente'
+            'type' => 'Proveedor'
         ]);
         Client::factory()->create([
-            'identification' => 823004710,
+            'identification' => 830513067,
             'first_name' => '',
             'last_name' => '',
-            'client_name' => 'IPS DE LA COSTA SA',
+            'client_name' => 'MONITOREO INTELIGENT',
             'type_document' => 'NIT',
-            'type' => 'Cliente'
-        ]);
-        Client::factory()->create([
-            'identification' => 891001122,
-            'first_name' => '',
-            'last_name' => '',
-            'client_name' => 'CLINICA MONTERIA',
-            'type_document' => 'NIT',
-            'type' => 'Cliente'
-        ]);
-        Client::factory()->create([
-            'identification' => 891079999,
-            'first_name' => '',
-            'last_name' => '',
-            'client_name' => 'ESE HOSPITAL SAN JERONIMO',
-            'type_document' => 'NIT',
-            'type' => 'Cliente'
-        ]);
-        Client::factory()->create([
-            'identification' => 900090247,
-            'first_name' => '',
-            'last_name' => '',
-            'client_name' => 'CENTRO CARDIO INFANTIL IPS SAS',
-            'type_document' => 'NIT',
-            'type' => 'Cliente'
-        ]);
-        Client::factory()->create([
-            'identification' => 900202883,
-            'first_name' => '',
-            'last_name' => '',
-            'client_name' => 'CLINICA BIJAO IPS LTDA',
-            'type_document' => 'NIT',
-            'type' => 'Cliente'
+            'type' => 'Proveedor'
         ]);
         Client::factory()->create([
             'identification' => 901098182,

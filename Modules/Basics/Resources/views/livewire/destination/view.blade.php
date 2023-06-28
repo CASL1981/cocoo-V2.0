@@ -1,11 +1,11 @@
 <div class="row">
   <div class="col-12 grid-margin">
     <x-otros.view-card :exportable="$exportable" :audit="$audit">
-      <x-slot name="title">Centros de Costos</x-slot>
+      <x-slot name="title">Centros de Costos <small>destination</small></x-slot>
       <x-slot name="button">
-        <div class="btn-group float-right" role="group" aria-label="Basic example">          
+        <div class="btn-group float-right" role="group" aria-label="Basic example">
           @can('destination update')
-            <button class="btn btn-sm btn-primary" wire:click="edit()" 
+            <button class="btn btn-sm btn-primary" wire:click="edit()"
             @if ($bulkDisabled) disabled @endif><i class="fa fa-edit text-with"></i>
             </button>
           @endcan
@@ -28,7 +28,7 @@
                 <label class="form-check-label text-danger" style="width:10">
                 <input type="checkbox" class="form-check-input" wire:model="selectAll">
                 <i class="input-helper"></i></label>
-            </div>                      
+            </div>
           </th>
           <x-table.th weight="80px" field="id">#</x-table.th>
           <x-table.th field="costcenter">CC</x-table.th>
@@ -37,16 +37,16 @@
           <x-table.th field="phone">Telefono</x-table.th>
           <x-table.th field="location">Ubicación</x-table.th>
           <x-table.th field="minimun">Minimo</x-table.th>
-          <x-table.th field="maximun">Maximo</x-table.th>          
+          <x-table.th field="maximun">Maximo</x-table.th>
         </x-slot>
         @forelse ($destinations as $key => $item)
           <tr>
-            <td class="p-1">                  
+            <td class="p-1">
               <div class="form-check form-check-flat form-check-primary">
-              <label class="form-check-label">                    
-                  <input type="checkbox" class="form-check-input" 
-                  wire:model="selectedModel" 
-                  value="{{$item->id}}" 
+              <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input"
+                  wire:model="selectedModel"
+                  value="{{$item->id}}"
                   wire:click="$set('selected_id',{{$item->id}})"
                   >
               <i class="input-helper"></i></label>
@@ -65,10 +65,10 @@
         <tr>
           <x-table.td colspan="7">
             <x-otros.error-search></x-otros.error-search>
-          </x-table.td>              
+          </x-table.td>
         </tr>
         @endforelse
-      @include('basics::livewire.destination.form')    
+      @include('basics::livewire.destination.form')
       </x-table.table>
       <x-slot name="pagination">
         {!! $destinations->links() !!}

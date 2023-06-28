@@ -20,13 +20,14 @@ class OrderController extends Controller
     public function index()
     {
         $fecha = Carbon::now();
-
+        //Consultamos ordenes de compra
         $orderShopping = Operation::whereMonth('date', $fecha->month)->whereYear('date', $fecha->year)->count();
+        //Consultamos ultima orden de compra
         $orderLast = Operation::select('date', 'id', 'updated_at')->orderByDesc('created_at')->first();
-        $orderPenddingRecibir = Operation::select('basic_client_name', 'id')->where('recibido', 0)->limit(10)->get();
+        //Consultamos ordenes de compra pendientes por recibir
+        $orderPenddingRecibir = Operation::select('basic_client_name', 'number')->where('recibido', 0)->limit(10)->get();
+        //Consultamos ultimas 10 ordenes de compra
         $ordersLasts = Operation::select('basic_client_name', 'total')->orderByDesc('created_at')->limit(10)->get();
-        // $employees = Employee::count();
-        // $clients = Client::count();
 
         return view('orders::index', compact([
             'orderShopping',

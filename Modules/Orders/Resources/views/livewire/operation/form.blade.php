@@ -47,12 +47,12 @@
             <div class="row">
                 <div class="form-group col-md-3">
                     <x-form.label for="biller">Id. Aprobado</x-form.label>
-                    <x-form.select wire:model.defer="biller" required :options="$employees"></x-form.select>
+                    <x-form.select wire:model.defer="biller" required :options="$billers"></x-form.select>
                     <x-form.input-error for="biller"></x-form.input-error>
                 </div>
                 <div class="form-group col-md-3">
                     <x-form.label for="responsible">Id. Responsable</x-form.label>
-                    <x-form.select wire:model.defer="responsible" required :options="$employees"></x-form.select>
+                    <x-form.select wire:model.defer="responsible" required :options="$responsibles"></x-form.select>
                     <x-form.input-error for="responsible"></x-form.input-error>
                 </div>
                 <div class="form-group col-md-3">

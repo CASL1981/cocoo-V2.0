@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Modules\Basics\Entities\Client;
 use Modules\Basics\Entities\Destination;
 use Modules\Basics\Entities\Employee;
+use Modules\Basics\Entities\Sequence;
 
 class BasicsController extends Controller
 {
@@ -20,8 +21,9 @@ class BasicsController extends Controller
         $centercost = Destination::count();
         $employees = Employee::count();
         $clients = Client::count();
+        $sequence = Sequence::count();
 
-        return view('basics::index', compact('centercost', 'employees', 'clients'));
+        return view('basics::index', compact('centercost', 'employees', 'clients', 'sequence'));
     }
 
     /**

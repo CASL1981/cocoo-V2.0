@@ -18,40 +18,22 @@ class PaymentTableSeeder extends Seeder
         Model::unguard();
 
         Payment::factory()->create([
-            'name' => 'CONTADO PROVEEDORES',
+            'name' => 'CONTADO',
             'quotas' => 0,
             'typeinterval' => 'D',
             'interval' => 1,
         ]);
         Payment::factory()->create([
-            'name' => 'CONTADO CLIENTES',
+            'name' => 'CREDITO',
             'quotas' => 0,
             'typeinterval' => 'D',
             'interval' => 1,
         ]);
         Payment::factory()->create([
-            'name' => '10 DÍAS',
+            'name' => 'ANTICIPO',
             'quotas' => 0,
             'typeinterval' => 'D',
-            'interval' => 10,
-        ]);
-        Payment::factory()->create([
-            'name' => '30 DÍAS',
-            'quotas' => 0,
-            'typeinterval' => 'M',
             'interval' => 1,
-        ]);
-        Payment::factory()->create([
-            'name' => '45 DÍAS',
-            'quotas' => 0,
-            'typeinterval' => 'D',
-            'interval' => 45,
-        ]);
-        Payment::factory()->create([
-            'name' => '60 DÍAS',
-            'quotas' => 0,
-            'typeinterval' => 'M',
-            'interval' => 2,
         ]);
     }
 }

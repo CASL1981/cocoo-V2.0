@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-12 grid-margin">
       <x-otros.view-card :exportable="$exportable" :audit="$audit">
-        <x-slot name="title">Productos</x-slot>
+        <x-slot name="title">Productos <small>product</small></x-slot>
         <x-slot name="button">
           <div class="btn-group float-right" role="group" aria-label="Basic example">
             @can('product toggle')

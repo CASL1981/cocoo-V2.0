@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-12 grid-margin">
       <x-otros.view-card :exportable="$exportable" :audit="$audit">
-        <x-slot name="title">Lista de Precio</x-slot>
+        <x-slot name="title">Lista de Precio <small></small>typeprice</x-slot>
         <x-slot name="button">
           <div class="btn-group float-right" role="group" aria-label="Basic example">
             @can('typeprice reverse')
@@ -17,7 +17,7 @@
             @can('typeprice toggle')
                 <button class="btn btn-sm btn-primary" wire:click.prevent="$emit('toggleItem')" title="Activar o Desactivar Item"
                 @if ($bulkDisabled) disabled @endif><i class="fa fa-exclamation text-with"></i>
-                </button>                
+                </button>
             @endcan
             @can('typeprice update')
               <button class="btn btn-sm btn-primary" wire:click="edit()" title="Modificar Registro"
@@ -43,44 +43,44 @@
                   <label class="form-check-label text-danger" style="width:10">
                   <input type="checkbox" class="form-check-input" wire:model="selectAll">
                   <i class="input-helper"></i></label>
-              </div>                      
+              </div>
             </th>
-            <x-table.th weight="80px" field="id" width="80px">#</x-table.th>            
+            <x-table.th weight="80px" field="id" width="80px">#</x-table.th>
             <x-table.th field="name">Descripción</x-table.th>
             <x-table.th field="increment" class="text-center">Incremento</x-table.th>
             <x-table.th field="tax" class="text-center">Impuesto</x-table.th>
             <x-table.th field="status" class="text-center">Estatus</x-table.th>
             <x-table.th field="type">Typo</x-table.th>
             <x-table.th field="minimum">Minimo</x-table.th>
-            <x-table.th field="maximum" class="text-center">Maximo</x-table.th>            
+            <x-table.th field="maximum" class="text-center">Maximo</x-table.th>
           </x-slot>
-          @forelse ($typeprices as $key => $item)           
+          @forelse ($typeprices as $key => $item)
             <tr class="{{ $item->status === 'Cancelled' ? 'text-danger' : '' }}">
-              <td class="p-1" width="40px">                  
+              <td class="p-1" width="40px">
                 <div class="form-check form-check-flat form-check-primary">
-                <label class="form-check-label">                    
-                    <input type="checkbox" class="form-check-input" 
-                    wire:model="selectedModel" 
-                    value="{{$item->id}}" 
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input"
+                    wire:model="selectedModel"
+                    value="{{$item->id}}"
                     wire:click="$set('selected_id',{{$item->id}})"
                     >
                 <i class="input-helper"></i></label>
                 </div>
               </td>
-              <td class="text-nowrap" width="80px">{{ $item->id }}</td>              
+              <td class="text-nowrap" width="80px">{{ $item->id }}</td>
               <td class="text-nowrap">{{ $item->name }}</td>
               <td class="text-nowrap text-center">{{ $item->increment }}</td>
               <td class="text-nowrap text-center">{{ $item->tax ? 'Si' : 'No' }}</td>
               <td class="text-nowrap text-center text-{{ $item->status_color }}">{{ $item->status }}</td>
               <td class="text-nowrap">{{ $item->type }}</td>
               <td class="text-nowrap text-center">{{ $item->minimum }}</td>
-              <td class="text-nowrap text-center">{{ $item->maximum }}</td>              
+              <td class="text-nowrap text-center">{{ $item->maximum }}</td>
             </tr>
           @empty
           <tr>
             <x-table.td colspan="7">
               <x-otros.error-search></x-otros.error-search>
-            </x-table.td>              
+            </x-table.td>
           </tr>
           @endforelse
         @include('basics::livewire.typeprice.form')
@@ -91,9 +91,9 @@
       </x-otros.view-card>
     </div>
   </div>
-  
+
   @push('styles')
-  
+
   @endpush
   @push('scripts')
   <script>

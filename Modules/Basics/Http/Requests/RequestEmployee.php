@@ -20,14 +20,15 @@ class RequestEmployee extends FormRequest
             'last_name' => 'required|string|max:100|min:4',
             'type_document' => 'required|max:2',
             'address' => 'nullable|max:192',
-            'phone' => 'nullable|digits:10',
-            'cel_phone' => 'nullable|digits:10',
+            'phone' => 'nullable',
+            'cel_phone' => 'nullable',
             'entry_date' => 'nullable|date',
             'email' => ['nullable', 'email', 'max:100', Rule::unique('basic_employees')->ignore($employee)],
-            'vendedor' => 'nullable',            
+            'vendedor' => 'nullable',
             'gender' => ['nullable', 'max:1', Rule::in(['M', 'F', 'O'])],
             'birth_date' => 'nullable|date',
             'location_id' => 'nullable',
+            'approve' => 'nullable',
             'photo_path' => 'nullable'
         ];
     }

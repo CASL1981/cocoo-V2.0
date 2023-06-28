@@ -1,6 +1,6 @@
 <x-app-layout>
     {{-- tablero de actividades --}}
-    <div class="row grid-margin">
+    {{-- <div class="row grid-margin">
         <div class="col-12">
           <div class="card card-statistics">
             <div class="card-body">
@@ -57,8 +57,8 @@
             </div>
           </div>
         </div>
-    </div>
-    <div class="row">
+    </div> --}}
+    {{-- <div class="row">
       <div class="col-md-4 grid-margin">
           <div class="card">
               <div class="card-body">
@@ -75,7 +75,7 @@
                           <small class="text-gray">Raised from 89 orders.</small>
                       </div>
                       <div class="d-inline-block">
-                          <i class="fas fa-chart-pie text-info icon-lg"></i>                                    
+                          <i class="fas fa-chart-pie text-info icon-lg"></i>
                       </div>
                   </div>
               </div>
@@ -97,7 +97,7 @@
                           <small class="text-gray">hey, let’s have lunch together</small>
                       </div>
                       <div class="d-inline-block">
-                          <i class="fas fa-shopping-cart text-danger icon-lg"></i>                                    
+                          <i class="fas fa-shopping-cart text-danger icon-lg"></i>
                       </div>
                   </div>
               </div>
@@ -119,11 +119,11 @@
                           <small class="text-gray">hey, let’s have lunch together</small>
                       </div>
                       <div class="d-inline-block">
-                          <i class="fas fa-shopping-cart text-danger icon-lg"></i>                                    
+                          <i class="fas fa-shopping-cart text-danger icon-lg"></i>
                       </div>
                   </div>
               </div>
           </div>
       </div>
-    </div>
+    </div> --}}
 </x-app-layout>

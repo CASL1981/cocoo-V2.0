@@ -15,7 +15,7 @@ class DetailOperations extends Component
 {
     public $providers, $provider, $products, $destinations, $provider_id; //para la lista de productos
 
-    public $order_id, $order, $payment, $type_price, $product_id;
+    public $order_id, $order, $payment, $type_price, $product_id, $order_operation_number;
 
     public $discount, $quantity, $basic_destination_id, $draft_quantity, $subtotal, $taxiva, $total;
 
@@ -43,6 +43,7 @@ class DetailOperations extends Component
         $this->balanceOrder();
 
         $this->order = Operation::find($this->order_id);
+        // dd($this->order);
 
         if($this->order)
         {
@@ -50,6 +51,7 @@ class DetailOperations extends Component
             $this->selected_id = $this->provider->id;
             $this->payment = $this->order->basic_payment_name;
             $this->type_price = $this->order->basic_type_price_name;
+            $this->order_operation_number = $this->order->number;
             $this->products = Price::where([
                 'basic_client_id' => $this->provider->id,
                 'basic_type_price_id' => $this->order->basic_type_price_id,
@@ -100,6 +102,7 @@ class DetailOperations extends Component
                 'measure_unitd' => Product::whereId($product->order_product_id)->first()->measure_unit,
                 'received' => 0,
                 'order_operation_id' => $this->order_id,
+                'order_operation_number' => $this->order_operation_number,
                 'basic_destination_id' => $this->basic_destination_id,
                 'itemtotal' => $this->itemtotal,
                 'ivavalue' => round($this->itemtotal * $this->tax/100),

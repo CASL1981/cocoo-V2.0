@@ -4,7 +4,7 @@
     </x-slot>
     <x-form.form>
         <x-slot name="form">
-            <div class="row"> 
+            <div class="row">
                 <div class="form-group col-md-2">
                     <x-form.label for="identification">Identificación</x-form.label>
                     <x-form.input wire:model.defer="identification" required maxlength="11" type="numeric"></x-form.input>
@@ -22,12 +22,12 @@
                 </div>
                 <div class="form-group col-md-2">
                     <x-form.label for="type_document">Tipo Documento</x-form.label>
-                    <x-form.select wire:model.defer="type_document" 
+                    <x-form.select wire:model.defer="type_document"
                     :options="['CC' => 'Cedula', 'TI' => 'Tarjeta Identidad', 'RC' => 'Registro Civil']"></x-form.select>
                     <x-form.input-error for="type_document"></x-form.input-error>
-                </div>                
+                </div>
             </div>
-            <div class="row"> 
+            <div class="row">
                 <div class="form-group col-md-4">
                     <x-form.label for="address">Dirección</x-form.label>
                     <x-form.input wire:model.defer="address" maxlength="192"></x-form.input>
@@ -50,15 +50,15 @@
                 </div>
                 <div class="form-group col-md-2">
                     <x-form.label for="vendedor">Vendedor</x-form.label>
-                    <x-form.select wire:model.defer="vendedor" 
+                    <x-form.select wire:model.defer="vendedor"
                     :options="['1' => 'Si', '0' => 'No']"></x-form.select>
                     <x-form.input-error for="vendedor"></x-form.input-error>
                 </div>
             </div>
-            <div class="row"> 
+            <div class="row">
                 <div class="form-group col-md-2">
-                    <x-form.label for="gender">Genero</x-form.label>                    
-                    <x-form.select wire:model.defer="gender" 
+                    <x-form.label for="gender">Genero</x-form.label>
+                    <x-form.select wire:model.defer="gender"
                     :options="['M' => 'Masculino', 'F' => 'Femenino', 'O' => 'Otro']"></x-form.select>
                     <x-form.input-error for="gender"></x-form.input-error>
                 </div>
@@ -66,7 +66,7 @@
                     <x-form.label for="email">Email</x-form.label>
                     <x-form.input wire:model.defer="email" maxlength="192" type="email"></x-form.input>
                     <x-form.input-error for="email"></x-form.input-error>
-                </div>                
+                </div>
                 <div class="form-group col-md-2">
                     <x-form.label for="birth_date">Fecha Nacimiento</x-form.label>
                     <x-form.input wire:model.defer="birth_date" type="date"></x-form.input>
@@ -74,10 +74,16 @@
                 </div>
                 <div class="form-group col-md-2">
                     <x-form.label for="location_id">Ubicación</x-form.label>
-                    <x-form.select wire:model.defer="location_id" 
+                    <x-form.select wire:model.defer="location_id"
                     :options="$destinations"></x-form.select>
                     <x-form.input-error for="location_id"></x-form.input-error>
-                </div> 
+                </div>
+                <div class="form-group col-md-2">
+                    <x-form.label for="approve">Aprueba</x-form.label>
+                    <x-form.select wire:model.defer="approve"
+                    :options="['1' => 'Si', '0' => 'No']"></x-form.select>
+                    <x-form.input-error for="approve"></x-form.input-error>
+                </div>
             </div>
         </x-slot>
     </x-form.form>

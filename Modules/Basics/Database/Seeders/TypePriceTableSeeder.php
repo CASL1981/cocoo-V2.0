@@ -17,11 +17,11 @@ class TypePriceTableSeeder extends Seeder
     {
         Model::unguard();
 
-        TypePrice::factory(20)->create();
+        // TypePrice::factory(20)->create();
 
-        TypePrice::factory()->create(['name' => 'PAPALERIA, ASEO Y CAFETERIA']);
+        TypePrice::factory()->create(['name' => 'PAPALERIA']);
         TypePrice::factory()->create(['name' => 'EQUIPOS DE COMPUTO']);
         TypePrice::factory()->create(['name' => 'SUMINISTROS VEHICULO']);
-        TypePrice::factory()->create(['name' => 'TELEFONOS']);
+        TypePrice::factory()->create(['name' => 'ASEO Y CAFETERIA']);
     }
 }

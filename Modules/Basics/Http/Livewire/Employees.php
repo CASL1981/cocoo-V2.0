@@ -16,23 +16,23 @@ class Employees extends Component
     use TableLivewire;
     use CRUDLivewireTrait;
 
-    public $identification, $first_name, $last_name, $status, $type_document, $address, $phone; 
+    public $identification, $first_name, $last_name, $status, $type_document, $address, $phone, $approve;
     public $cel_phone, $entry_date, $email, $gender, $birth_date, $location_id, $photo_path, $vendedor;
 
     public $destinations;
-    protected $listeners = ['toggleEmployee', 'showaudit'];       
+    protected $listeners = ['toggleEmployee', 'showaudit'];
 
     public function hydrate()
     {
         $this->destinations = Destination::pluck('name', 'costcenter')->toArray();
 
         $this->permissionModel = 'employee';
-        
-        $this->messageModel = 'Empleado';    
-                        
+
+        $this->messageModel = 'Empleado';
+
         $this->model = 'Modules\Basics\Entities\Employee';
         $this->exportable ='App\Exports\EmployeesExport';
-    }        
+    }
 
     public function render()
     {
@@ -44,25 +44,25 @@ class Employees extends Component
     }
 
     public function store()
-    {   
+    {
         can('employee create');
 
-        $requestEmployee = new RequestEmployee();        
+        $requestEmployee = new RequestEmployee();
 
-        $validate = $this->validate($requestEmployee->rules());        
-        
-        Employee::create($validate);        
-        
-        $this->resetInput();        
-    	$this->emit('alert', ['type' => 'success', 'message' => 'Empleado creado']);        
+        $validate = $this->validate($requestEmployee->rules());
+
+        Employee::create($validate);
+
+        $this->resetInput();
+    	$this->emit('alert', ['type' => 'success', 'message' => 'Empleado creado']);
     }
 
     public function edit()
-    {   
+    {
         can('employee update');
 
-        $record = Employee::findOrFail($this->selected_id);            
-                
+        $record = Employee::findOrFail($this->selected_id);
+
         $this->identification = $record->identification;
         $this->first_name = $record->first_name;
         $this->last_name = $record->last_name;
@@ -77,6 +77,7 @@ class Employees extends Component
         $this->gender = $record->gender;
         $this->birth_date = $record->birth_date;
         $this->location_id = $record->location_id;
+        $this->approve = $record->approve;
 
         $this->show = true;
     }
@@ -88,36 +89,36 @@ class Employees extends Component
         if ($this->selected_id) {
             //Consultamos el tercero seleccionado
     		$record = Employee::find($this->selected_id);
-            
+
             //validamos el request
-            $requestEmployee = new RequestEmployee();        
+            $requestEmployee = new RequestEmployee();
             $validate = $this->validate($requestEmployee->rules($record));
 
             //actualizamos el registro seleccionado
             $record->update($validate);
 
-            $this->resetInput();            
+            $this->resetInput();
     		$this->emit('alert', ['type' => 'success', 'message' => 'Empleado actualizado']);
         }
     }
 
     public function toggleEmployee()
     {
-        can('employee toggle');        
+        can('employee toggle');
 
         if (count($this->selectedModel)) {
             //consultamos todos los status y consultamos los modelos de los usuarios seleccionado
             $status = Employee::whereIn('id', $this->selectedModel)->get('status')->toArray();
-            $record = Employee::whereIn('id', $this->selectedModel);            
-            
+            $record = Employee::whereIn('id', $this->selectedModel);
+
             if($status[0]['status']) {
                 $record->update([ 'status' => false ]); //actualizamos los modelos
-                
+
                 $this->selectedModel = []; //limpiamos todos los usuarios seleccionados
                 $this->selectAll = false;
             } else {
                 $record->update([ 'status' => true ]);
-                
+
                 $this->selectedModel = [];
                 $this->selectAll = false;
             }
@@ -125,16 +126,16 @@ class Employees extends Component
             $this->emit('alert', ['type' => 'warning', 'message' => 'Selecciona un Usuario']);
         }
     }
-    
+
     // Modificamos la funacion del Trait TableLivewire
     public function auditoria()
-    {        
+    {
         if ($this->selected_id) {
-            $this->audit = $this->model::with(['creator', 'editor'])->find($this->selected_id)->toArray();                        
+            $this->audit = $this->model::with(['creator', 'editor'])->find($this->selected_id)->toArray();
             $this->showauditor = true;
         } else {
             $this->emit('alert', ['type' => 'warning', 'message' => 'Selecciona un registros']);
         }
-        
+
     }
 }

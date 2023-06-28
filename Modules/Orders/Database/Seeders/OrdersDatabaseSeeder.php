@@ -18,7 +18,7 @@ class OrdersDatabaseSeeder extends Seeder
 
         $this->call(ProductTableSeeder::class);
         // $this->call(TypePriceTableSeeder::class);
-        $this->call(PriceTableSeeder::class);
-        $this->call(OperationTableSeeder::class);
+        // $this->call(PriceTableSeeder::class);
+        // $this->call(OperationTableSeeder::class);
     }
 }

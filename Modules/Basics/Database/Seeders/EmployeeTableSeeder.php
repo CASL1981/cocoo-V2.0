@@ -17,7 +17,7 @@ class EmployeeTableSeeder extends Seeder
     {
         Model::unguard();
 
-        Employee::factory(30)->create();
+        // Employee::factory(30)->create();
 
         Employee::factory()->create([
             'identification' => 7383633,
@@ -72,7 +72,14 @@ class EmployeeTableSeeder extends Seeder
             'first_name' => 'TANIA MABEL',
             'last_name' => 'MARTINEZ HERNANDEZ',
             'type_document' => 'CC',
-        ]);       
-        
+        ]);
+        Employee::factory()->create([
+            'identification' => 56054319,
+            'first_name' => 'ELAINIS',
+            'last_name' => 'PARODI OÑATE',
+            'type_document' => 'CC',
+            'approve' => true,
+        ]);
+
     }
 }

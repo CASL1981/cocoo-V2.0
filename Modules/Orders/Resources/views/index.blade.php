@@ -12,10 +12,10 @@
                             <h2 class="mb-0">{{ $orderShopping }}</h2>
                             <div class="d-flex align-items-center ml-md-2 mt-2 mt-md-0">
                                 <i class="far fa-clock text-muted"></i>
-                                <small class=" ml-1 mb-0">Actualizado: {{ $orderLast->updated_at }}</small>
+                                <small class=" ml-1 mb-0">Actualizado: {{ optional($orderLast)->updated_at }}</small>
                             </div>
                           </div>
-                          <small class="text-gray">Ultima ordern {{ $orderLast->id }} del </small><br><small> {{ $orderLast->date }}.</small>
+                          <small class="text-gray">Ultima ordern {{ optional($orderLast)->id }} del </small><br><small> {{ optional($orderLast)->date }}.</small>
                     </div>
                     <div class="d-inline-block">
                         <i class="fas fa-chart-pie text-info icon-lg"></i>
@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="col-md-3 grid-margin">
-        <div class="card">
+        {{-- <div class="card">
             <div class="card-body">
                 <h4 class="card-title mb-0">Test 2</h4>
                 <div class="d-flex justify-content-between align-items-center">
@@ -44,10 +44,10 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     <div class="col-md-3 grid-margin">
-        <div class="card">
+        {{-- <div class="card">
             <div class="card-body">
                 <h4 class="card-title mb-0">Test 3</h4>
                 <div class="d-flex justify-content-between align-items-center">
@@ -66,10 +66,10 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     <div class="col-md-3 grid-margin">
-        <div class="card">
+        {{-- <div class="card">
             <div class="card-body">
                 <h4 class="card-title mb-0">Daily Order</h4>
                 <div class="d-flex justify-content-between align-items-center">
@@ -88,7 +88,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 </div>
 <div class="row">
@@ -108,7 +108,7 @@
                 @foreach ($orderPenddingRecibir as $item)
                   <tr>
                     <td>{{ $item->basic_client_name }}</td>
-                    <td class="text-center">{{ $item->id }}</td>
+                    <td class="text-center">{{ $item->number }}</td>
                   </tr>
                 @endforeach
               </tbody>
@@ -128,23 +128,15 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th>
-                    Proveedor
-                  </th>
-                  <th>
-                    Valor
-                  </th>
+                  <th>Proveedor</th>
+                  <th>Valor</th>
                 </tr>
               </thead>
               <tbody>
                 @foreach ($ordersLasts as $item)
                   <tr>
-                    <td>
-                      {{ $item->basic_client_name }}
-                    </td>
-                    <td>
-                      <label class="badge badge-warning badge-pill">{{ $item->total }}</label>
-                    </td>
+                    <td>{{ $item->basic_client_name }}</td>
+                    <td><label class="badge badge-warning badge-pill">{{ number_format($item->total,0) }}</label></td>
                   </tr>
                 @endforeach
               </tbody>

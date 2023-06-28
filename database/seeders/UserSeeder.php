@@ -25,17 +25,17 @@ class UserSeeder extends Seeder
         ]);
 
         Profile::create(['user_id' => $administrador->id]);
-        
+
         $vendedor = User::factory()->create([
             'email' => 'vendedor@coodescor.org.co'
         ]);
-        
+
         Profile::create(['user_id' => $vendedor->id]);
-        
+
         $cliente = User::factory()->create([
             'email' => 'cliente@coodescor.org.co'
         ]);
-        
+
         Profile::create(['user_id' => $cliente->id]);
 
         $admin = Role::create(['name' => 'administrador']);
@@ -54,22 +54,22 @@ class UserSeeder extends Seeder
             'reverse',
             'process',
         ];
-        
+
         foreach(Role::all() as $rol){
             foreach($permissions as $per){
                 $rol->name =='administrador' ? $rol->name = 'usuario' : $rol->name;
                 Permission::create(['name' => "{$rol->name} $per"]);
             }
-        }        
-        
+        }
+
         $admin->syncPermissions(Permission::all());
         $seller->syncPermissions(Permission::where('name', 'like', '%vendedor%')->get());
         $client->syncPermissions(Permission::where('name', 'like', '%cliente%')->get());
         $role->syncPermissions(Permission::where('name', 'like', '%role%')->get());
-        
+
         $administrador->assignRole('administrador');
         $cliente->assignRole('cliente');
-        $vendedor->assignRole('vendedor');       
-        
+        $vendedor->assignRole('vendedor');
+
     }
 }

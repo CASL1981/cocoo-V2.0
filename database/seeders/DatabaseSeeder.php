@@ -20,12 +20,12 @@ class DatabaseSeeder extends Seeder
         Storage::makeDirectory('profile_photo');
 
 
-        User::factory(3)->create()->each(function($u){
-            Profile::create(['user_id' => $u->id]);
-        });
+        // User::factory(3)->create()->each(function($u){
+        //     Profile::create(['user_id' => $u->id]);
+        // });
 
         $this->call(UserSeeder::class);
         $this->call(PermissionTableSeeder::class);
-        $this->call(StatusSeeder::class);
+        // $this->call(StatusSeeder::class);
     }
 }

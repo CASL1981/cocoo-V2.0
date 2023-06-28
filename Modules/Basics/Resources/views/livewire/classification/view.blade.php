@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-12 grid-margin">
       <x-otros.view-card :exportable="$exportable" :audit="$audit">
-        <x-slot name="title">Clasificaciones</x-slot>
+        <x-slot name="title">Clasificaciones <small>classification</small></x-slot>
         <x-slot name="button">
           <div class="btn-group float-right" role="group" aria-label="Basic example">
             @can('classification delete')
@@ -33,9 +33,9 @@
                   <label class="form-check-label text-danger" style="width:10">
                   <input type="checkbox" class="form-check-input" wire:model="selectAll">
                   <i class="input-helper"></i></label>
-              </div>                      
+              </div>
             </th>
-            <x-table.th weight="80px" field="id" width="80px">#</x-table.th>            
+            <x-table.th weight="80px" field="id" width="80px">#</x-table.th>
             <x-table.th field="code">Codigo</x-table.th>
             <x-table.th field="level" class="text-center">Nivel</x-table.th>
             <x-table.th field="parent" class="text-center">Padre</x-table.th>
@@ -44,18 +44,18 @@
           </x-slot>
           @forelse ($classifications as $key => $item)
             <tr>
-              <td class="p-1" width="40px">                  
+              <td class="p-1" width="40px">
                 <div class="form-check form-check-flat form-check-primary">
-                <label class="form-check-label">                    
-                    <input type="checkbox" class="form-check-input" 
-                    wire:model="selectedModel" 
-                    value="{{$item->id}}" 
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input"
+                    wire:model="selectedModel"
+                    value="{{$item->id}}"
                     wire:click="$set('selected_id',{{$item->id}})"
                     >
                 <i class="input-helper"></i></label>
                 </div>
               </td>
-              <x-table.td width="80px">{{ $item->id }}</x-table.td>              
+              <x-table.td width="80px">{{ $item->id }}</x-table.td>
               <x-table.td>{{ $item->code }}</x-table.td>
               <x-table.td class="text-center">{{ $item->level }}</x-table.td>
               <x-table.td class="text-center">{{ $item->parent }}</x-table.td>
@@ -66,7 +66,7 @@
           <tr>
             <x-table.td colspan="7">
               <x-otros.error-search></x-otros.error-search>
-            </x-table.td>              
+            </x-table.td>
           </tr>
           @endforelse
         @include('basics::livewire.classification.form')
@@ -77,9 +77,9 @@
       </x-otros.view-card>
     </div>
   </div>
-  
+
   @push('styles')
-  
+
   @endpush
   @push('scripts')
   <script>
